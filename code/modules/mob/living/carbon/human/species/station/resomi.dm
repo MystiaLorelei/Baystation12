@@ -7,9 +7,9 @@
 	advanced culture on good terms with Skrellian and Human interests."
 	num_alternate_languages = 2
 	language = LANGUAGE_RESOMI
-	default_language = LANGUAGE_RESOMI								   
+	default_language = LANGUAGE_RESOMI
 	additional_langs = list(LANGUAGE_GALCOM)
-	name_language = LANGUAGE_RESOMI							
+	name_language = LANGUAGE_RESOMI
 
 	min_age = 15
 	max_age = 45
@@ -29,13 +29,14 @@
 	blood_mask = 'icons/mob/human_races/masks/blood_resomi.dmi'
 
 	slowdown = -1
-	total_health = 50
+	total_health = 150
 	brute_mod = 1.35
 	burn_mod =  1.35
 	metabolism_mod = 2.0
 	mob_size = MOB_SMALL
 	holder_type = /obj/item/weapon/holder/human
 	light_sensitive = 6
+	darksight = 8
 	gluttonous = GLUT_TINY
 	blood_volume = 280
 	hunger_factor = 0.2
