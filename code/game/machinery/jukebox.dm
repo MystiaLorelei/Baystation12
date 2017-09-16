@@ -38,6 +38,10 @@ datum/track/New(var/title_name, var/audio)
 		new/datum/track("Part A", 'sound/misc/TestLoop1.ogg'),
 		new/datum/track("Scratch", 'sound/music/title1.ogg'),
 		new/datum/track("Trai`Tor", 'sound/music/traitor.ogg'),
+		new/datum/track("Burning Rangers", 'sound/music/burning_rangers.ogg'),
+		new/datum/track("Dimension 2012", 'sound/music/dimension_2012.ogg'),
+		new/datum/track("Man in Gauze", 'sound/music/man_in_gauze.ogg'),
+		new/datum/track("Training", 'sound/music/training.ogg')
 	)
 
 /obj/machinery/media/jukebox/New()
