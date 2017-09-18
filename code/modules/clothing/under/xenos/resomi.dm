@@ -53,8 +53,8 @@
 
 /obj/item/clothing/under/resomi/undercoat
 	desc =  "A Resomi traditional garb, with a modern twist! Made of micro and nanofibres to make it light and billowy, perfect for going fast and stylishly!"
-	icon = 'icons/mob/species/resomi/Resomi_uniform.dmi'
-	icon_override = 'icons/mob/species/resomi/Resomi_uniform.dmi'
+	icon = 'icons/mob/species/resomi/resomi_uniform.dmi'
+	icon_override = 'icons/mob/species/resomi/resomi_uniform.dmi'
 	icon_state = "tesh_uniform_bo"
 	item_state = "tesh_uniform_bo"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO
