@@ -1,8 +1,8 @@
 /obj/item/clothing/suit/storage/resomi/cloak
 	name = "black and orange cloak "
 	desc = "It drapes over a Resomi's shoulders and closes at the neck with pockets convienently placed inside."
-	icon = 'icons/mob/species/resomi/teshari_cloak.dmi'
-	icon_override = 'icons/mob/species/resomi/teshari_cloak.dmi'
+	icon = 'icons/mob/species/resomi/resomi_cloak.dmi'
+	icon_override = 'icons/mob/species/resomi/resomi_cloak.dmi'
 	icon_state = "tesh_cloak_bo"
 	item_state = "tesh_cloak_bo"
 	species_restricted = list(SPECIES_RESOMI)
@@ -129,6 +129,6 @@
 	item_state = "tesh_cloak_pig"
 
 /obj/item/clothing/suit/storage/resomi/cloak/brown_grey
-	name = "purple and grey cloak"
+	name = "brown and grey cloak"
 	icon_state = "tesh_cloak_brg"
 	item_state = "tesh_cloak_brg"
