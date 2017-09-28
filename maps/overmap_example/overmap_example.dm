@@ -6,8 +6,7 @@
 	#include "sector/sector-1.dmm"
 	#include "sector/sector-2.dmm"
 
-	#include "../../code/modules/lobby_music/businessend.dm"
-	#include "../../code/modules/lobby_music/salutjohn.dm"
+	#include "../../code/modules/lobby_music/desire.dm"
 
 	#define using_map_DATUM /datum/map/overmap_example
 
