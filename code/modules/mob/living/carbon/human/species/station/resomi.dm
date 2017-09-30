@@ -33,13 +33,12 @@
 	brute_mod = 1.35
 	burn_mod =  1.35
 	metabolism_mod = 2.0
-	pass_flags = PASSTABLE
 	mob_size = MOB_SMALL
 	holder_type = /obj/item/weapon/holder/human
-	//light_sensitive = 6
+	light_sensitive = 6
 	darksight = 8
 	gluttonous = GLUT_TINY
-	blood_volume = 400
+	blood_volume = 280
 	hunger_factor = 0.2
 
 	spawn_flags = SPECIES_CAN_JOIN | SPECIES_IS_WHITELISTED | SPECIES_NO_FBP_CONSTRUCTION | SPECIES_NO_FBP_CHARGEN
@@ -54,13 +53,12 @@
 	heat_level_1 = 320
 	heat_level_2 = 370
 	heat_level_3 = 600
-	heat_discomfort_level = 295
+	heat_discomfort_level = 292
 	heat_discomfort_strings = list(
 		"Your feathers prickle in the heat.",
 		"You feel uncomfortably warm.",
 		)
 	cold_discomfort_level = 180
-	breath_pressure = 12
 
 	has_limbs = list(
 		BP_CHEST =  list("path" = /obj/item/organ/external/chest),
@@ -91,7 +89,4 @@
 		/datum/unarmed_attack/stomp/weak
 		)
 
-	inherent_verbs = list(
-		/mob/living/carbon/human/proc/sonar_ping,
-		/mob/living/proc/hide
-		)
+	inherent_verbs = list(/mob/living/carbon/human/proc/sonar_ping)
