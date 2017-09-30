@@ -107,17 +107,7 @@
 	pda_type = /obj/item/device/pda/captain
 	r_pocket = /obj/item/device/radio
 	id_type = /obj/item/weapon/card/id/gold
-	
 
-/decl/hierarchy/outfit/job/bearcat/captain/post_equip(var/mob/living/carbon/human/H)
-	..()
-	var/obj/item/clothing/uniform = H.w_uniform
-	if(uniform)
-		var/obj/item/clothing/accessory/toggleable/hawaii/random/eyegore = new()
-		if(uniform.can_attach_accessory(eyegore))
-			uniform.attach_accessory(null, eyegore)
-		else
-			qdel(eyegore)
 
 /decl/hierarchy/outfit/job/bearcat/chief_engineer
 	name = BEARCAT_OUTFIT_JOB_NAME("Chief Engineer")

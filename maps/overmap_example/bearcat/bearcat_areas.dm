@@ -35,6 +35,7 @@
 /area/ship/scrap/crew/saloon
 	name = "\improper Saloon"
 	icon_state = "conference"
+	flags = AREA_RAD_SHIELDED
 
 /area/ship/scrap/crew/toilets
 	name = "\improper Bathrooms"
