@@ -53,6 +53,10 @@
 	var/base_miss_chance = 20          // Chance of missing.
 	var/genetic_degradation = 0
 
+	//Forensics stuff
+	var/list/autopsy_data = list()    // Trauma data for forensics.
+	var/list/trace_chemicals = list() // Traces of chemicals in the organ.
+
 	// Joint/state stuff.
 	var/can_grasp                      // It would be more appropriate if these two were named "affects_grasp" and "affects_stand" at this point
 	var/can_stand                      // Modifies stance tally/ability to stand.
@@ -67,8 +71,10 @@
 	var/artery_name = "artery"         // Flavour text for cartoid artery, aorta, etc.
 	var/arterial_bleed_severity = 1    // Multiplier for bleeding in a limb.
 	var/tendon_name = "tendon"         // Flavour text for Achilles tendon, etc.
+	var/cavity_name = "cavity"
 
 	// Surgery vars.
+	var/cavity_max_w_class = 0
 	var/hatch = 0
 	var/stage = 0
 	var/cavity = 0
@@ -85,8 +91,7 @@
 	if(owner)
 		replaced(owner)
 		sync_colour_to_human(owner)
-	spawn(1)
-		get_icon()
+	get_icon()
 
 /obj/item/organ/external/Destroy()
 
@@ -117,6 +122,10 @@
 		owner.organs_by_name -= organ_tag
 		while(null in owner.organs)
 			owner.organs -= null
+
+	if(autopsy_data)    autopsy_data.Cut()
+	if(trace_chemicals) trace_chemicals.Cut()
+
 	return ..()
 
 /obj/item/organ/external/emp_act(severity)
@@ -467,8 +476,7 @@ This function completely restores a damaged organ to perfect condition.
 			   PROCESSING & UPDATING
 ****************************************************/
 
-//external organs handle brokenness a bit differently when it comes to damage. Instead brute_dam is checked inside process()
-//this also ensures that an external organ cannot be "broken" without broken_description being set.
+//external organs handle brokenness a bit differently when it comes to damage.
 /obj/item/organ/external/is_broken()
 	return ((status & ORGAN_CUT_AWAY) || ((status & ORGAN_BROKEN) && !splinted))
 
@@ -489,7 +497,7 @@ This function completely restores a damaged organ to perfect condition.
 		return 1
 	return 0
 
-/obj/item/organ/external/process()
+/obj/item/organ/external/Process()
 	if(owner)
 
 		if(pain)
@@ -1340,3 +1348,15 @@ Note that amputating the affected organ does in fact remove the infection from t
 
 		var/max_halloss = round(target.species.total_health * 0.8 * ((100 - armor) / 100)) //up to 80% of passing out, further reduced by armour
 		add_pain(Clamp(0, max_halloss - target.getHalLoss(), 30))
+
+//Adds autopsy data for used_weapon.
+/obj/item/organ/external/proc/add_autopsy_data(var/used_weapon, var/damage)
+	var/datum/autopsy_data/W = autopsy_data[used_weapon]
+	if(!W)
+		W = new()
+		W.weapon = used_weapon
+		autopsy_data[used_weapon] = W
+
+	W.hits += 1
+	W.damage += damage
+	W.time_inflicted = world.time
