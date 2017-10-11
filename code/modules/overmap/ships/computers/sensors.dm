@@ -192,7 +192,7 @@
 
 /obj/machinery/shipsensors/proc/set_range(nrange)
 	range = nrange
-	idle_power_usage = 15000 * (range**2)
+	idle_power_usage = 5000 * (range**2)
 
 /obj/machinery/shipsensors/emp_act(severity)
 	if(!use_power)
