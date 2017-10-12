@@ -183,10 +183,3 @@
 	name = "brown and grey undercoat"
 	icon_state = "tesh_uniform_brg"
 	worn_state = "tesh_uniform_brg"
-
-//shoving this here for now.
-/obj/item/weapon/storage/backpack/resomiexo
-	name = "Resomi Exoskeleton"
-	desc = "A lightweight powered exoskeleton fit for a Resomi. Expressly designed to help the wearer haul things around without expending much effort, It's not appreciably useful in combat situations."
-	icon_state = "exoskeleton"
-	item_state_slots = null

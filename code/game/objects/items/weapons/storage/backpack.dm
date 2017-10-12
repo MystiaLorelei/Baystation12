@@ -139,6 +139,13 @@
 	desc = "It's an orange backpack which was designed to hold beakers, pill bottles and bottles."
 	icon_state = "chempack"
 
+//resomi
+/obj/item/weapon/storage/backpack/resomiexo
+	name = "small exoskeleton"
+	desc = "A lightweight powered exoskeleton fit for a Resomi. Expressly designed to help the wearer haul things around without expending much effort, It's not appreciably useful in combat situations."
+	icon_state = "exoskeleton"
+	item_state_slots = null
+
 /*
  * Duffle Types
  */
