@@ -222,6 +222,9 @@
 				var/mob/living/carbon/human/hugger = M
 				if(istype(hugger))
 					hugger.species.hug(hugger,src)
+				else if(M.zone_sel.selecting == BP_HEAD)
+					M.visible_message("<span class='notice'>[M] gives [src] a pat on the head to make [t_him] feel better!</span>", \
+						"<span class='notice'>You give [src] a pat on the head to make [t_him] feel better!</span>")
 				else
 					M.visible_message("<span class='notice'>[M] hugs [src] to make [t_him] feel better!</span>", \
 								"<span class='notice'>You hug [src] to make [t_him] feel better!</span>")
