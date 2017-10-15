@@ -47,24 +47,18 @@
 		SPECIES_UNATHI = 'icons/mob/species/unathi/suit.dmi',
 		SPECIES_TAJARA = 'icons/mob/species/tajaran/suit.dmi',
 		SPECIES_SKRELL = 'icons/mob/species/skrell/suit.dmi',
-<<<<<<< HEAD
 		SPECIES_RESOMI = 'icons/mob/species/resomi/suit.dmi',
-=======
 		SPECIES_BOGANI = 'icons/mob/species/bogani/suits.dmi',
 		SPECIES_EGYNO  = 'icons/mob/species/bogani/suits.dmi',
->>>>>>> 772188f704270e3784ed571cf98883717e36172f
 		)
 
 	sprite_sheets_obj = list(
 		SPECIES_UNATHI = 'icons/obj/clothing/species/unathi/suits.dmi',
 		SPECIES_TAJARA = 'icons/obj/clothing/species/tajaran/suits.dmi',
 		SPECIES_SKRELL = 'icons/obj/clothing/species/skrell/suits.dmi',
-<<<<<<< HEAD
 		SPECIES_RESOMI = 'icons/obj/clothing/species/resomi/suits.dmi',
-=======
 		SPECIES_BOGANI = 'icons/obj/clothing/species/bogani/suits.dmi',
 		SPECIES_EGYNO  = 'icons/obj/clothing/species/bogani/suits.dmi',
->>>>>>> 772188f704270e3784ed571cf98883717e36172f
 		)
 
 	//Breach thresholds, should ideally be inherited by most (if not all) voidsuits.
