@@ -22,13 +22,15 @@
 #################################
 
 # Your name.  
-author: Cirra
+author: dryerlint
 
+# Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
 delete-after: True
 
-changes:
-  - rscadd: "Added a new, more expensive type of 14.5mm ammo, for the anti-material rifle: APDS. Less damage, but far greater armour penetration."
-  - rscadd: "Projectiles can now cause internal damage, including organ damage and severing arteries. Bullets cause more than energy, with x-ray lasers being inbetween the two."
-  - tweak: "Renamed 5.56mm ammo to 7.62mm and vice versa, to be more consistent with their damage values."
-  - tweak: "Matebas now use .50 ammo, while revolvers have had their damage reduced slightly."
-  - tweak: ".45 rounds now do 21.5 damage instead of 20, while 10mm bullets now do 23.5 instead of 25."
+# Any changes you've made.  See valid prefix list above.
+# INDENT WITH TWO SPACES.  NOT TABS.  SPACES.
+# SCREW THIS UP AND IT WON'T WORK.
+# Also, all entries are changed into a single [] after a master changelog generation. Just remove the brackets when you add new entries.
+# Please surround your changes in  double quotes ("), as certain characters otherwise screws up compiling. The quotes will not show up in the changelog.
+changes: 
+  - rscadd: "Added queuing functionality to modular computer software downloader."

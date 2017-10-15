@@ -102,3 +102,8 @@
 	display_name = "Cards Against The Galaxy (black deck)"
 	path = /obj/item/weapon/deck/cah/black
 	description = "The ever-popular Cards Against The Galaxy word game. Warning: may include traces of broken fourth wall. This is the black deck."
+
+/datum/gear/workvisa
+	display_name = "work visa"
+	description = "A work visa issued by the Sol Central Government for the purpose of work."
+	path = /obj/item/weapon/paper/workvisa
