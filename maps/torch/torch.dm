@@ -17,6 +17,7 @@
 	#include "datums/uniforms_fleet.dm"
 	#include "datums/uniforms_marine.dm"
 	#include "datums/supplypacks/security.dm"
+	#include "datums/supplypacks/science.dm"
 
 	#include "items/cards_ids.dm"
 	#include "items/clothing.dm"
@@ -62,10 +63,9 @@
 	#include "torch-5.dmm"
 	#include "torch-6.dmm"
 	#include "torch-7.dmm"
-	#include "torch-8.dmm"
-	#include "torch-9.dmm"
-	#include "torch-10.dmm"
-	#include "torch-11.dmm"
+	#include "../away/empty.dmm"
+	#include "../away/mining/mining.dm"
+	#include "../away/derelict/derelict.dm"
 	#include "../away/bearcat/bearcat.dm"
 
 	#include "../../code/modules/lobby_music/chasing_time.dm"
@@ -76,6 +76,8 @@
 	#include "../../code/modules/lobby_music/space_oddity.dm"
 	#include "../../code/modules/lobby_music/title1.dm"
 	#include "../../code/modules/lobby_music/POD.dm"
+	#include "../../code/modules/lobby_music/marhaba.dm"
+	#include "../../code/modules/lobby_music/comet_haley.dm"
 
 	#define using_map_DATUM /datum/map/torch
 
