@@ -90,7 +90,6 @@
 	sort_category = "Xenowear"
 	whitelisted = list(SPECIES_IPC,SPECIES_DIONA, SPECIES_NABBER)
 
-=======
 // IPC clothing
 
 /datum/gear/mask/ipc_monitor
