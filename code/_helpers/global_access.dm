@@ -51,16 +51,18 @@
 			return global.SSlegacy;
 		if("SSmachines")
 			return global.SSmachines;
+		if("SSmapping")
+			return global.SSmapping;
 		if("SSmobs")
 			return global.SSmobs;
-		if("SSvines")
-			return global.SSvines;
 		if("SSobj")
 			return global.SSobj;
 		if("SSopen_space")
 			return global.SSopen_space;
 		if("SSprocessing")
 			return global.SSprocessing;
+		if("SSvines")
+			return global.SSvines;
 		if("Tier1Runes")
 			return global.Tier1Runes;
 		if("Tier2Runes")
@@ -79,8 +81,6 @@
 			return global._client_preferences_by_key;
 		if("_client_preferences_by_type")
 			return global._client_preferences_by_type;
-		if("_preloader")
-			return global._preloader;
 		if("account_hack_attempted")
 			return global.account_hack_attempted;
 		if("actor")
@@ -213,8 +213,6 @@
 			return global.autolathe_categories;
 		if("autolathe_recipes")
 			return global.autolathe_recipes;
-		if("backbaglist")
-			return global.backbaglist;
 		if("base_miss_chance")
 			return global.base_miss_chance;
 		if("basic_robolimb")
@@ -227,8 +225,6 @@
 			return global.bomb_set;
 		if("borers")
 			return global.borers;
-		if("button_sound")
-			return global.button_sound;
 		if("cable_list")
 			return global.cable_list;
 		if("cached_icons")
@@ -263,8 +259,6 @@
 			return global.chemical_reaction_logs;
 		if("chemical_reactions_list")
 			return global.chemical_reactions_list;
-		if("chemistryProcess")
-			return global.chemistryProcess;
 		if("chicken_count")
 			return global.chicken_count;
 		if("church_name")
@@ -273,8 +267,6 @@
 			return global.client_preference_stats_;
 		if("client_repository")
 			return global.client_repository;
-		if("clown_sound")
-			return global.clown_sound;
 		if("combatlog")
 			return global.combatlog;
 		if("comm_message_listeners")
@@ -383,8 +375,6 @@
 			return global.exclude_jobs;
 		if("explosion_in_progress")
 			return global.explosion_in_progress;
-		if("explosion_sound")
-			return global.explosion_sound;
 		if("explosion_turfs")
 			return global.explosion_turfs;
 		if("facial_hair_styles_female_list")
@@ -425,8 +415,6 @@
 			return global.follow_repository;
 		if("forced_ambiance_list")
 			return global.forced_ambiance_list;
-		if("fracture_sound")
-			return global.fracture_sound;
 		if("fruit_icon_cache")
 			return global.fruit_icon_cache;
 		if("fuel_injectors")
@@ -481,8 +469,6 @@
 			return global.hazard_overlays;
 		if("hidden_skill_types")
 			return global.hidden_skill_types;
-		if("hiss_sound")
-			return global.hiss_sound;
 		if("hivemind_bank")
 			return global.hivemind_bank;
 		if("holder_mob_icon_cache")
@@ -523,8 +509,6 @@
 			return global.joblist;
 		if("join_motd")
 			return global.join_motd;
-		if("keyboard_sound")
-			return global.keyboard_sound;
 		if("landmarks_list")
 			return global.landmarks_list;
 		if("language_keys")
@@ -541,10 +525,6 @@
 			return global.license_to_url;
 		if("light_overlay_cache")
 			return global.light_overlay_cache;
-		if("light_type_cache")
-			return global.light_type_cache;
-		if("lighter_sound")
-			return global.lighter_sound;
 		if("lighting_overlays_initialised")
 			return global.lighting_overlays_initialised;
 		if("lighting_update_corners")
@@ -711,8 +691,6 @@
 			return global.outfits_decls_root_;
 		if("overmap_event_handler")
 			return global.overmap_event_handler;
-		if("page_sound")
-			return global.page_sound;
 		if("paiController")
 			return global.paiController;
 		if("pai_emotions")
@@ -779,8 +757,6 @@
 			return global.prometheans;
 		if("protected_objects")
 			return global.protected_objects;
-		if("punch_sound")
-			return global.punch_sound;
 		if("rad_collectors")
 			return global.rad_collectors;
 		if("radiation_repository")
@@ -837,8 +813,6 @@
 			return global.rune_list;
 		if("runtime_diary")
 			return global.runtime_diary;
-		if("rustle_sound")
-			return global.rustle_sound;
 		if("same_wires")
 			return global.same_wires;
 		if("scheduler")
@@ -855,8 +829,6 @@
 			return global.server_name;
 		if("severity_to_string")
 			return global.severity_to_string;
-		if("shatter_sound")
-			return global.shatter_sound;
 		if("ship_engines")
 			return global.ship_engines;
 		if("shuttle_controller")
@@ -883,8 +855,6 @@
 			return global.sounds_cache;
 		if("spacevines_spawned")
 			return global.spacevines_spawned;
-		if("spark_sound")
-			return global.spark_sound;
 		if("sparring_attack_cache")
 			return global.sparring_attack_cache;
 		if("spells")
@@ -945,10 +915,6 @@
 			return global.swapmaps_loaded;
 		if("swapmaps_mode")
 			return global.swapmaps_mode;
-		if("swing_hit_sound")
-			return global.swing_hit_sound;
-		if("switch_sound")
-			return global.switch_sound;
 		if("syndicate_access")
 			return global.syndicate_access;
 		if("syndicate_code_phrase")
@@ -1140,16 +1106,18 @@
 			global.SSlegacy=newval;
 		if("SSmachines")
 			global.SSmachines=newval;
+		if("SSmapping")
+			global.SSmapping=newval;
 		if("SSmobs")
 			global.SSmobs=newval;
-		if("SSvines")
-			global.SSvines=newval;
 		if("SSobj")
 			global.SSobj=newval;
 		if("SSopen_space")
 			global.SSopen_space=newval;
 		if("SSprocessing")
 			global.SSprocessing=newval;
+		if("SSvines")
+			global.SSvines=newval;
 		if("Tier1Runes")
 			global.Tier1Runes=newval;
 		if("Tier2Runes")
@@ -1168,8 +1136,6 @@
 			global._client_preferences_by_key=newval;
 		if("_client_preferences_by_type")
 			global._client_preferences_by_type=newval;
-		if("_preloader")
-			global._preloader=newval;
 		if("account_hack_attempted")
 			global.account_hack_attempted=newval;
 		if("actor")
@@ -1302,8 +1268,6 @@
 			global.autolathe_categories=newval;
 		if("autolathe_recipes")
 			global.autolathe_recipes=newval;
-		if("backbaglist")
-			global.backbaglist=newval;
 		if("base_miss_chance")
 			global.base_miss_chance=newval;
 		if("basic_robolimb")
@@ -1316,8 +1280,6 @@
 			global.bomb_set=newval;
 		if("borers")
 			global.borers=newval;
-		if("button_sound")
-			global.button_sound=newval;
 		if("cable_list")
 			global.cable_list=newval;
 		if("cached_icons")
@@ -1352,8 +1314,6 @@
 			global.chemical_reaction_logs=newval;
 		if("chemical_reactions_list")
 			global.chemical_reactions_list=newval;
-		if("chemistryProcess")
-			global.chemistryProcess=newval;
 		if("chicken_count")
 			global.chicken_count=newval;
 		if("church_name")
@@ -1362,8 +1322,6 @@
 			global.client_preference_stats_=newval;
 		if("client_repository")
 			global.client_repository=newval;
-		if("clown_sound")
-			global.clown_sound=newval;
 		if("combatlog")
 			global.combatlog=newval;
 		if("comm_message_listeners")
@@ -1472,8 +1430,6 @@
 			global.exclude_jobs=newval;
 		if("explosion_in_progress")
 			global.explosion_in_progress=newval;
-		if("explosion_sound")
-			global.explosion_sound=newval;
 		if("explosion_turfs")
 			global.explosion_turfs=newval;
 		if("facial_hair_styles_female_list")
@@ -1514,8 +1470,6 @@
 			global.follow_repository=newval;
 		if("forced_ambiance_list")
 			global.forced_ambiance_list=newval;
-		if("fracture_sound")
-			global.fracture_sound=newval;
 		if("fruit_icon_cache")
 			global.fruit_icon_cache=newval;
 		if("fuel_injectors")
@@ -1570,8 +1524,6 @@
 			global.hazard_overlays=newval;
 		if("hidden_skill_types")
 			global.hidden_skill_types=newval;
-		if("hiss_sound")
-			global.hiss_sound=newval;
 		if("hivemind_bank")
 			global.hivemind_bank=newval;
 		if("holder_mob_icon_cache")
@@ -1612,8 +1564,6 @@
 			global.joblist=newval;
 		if("join_motd")
 			global.join_motd=newval;
-		if("keyboard_sound")
-			global.keyboard_sound=newval;
 		if("landmarks_list")
 			global.landmarks_list=newval;
 		if("language_keys")
@@ -1630,10 +1580,6 @@
 			global.license_to_url=newval;
 		if("light_overlay_cache")
 			global.light_overlay_cache=newval;
-		if("light_type_cache")
-			global.light_type_cache=newval;
-		if("lighter_sound")
-			global.lighter_sound=newval;
 		if("lighting_overlays_initialised")
 			global.lighting_overlays_initialised=newval;
 		if("lighting_update_corners")
@@ -1800,8 +1746,6 @@
 			global.outfits_decls_root_=newval;
 		if("overmap_event_handler")
 			global.overmap_event_handler=newval;
-		if("page_sound")
-			global.page_sound=newval;
 		if("paiController")
 			global.paiController=newval;
 		if("pai_emotions")
@@ -1868,8 +1812,6 @@
 			global.prometheans=newval;
 		if("protected_objects")
 			global.protected_objects=newval;
-		if("punch_sound")
-			global.punch_sound=newval;
 		if("rad_collectors")
 			global.rad_collectors=newval;
 		if("radiation_repository")
@@ -1926,8 +1868,6 @@
 			global.rune_list=newval;
 		if("runtime_diary")
 			global.runtime_diary=newval;
-		if("rustle_sound")
-			global.rustle_sound=newval;
 		if("same_wires")
 			global.same_wires=newval;
 		if("scheduler")
@@ -1944,8 +1884,6 @@
 			global.server_name=newval;
 		if("severity_to_string")
 			global.severity_to_string=newval;
-		if("shatter_sound")
-			global.shatter_sound=newval;
 		if("ship_engines")
 			global.ship_engines=newval;
 		if("shuttle_controller")
@@ -1972,8 +1910,6 @@
 			global.sounds_cache=newval;
 		if("spacevines_spawned")
 			global.spacevines_spawned=newval;
-		if("spark_sound")
-			global.spark_sound=newval;
 		if("sparring_attack_cache")
 			global.sparring_attack_cache=newval;
 		if("spells")
@@ -2034,10 +1970,6 @@
 			global.swapmaps_loaded=newval;
 		if("swapmaps_mode")
 			global.swapmaps_mode=newval;
-		if("swing_hit_sound")
-			global.swing_hit_sound=newval;
-		if("switch_sound")
-			global.switch_sound=newval;
 		if("syndicate_access")
 			global.syndicate_access=newval;
 		if("syndicate_code_phrase")
@@ -2203,11 +2135,12 @@
 	"SSgarbage",
 	"SSlegacy",
 	"SSmachines",
+	"SSmapping",
 	"SSmobs",
-	"SSvines",
 	"SSobj",
 	"SSopen_space",
 	"SSprocessing",
+	"SSvines",
 	"Tier1Runes",
 	"Tier2Runes",
 	"Tier3Runes",
@@ -2217,7 +2150,6 @@
 	"_client_preferences",
 	"_client_preferences_by_key",
 	"_client_preferences_by_type",
-	"_preloader",
 	"account_hack_attempted",
 	"actor",
 	"additional_antag_types",
@@ -2284,14 +2216,12 @@
 	"attack_log_repository",
 	"autolathe_categories",
 	"autolathe_recipes",
-	"backbaglist",
 	"base_miss_chance",
 	"basic_robolimb",
 	"blackbox",
 	"blocked",
 	"bomb_set",
 	"borers",
-	"button_sound",
 	"cable_list",
 	"cached_icons",
 	"cached_space",
@@ -2309,12 +2239,10 @@
 	"checked_for_inactives",
 	"chemical_reaction_logs",
 	"chemical_reactions_list",
-	"chemistryProcess",
 	"chicken_count",
 	"church_name",
 	"client_preference_stats_",
 	"client_repository",
-	"clown_sound",
 	"combatlog",
 	"comm_message_listeners",
 	"command_announcement",
@@ -2369,7 +2297,6 @@
 	"eventchance",
 	"exclude_jobs",
 	"explosion_in_progress",
-	"explosion_sound",
 	"explosion_turfs",
 	"facial_hair_styles_female_list",
 	"facial_hair_styles_list",
@@ -2390,7 +2317,6 @@
 	"fluidtrack_cache",
 	"follow_repository",
 	"forced_ambiance_list",
-	"fracture_sound",
 	"fruit_icon_cache",
 	"fuel_injectors",
 	"fusion_cores",
@@ -2418,7 +2344,6 @@
 	"hair_styles_male_list",
 	"hazard_overlays",
 	"hidden_skill_types",
-	"hiss_sound",
 	"hivemind_bank",
 	"holder_mob_icon_cache",
 	"host",
@@ -2439,7 +2364,6 @@
 	"jobban_runonce",
 	"joblist",
 	"join_motd",
-	"keyboard_sound",
 	"landmarks_list",
 	"language_keys",
 	"last_chew",
@@ -2448,8 +2372,6 @@
 	"last_tick_duration",
 	"license_to_url",
 	"light_overlay_cache",
-	"light_type_cache",
-	"lighter_sound",
 	"lighting_overlays_initialised",
 	"lighting_update_corners",
 	"lighting_update_corners_old",
@@ -2518,7 +2440,6 @@
 	"next_station_date_change",
 	"ninjas",
 	"ninjastart",
-	"non_fakeattack_weapons",
 	"not_incapacitated_turf_state",
 	"ntnet_card_uid",
 	"ntnet_global",
@@ -2534,7 +2455,6 @@
 	"outfits_decls_by_type_",
 	"outfits_decls_root_",
 	"overmap_event_handler",
-	"page_sound",
 	"paiController",
 	"pai_emotions",
 	"pai_software_by_key",
@@ -2568,7 +2488,6 @@
 	"processing_turfs",
 	"prometheans",
 	"protected_objects",
-	"punch_sound",
 	"rad_collectors",
 	"radiation_repository",
 	"radio_controller",
@@ -2597,7 +2516,6 @@
 	"roundstart_hour",
 	"rune_list",
 	"runtime_diary",
-	"rustle_sound",
 	"same_wires",
 	"scheduler",
 	"secondary_mode",
@@ -2606,7 +2524,6 @@
 	"sent_spiders_to_station",
 	"server_name",
 	"severity_to_string",
-	"shatter_sound",
 	"ship_engines",
 	"shuttle_controller",
 	"side_effects",
@@ -2620,7 +2537,6 @@
 	"sound_player",
 	"sounds_cache",
 	"spacevines_spawned",
-	"spark_sound",
 	"sparring_attack_cache",
 	"spells",
 	"splatter_cache",
@@ -2651,8 +2567,6 @@
 	"swapmaps_initialized",
 	"swapmaps_loaded",
 	"swapmaps_mode",
-	"swing_hit_sound",
-	"switch_sound",
 	"syndicate_access",
 	"syndicate_code_phrase",
 	"syndicate_code_response",

@@ -6,7 +6,7 @@
 
 /datum/gear/head/beret
 	allowed_roles = NON_MILITARY_ROLES
-	display_name = "beret, colored"
+	display_name = "beret, colour select"
 	path = /obj/item/clothing/head/beret/plaincolor
 	flags = GEAR_HAS_COLOR_SELECTION
 	description = "A simple, solid color beret. This one has no emblems or insignia on it."
@@ -14,21 +14,21 @@
 /datum/gear/head/solberet
 	display_name = "SolGov beret selection"
 	description = "A beret denoting service in an organization within SolGov."
-	path = /obj/item/clothing/head/beret/sol
+	path = /obj/item/clothing/head/beret/solgov
 	allowed_roles = SOLGOV_ROLES
 
 /datum/gear/head/solberet/New()
 	..()
 	var/berets = list()
-	berets["peacekeeper beret"] = /obj/item/clothing/head/beret/sol
-	berets["home guard beret"] = /obj/item/clothing/head/beret/sol/homeguard
-	berets["gateway administration beret"] = /obj/item/clothing/head/beret/sol/gateway
-	berets["customs and trade beret"] = /obj/item/clothing/head/beret/sol/customs
-	berets["orbital assault beret"] = /obj/item/clothing/head/beret/sol/orbital
-	berets["government research beret"] = /obj/item/clothing/head/beret/sol/research
-	berets["health service beret"] = /obj/item/clothing/head/beret/sol/health
-	berets["diplomatic security beret"] = /obj/item/clothing/head/beret/sol/diplomatic
-	berets["border security beret"] = /obj/item/clothing/head/beret/sol/borderguard
+	berets["peacekeeper beret"] = /obj/item/clothing/head/beret/solgov
+	berets["home guard beret"] = /obj/item/clothing/head/beret/solgov/homeguard
+	berets["gateway administration beret"] = /obj/item/clothing/head/beret/solgov/gateway
+	berets["customs and trade beret"] = /obj/item/clothing/head/beret/solgov/customs
+	berets["orbital assault beret"] = /obj/item/clothing/head/beret/solgov/orbital
+	berets["government research beret"] = /obj/item/clothing/head/beret/solgov/research
+	berets["health service beret"] = /obj/item/clothing/head/beret/solgov/health
+	berets["diplomatic security beret"] = /obj/item/clothing/head/beret/solgov/diplomatic
+	berets["border security beret"] = /obj/item/clothing/head/beret/solgov/borderguard
 	gear_tweaks += new/datum/gear_tweak/path(berets)
 
 /datum/gear/head/whitentberet
@@ -36,14 +36,9 @@
 	path = /obj/item/clothing/head/beret/guard
 	allowed_roles = list(/datum/job/guard)
 
-/datum/gear/head/solhat
-	display_name = "Sol Central Government Cap"
-	path = /obj/item/clothing/head/soft/sol
-	allowed_roles = SOLGOV_ROLES
-
 /datum/gear/head/veteranhat
 	display_name = "veteran hat"
-	path = /obj/item/clothing/head/soft/veteranhat
+	path = /obj/item/clothing/head/soft/solgov/veteranhat
 	allowed_roles = NON_MILITARY_ROLES
 
 /datum/gear/head/bandana
@@ -60,7 +55,7 @@
 	gear_tweaks += new/datum/gear_tweak/path(bandanas)
 
 /datum/gear/head/bow
-	display_name = "hair bow"
+	display_name = "hair bow, colour select"
 	path = /obj/item/clothing/head/hairflower/bow
 	flags = GEAR_HAS_COLOR_SELECTION
 	allowed_roles = NON_MILITARY_ROLES
@@ -136,6 +131,7 @@
 	var/informalhats = list()
 	informalhats["cowboy hat"] = /obj/item/clothing/head/cowboy_hat
 	informalhats["ushanka"] = /obj/item/clothing/head/ushanka
+	informalhats["TCC ushanka"] = /obj/item/clothing/head/ushanka/tcc
 	gear_tweaks += new/datum/gear_tweak/path(informalhats)
 
 /datum/gear/head/hairflower/New()
@@ -148,22 +144,22 @@
 	gear_tweaks += new/datum/gear_tweak/path(pins)
 
 /datum/gear/head/hijab
-	display_name = "hijab"
+	display_name = "hijab, colour select"
 	path = /obj/item/clothing/head/hijab
 	flags = GEAR_HAS_COLOR_SELECTION
 
 /datum/gear/head/kippa
-	display_name = "kippa"
+	display_name = "kippa, colour select"
 	path = /obj/item/clothing/head/kippa
 	flags = GEAR_HAS_COLOR_SELECTION
 
 /datum/gear/head/turban
-	display_name = "turban"
+	display_name = "turban, colour select"
 	path = /obj/item/clothing/head/turban
 	flags = GEAR_HAS_COLOR_SELECTION
 
 /datum/gear/head/taqiyah
-	display_name = "taqiyah"
+	display_name = "taqiyah, colour select"
 	path = /obj/item/clothing/head/taqiyah
 	flags = GEAR_HAS_COLOR_SELECTION
 
@@ -173,46 +169,41 @@
 	allowed_roles = TECHNICAL_ROLES
 
 /datum/gear/head/solhat
-	display_name = "Sol Central Government Cap"
-	path = /obj/item/clothing/head/soft/sol
+	display_name = "sol central government hat"
+	path = /obj/item/clothing/head/soft/solgov
 	allowed_roles = SOLGOV_ROLES
 
 /datum/gear/head/fleethat
-	display_name = "Fleet Cap"
-	path = /obj/item/clothing/head/utility/fleet
+	display_name = "fleet cap"
+	path = /obj/item/clothing/head/solgov/utility/fleet
 	cost = 0
 	allowed_roles = SOLGOV_ROLES
 
 /datum/gear/head/marinehat
-	display_name = "Marine Cap"
-	path = /obj/item/clothing/head/utility/marine
+	display_name = "marine cap"
+	path = /obj/item/clothing/head/solgov/utility/marine
 	cost = 0
 	allowed_roles = SOLGOV_ROLES
 
 /datum/gear/head/echat
-	display_name = "EC Cap"
-	path = /obj/item/clothing/head/soft/sol/expedition
+	display_name = "EC cap"
+	path = /obj/item/clothing/head/soft/solgov/expedition
 	cost = 0
 	allowed_roles = SOLGOV_ROLES
 
 /datum/gear/head/surgical
-	display_name = "surgical cap"
+	display_name = "standard surgical caps"
 	path = /obj/item/clothing/head/surgery
 	allowed_roles = STERILE_ROLES
+	flags = GEAR_HAS_TYPE_SELECTION
 
-/datum/gear/head/surgical/New()
-	..()
-	var/capcolor = list()
-	capcolor["black cap"] = /obj/item/clothing/head/surgery/black
-	capcolor["blue cap"] = /obj/item/clothing/head/surgery/blue
-	capcolor["green cap"] = /obj/item/clothing/head/surgery/green
-	capcolor["navy blue cap"] = /obj/item/clothing/head/surgery/navyblue
-	capcolor["purple cap"] = /obj/item/clothing/head/surgery/purple
-	gear_tweaks += new/datum/gear_tweak/path(capcolor)
+/datum/gear/head/surgical/custom
+	display_name = "surgical cap, colour select"
+	flags = GEAR_HAS_COLOR_SELECTION
 
 /datum/gear/head/veteranhat
 	display_name = "veteran hat"
-	path = /obj/item/clothing/head/soft/veteranhat
+	path = /obj/item/clothing/head/soft/solgov/veteranhat
 	allowed_roles = NON_MILITARY_ROLES
 
 /datum/gear/head/welding/New()

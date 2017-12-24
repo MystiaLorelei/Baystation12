@@ -14,7 +14,8 @@
 	language = LANGUAGE_EAL
 	unarmed_types = list(/datum/unarmed_attack/punch)
 	rarity_value = 2
-	num_alternate_languages = 1 // potentially could be 2?
+	num_alternate_languages = 2
+	strength = STR_HIGH
 	name_language = LANGUAGE_EAL
 
 	min_age = 1

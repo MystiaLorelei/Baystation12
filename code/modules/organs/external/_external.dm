@@ -136,7 +136,7 @@
 		if (3)
 			burn_damage = 3
 	burn_damage *= robotic/burn_mod //ignore burn mod for EMP damage
-	
+
 	var/power = 4 - severity //stupid reverse severity
 	for(var/obj/item/I in implants)
 		if(I.flags & CONDUCT)
@@ -194,7 +194,7 @@
 				stage++
 				return
 		if(2)
-			if(W.sharp || istype(W,/obj/item/weapon/hemostat) || istype(W,/obj/item/weapon/wirecutters))
+			if(W.sharp || istype(W,/obj/item/weapon/hemostat) || isWirecutter(W))
 				var/list/organs = get_contents_recursive()
 				if(organs.len)
 					var/obj/item/removing = pick(organs)
@@ -204,6 +204,9 @@
 					current_child.internal_organs.Remove(removing)
 
 					status |= ORGAN_CUT_AWAY
+					if(istype(removing, /obj/item/organ/internal/mmi_holder))
+						var/obj/item/organ/internal/mmi_holder/O = removing
+						removing = O.transfer_and_delete()
 
 					removing.forceMove(get_turf(user))
 
@@ -1365,3 +1368,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 	W.hits += 1
 	W.damage += damage
 	W.time_inflicted = world.time
+
+
+/obj/item/organ/external/proc/has_genitals()
+	return !isrobotic() && species && species.sexybits_location == organ_tag

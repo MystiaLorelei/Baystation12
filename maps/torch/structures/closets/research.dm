@@ -41,6 +41,7 @@
 		/obj/item/clothing/glasses/welding/superior,
 		/obj/item/device/holowarrant,
 		/obj/item/clothing/suit/armor/pcarrier/light,
+		/obj/item/weapon/storage/box/secret_project_disks/science,
 		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack/toxins, /obj/item/weapon/storage/backpack/satchel_tox)),
 		new /datum/atom_creator/simple(/obj/item/weapon/storage/backpack/messenger/tox, 50)
 	)
@@ -177,6 +178,7 @@
 		/obj/item/clothing/accessory/storage/webbing,
 		/obj/item/device/megaphone,
 		/obj/item/weapon/gun/energy/stunrevolver,
+		/obj/item/clothing/shoes/jackboots,
 		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack/security, /obj/item/weapon/storage/backpack/satchel_sec)),
 		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack/dufflebag/sec, /obj/item/weapon/storage/backpack/messenger/sec))
 	)

@@ -80,8 +80,6 @@
 	if(byond_version < RECOMMENDED_VERSION)
 		world.log << "Your server's byond version does not meet the recommended requirements for this server. Please update BYOND"
 
-	config.post_load()
-
 	if(config && config.server_name != null && config.server_suffix && world.port > 0)
 		// dumb and hardcoded but I don't care~
 		config.server_name += " #[(world.port % 1000) / 100]"
@@ -110,8 +108,7 @@
 	populate_material_list()
 
 	if(config.generate_map)
-		if(GLOB.using_map.perform_map_generation())
-			GLOB.using_map.refresh_mining_turfs()
+		GLOB.using_map.perform_map_generation()
 	GLOB.using_map.build_exoplanets()
 
 	// Create robolimbs for chargen.
@@ -128,10 +125,6 @@
 	spawn(1)
 		initialize_unit_tests()
 #endif
-
-	spawn(3000)		//so we aren't adding to the round-start lag
-		if(config.ToRban)
-			ToRban_autoupdate()
 
 #undef RECOMMENDED_VERSION
 

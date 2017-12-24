@@ -9,8 +9,9 @@
 	#include "torch_ranks.dm"
 	#include "torch_shuttles.dm"
 	#include "torch_unit_testing.dm"
-	#include "torch_gamemodes.dm"
 	#include "torch_antagonism.dm"
+	#include "torch_npcs.dm"
+	#include "torch_security_state.dm"
 
 	#include "datums/uniforms.dm"
 	#include "datums/uniforms_expedition.dm"
@@ -20,7 +21,6 @@
 	#include "datums/supplypacks/science.dm"
 
 	#include "items/cards_ids.dm"
-	#include "items/clothing.dm"
 	#include "items/encryption_keys.dm"
 	#include "items/headsets.dm"
 	#include "items/items.dm"
@@ -28,6 +28,14 @@
 	#include "items/manuals.dm"
 	#include "items/stamps.dm"
 	#include "items/uniform_vendor.dm"
+
+	#include "items/clothing/clothing.dm"
+	#include "items/clothing/solgov-accessory.dm"
+	#include "items/clothing/solgov-armor.dm"
+	#include "items/clothing/solgov-feet.dm"
+	#include "items/clothing/solgov-head.dm"
+	#include "items/clothing/solgov-suit.dm"
+	#include "items/clothing/solgov-under.dm"
 
 	#include "job/access.dm"
 	#include "job/jobs.dm"
@@ -67,6 +75,13 @@
 	#include "../away/mining/mining.dm"
 	#include "../away/derelict/derelict.dm"
 	#include "../away/bearcat/bearcat.dm"
+	#include "../away/lost_supply_base/lost_supply_base.dm"
+	#include "../away/marooned/marooned.dm"
+	#include "../away/smugglers/smugglers.dm"
+	#include "../away/magshield/magshield.dm"
+	#include "../away/casino/casino.dm"
+	#include "../away/yacht/yacht.dm"
+	#include "../away/slavers/slavers_base.dm"
 
 	#include "../../code/modules/lobby_music/chasing_time.dm"
 	#include "../../code/modules/lobby_music/absconditus.dm"

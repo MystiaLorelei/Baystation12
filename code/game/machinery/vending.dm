@@ -16,7 +16,7 @@
 
 	var/icon_vend //Icon_state when vending
 	var/icon_deny //Icon_state when denying access
-	var/diona_spawn_chance = 1 //For admin shenanigans
+	var/diona_spawn_chance = 0.1
 
 	// Power
 	use_power = 1
@@ -189,11 +189,11 @@
 
 		GLOB.nanomanager.update_uis(src)  // Speaker switch is on the main UI, not wires UI
 		return
-	else if(istype(W, /obj/item/device/multitool)||istype(W, /obj/item/weapon/wirecutters))
+	else if(isMultitool(W) || isWirecutter(W))
 		if(src.panel_open)
 			attack_hand(user)
 		return
-	else if((flags & OBJ_ANCHORABLE) && istype(W, /obj/item/weapon/wrench))
+	else if((flags & OBJ_ANCHORABLE) && isWrench(W))
 		wrench_floor_bolts(user)
 		power_change()
 		return
@@ -479,7 +479,7 @@
 		if(prob(diona_spawn_chance)) //Hehehe
 			var/turf/T = get_turf(src)
 			var/mob/living/carbon/alien/diona/S = new(T)
-			src.visible_message("<span class='notice'>\The [src] makes an odd grinding noise before coming to screeching halt as \a [S.name] slurmps out!</span>")
+			src.visible_message("<span class='notice'>\The [src] makes an odd grinding noise before coming to a halt as \a [S.name] slurmps out from the receptacle.</span>")
 		else //Just a normal vend, then
 			R.get_product(get_turf(src))
 			src.visible_message("\The [src] whirs as it vends \the [R.item_name].")
@@ -648,7 +648,8 @@
 					/obj/item/weapon/reagent_containers/food/drinks/tea = 15,
 					/obj/item/weapon/glass_extra/stick = 15,
 					/obj/item/weapon/glass_extra/straw = 15)
-	contraband = list()
+	contraband = list(/obj/item/weapon/reagent_containers/food/drinks/bottle/premiumwine = 2,
+					/obj/item/weapon/reagent_containers/food/drinks/bottle/premiumvodka = 2)
 	vend_delay = 15
 	idle_power_usage = 211 //refrigerator - believe it or not, this is actually the average power consumption of a refrigerated vending machine according to NRCan.
 	product_slogans = "I hope nobody asks me for a bloody cup o' tea...;Alcohol is humanity's friend. Would you abandon a friend?;Quite delighted to serve you!;Is nobody thirsty on this station?"
@@ -793,6 +794,9 @@
 					/obj/item/weapon/storage/fancy/cigarettes/menthols = 2,
 					/obj/item/weapon/storage/fancy/cigarettes/carcinomas = 2,
 					/obj/item/weapon/storage/fancy/cigarettes/professionals = 2,
+					/obj/item/weapon/storage/fancy/cigarettes/cigarello = 2,
+					/obj/item/weapon/storage/fancy/cigarettes/cigarello/mint = 2,
+					/obj/item/weapon/storage/fancy/cigarettes/cigarello/variety = 2,
 					/obj/item/weapon/storage/box/matches = 10,
 					/obj/item/weapon/flame/lighter/random = 4,
 					/obj/item/clothing/mask/smokable/ecig/simple = 10,
@@ -816,6 +820,9 @@
 					/obj/item/weapon/storage/fancy/cigarettes/menthols = 55,
 					/obj/item/weapon/storage/fancy/cigarettes/carcinomas = 65,
 					/obj/item/weapon/storage/fancy/cigarettes/professionals = 70,
+					/obj/item/weapon/storage/fancy/cigarettes/cigarello = 85,
+					/obj/item/weapon/storage/fancy/cigarettes/cigarello/mint = 85,
+					/obj/item/weapon/storage/fancy/cigarettes/cigarello/variety = 85,
 					/obj/item/weapon/storage/box/matches = 2,
 					/obj/item/weapon/flame/lighter/random = 5,
 					/obj/item/clothing/mask/smokable/ecig/simple = 50,
@@ -856,7 +863,7 @@
 /obj/machinery/vending/phoronresearch
 	name = "Toximate 3000"
 	desc = "All the fine parts you need in one vending machine!"
-	products = list(/obj/item/clothing/under/rank/scientist = 6,/obj/item/clothing/suit/bio_suit = 6,/obj/item/clothing/head/bio_hood = 6,
+	products = list(/obj/item/clothing/suit/bio_suit = 6,/obj/item/clothing/head/bio_hood = 6,
 					/obj/item/device/transfer_valve = 6,/obj/item/device/assembly/timer = 6,/obj/item/device/assembly/signaler = 6,
 					/obj/item/device/assembly/prox_sensor = 6,/obj/item/device/assembly/igniter = 6)
 
@@ -891,7 +898,7 @@
 	vend_delay = 14
 	req_access = list(access_security)
 	products = list(/obj/item/weapon/handcuffs = 8,/obj/item/weapon/grenade/flashbang = 4,/obj/item/weapon/grenade/chem_grenade/teargas = 4,/obj/item/device/flash = 5,
-					/obj/item/weapon/reagent_containers/food/snacks/donut/normal = 12,/obj/item/weapon/storage/box/evidence = 6,/obj/item/clothing/accessory/badge/security = 6)
+					/obj/item/weapon/reagent_containers/food/snacks/donut/normal = 12,/obj/item/weapon/storage/box/evidence = 6)
 	contraband = list(/obj/item/clothing/glasses/sunglasses = 2,/obj/item/weapon/storage/box/donut = 2)
 
 /obj/machinery/vending/hydronutrients

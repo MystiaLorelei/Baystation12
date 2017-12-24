@@ -31,7 +31,9 @@
 		/obj/item/weapon/crowbar/brace_jack,
 		/obj/item/clothing/glasses/meson,
 		/obj/item/clothing/glasses/welding/superior,
-		/obj/item/weapon/gun/energy/gun,
+		/obj/item/weapon/gun/projectile/colt/officer,
+		/obj/item/ammo_magazine/c45m,
+		/obj/item/ammo_magazine/c45m,
 		/obj/item/clothing/accessory/holster/thigh,
 		/obj/item/clothing/suit/armor/pcarrier/medium/command,
 		/obj/item/clothing/head/helmet/solgov/command,
@@ -40,6 +42,7 @@
 		/obj/item/device/holowarrant,
 		/obj/item/weapon/folder/yellow,
 		/obj/item/weapon/storage/box/armband/engine,
+		/obj/item/weapon/storage/box/secret_project_disks,
 		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack/industrial, /obj/item/weapon/storage/backpack/satchel_eng)),
 		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack/dufflebag/eng, /obj/item/weapon/storage/backpack/messenger/engi))
 	)

@@ -4,12 +4,6 @@
 	slot = slot_gloves
 	sort_category = "Gloves and Handwear"
 	category = /datum/gear/gloves
-// Gloves
-/datum/gear/gloves
-	cost = 2
-	slot = slot_gloves
-	sort_category = "Gloves and Handwear"
-	category = /datum/gear/gloves
 
 /datum/gear/gloves/colored
 	display_name = "gloves, colored"
@@ -35,7 +29,7 @@
 	allowed_roles = RESTRICTED_ROLES
 
 /datum/gear/gloves/evening
-	display_name = "gloves, evening"
+	display_name = "gloves, evening, colour select"
 	path = /obj/item/clothing/gloves/color/evening
 	flags = GEAR_HAS_COLOR_SELECTION
 	allowed_roles = FORMAL_ROLES

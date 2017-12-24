@@ -146,7 +146,7 @@
 			if(E.species) //Check to make sure we have a species
 				msg += E.species.disfigure_msg(src)
 			else //Just in case they lack a species for whatever reason.
-				msg += "<span class='warning'>[T.his] face is horribly mangled!</span>\n"
+				msg += "<span class='warning'>[T.His] face is horribly mangled!</span>\n"
 
 	//splints
 	for(var/organ in list(BP_L_LEG, BP_R_LEG, BP_L_ARM, BP_R_ARM))
@@ -264,9 +264,9 @@
 			perpname = name
 
 		if(perpname)
-			for (var/datum/computer_file/crew_record/E in GLOB.all_crew_records)
-				if(E.GetName() == perpname)
-					criminal = E.GetCriminalStatus()
+			var/datum/computer_file/crew_record/R = get_crewmember_record(perpname)
+			if(R)
+				criminal = R.get_criminalStatus()
 
 			msg += "<span class = 'deptradio'>Criminal status:</span> <a href='?src=\ref[src];criminal=1'>\[[criminal]\]</a>\n"
 			msg += "<span class = 'deptradio'>Security records:</span> <a href='?src=\ref[src];secrecord=`'>\[View\]</a>\n"
@@ -284,9 +284,9 @@
 		else
 			perpname = src.name
 
-		for (var/datum/computer_file/crew_record/E in GLOB.all_crew_records)
-			if (E.GetName() == perpname)
-				medical = E.GetStatus()
+		var/datum/computer_file/crew_record/R = get_crewmember_record(perpname)
+		if(R)
+			medical = R.get_status()
 
 		msg += "<span class = 'deptradio'>Physical status:</span> <a href='?src=\ref[src];medical=1'>\[[medical]\]</a>\n"
 		msg += "<span class = 'deptradio'>Medical records:</span> <a href='?src=\ref[src];medrecord=`'>\[View\]</a>\n"
@@ -313,13 +313,13 @@
 				if(istype(H.glasses,/obj/item/clothing/glasses))
 					var/obj/item/clothing/glasses/G = H.glasses
 					return istype(G.hud, /obj/item/clothing/glasses/hud/security) || istype(G, /obj/item/clothing/glasses/hud/security)
-				else 
+				else
 					return FALSE
 			if("medical")
 				if(istype(H.glasses,/obj/item/clothing/glasses))
 					var/obj/item/clothing/glasses/G = H.glasses
 					return istype(G.hud, /obj/item/clothing/glasses/hud/health) || istype(G, /obj/item/clothing/glasses/hud/health)
-				else 
+				else
 					return FALSE
 			else
 				return 0
