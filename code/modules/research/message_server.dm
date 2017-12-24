@@ -116,18 +116,16 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 			if(Console.newmessagepriority < priority)
 				Console.newmessagepriority = priority
 				Console.icon_state = "req_comp[priority]"
-			switch(priority)
-				if(2)
-					if(!Console.silent)
-						playsound(Console.loc, 'sound/machines/twobeep.ogg', 50, 1)
-						Console.audible_message(text("\icon[Console] *The Requests Console beeps: 'PRIORITY Alert in [sender]'"),,5)
-					Console.message_log += "<B><FONT color='red'>High Priority message from <A href='?src=\ref[Console];write=[sender]'>[sender]</A></FONT></B><BR>[authmsg]"
-				else
-					if(!Console.silent)
-						playsound(Console.loc, 'sound/machines/twobeep.ogg', 50, 1)
-						Console.audible_message(text("\icon[Console] *The Requests Console beeps: 'Message from [sender]'"),,4)
-					Console.message_log += "<B>Message from <A href='?src=\ref[Console];write=[sender]'>[sender]</A></B><BR>[authmsg]"
-			Console.set_light(2)
+			if(priority > 1)
+				playsound(Console.loc, 'sound/machines/chime.ogg', 80, 1)
+				Console.audible_message("\icon[Console]<span class='warning'>\The [Console] announces: 'High priority message received from [sender]!'</span>", hearing_distance = 8)
+				Console.message_log += "<FONT color='red'>High Priority message from <A href='?src=\ref[Console];write=[sender]'>[sender]</A></FONT><BR>[authmsg]"
+			else
+				if(!Console.silent)
+					playsound(Console.loc, 'sound/machines/twobeep.ogg', 50, 1)
+					Console.audible_message("\icon[Console]<span class='notice'>\The [Console] announces: 'Message received from [sender].'</span>", hearing_distance = 5)
+				Console.message_log += "<B>Message from <A href='?src=\ref[Console];write=[sender]'>[sender]</A></B><BR>[authmsg]"
+		Console.set_light(2)
 
 
 /obj/machinery/message_server/attack_hand(user as mob)
@@ -158,6 +156,18 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 
 	return
 
+/obj/machinery/message_server/proc/send_to_department(var/department, var/message, var/tone)
+	var/reached = 0
+	for(var/obj/item/device/pda/P in PDAs)
+		if(P.toff)
+			continue
+		var/datum/job/J = job_master.GetJob(P.ownrank)
+		if(!J)
+			continue
+		if(J.department_flag & department)
+			P.new_info(P.message_silent, tone ? tone : P.ttone, "\icon[P] [message]")
+			reached++
+	return reached
 
 /datum/feedback_variable
 	var/variable

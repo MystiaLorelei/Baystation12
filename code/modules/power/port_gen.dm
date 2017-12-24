@@ -115,6 +115,7 @@
 	var/sheet_left = 0		//How much is left of the current sheet
 	var/temperature = 0		//The current temperature
 	var/overheating = 0		//if this gets high enough the generator explodes
+	var/max_overheat = 150
 
 /obj/machinery/power/port_gen/pacman/Initialize()
 	. = ..()
@@ -234,7 +235,7 @@
 
 /obj/machinery/power/port_gen/pacman/proc/overheat()
 	overheating++
-	if (overheating > 150)
+	if (overheating > max_overheat)
 		explode()
 
 /obj/machinery/power/port_gen/pacman/explode()
@@ -271,7 +272,7 @@
 		updateUsrDialog()
 		return
 	else if(!active)
-		if(istype(O, /obj/item/weapon/wrench))
+		if(isWrench(O))
 
 			if(!anchored)
 				connect_to_network()
@@ -283,14 +284,14 @@
 			playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
 			anchored = !anchored
 
-		else if(istype(O, /obj/item/weapon/screwdriver))
+		else if(isScrewdriver(O))
 			open = !open
 			playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
 			if(open)
 				to_chat(user, "<span class='notice'>You open the access panel.</span>")
 			else
 				to_chat(user, "<span class='notice'>You close the access panel.</span>")
-		else if(istype(O, /obj/item/weapon/crowbar) && open)
+		else if(isCrowbar(O) && open)
 			var/obj/machinery/constructable_frame/machine_frame/new_frame = new /obj/machinery/constructable_frame/machine_frame(src.loc)
 			for(var/obj/item/I in component_parts)
 				I.loc = src.loc
@@ -328,7 +329,10 @@
 	data["output_watts"] = power_output * power_gen
 	data["temperature_current"] = src.temperature
 	data["temperature_max"] = src.max_temperature
-	data["temperature_overheat"] = overheating
+	if(overheating)
+		data["temperature_overheat"] = ((overheating / max_overheat) * 100)		// Overheat percentage. Generator explodes at 100%
+	else
+		data["temperature_overheat"] = 0
 	// 1 sheet = 1000cm3?
 	data["fuel_stored"] = round((sheets * 1000) + (sheet_left * 1000))
 	data["fuel_capacity"] = round(max_sheets * 1000, 0.1)
@@ -422,7 +426,7 @@
 		var/image/I = image(icon,"[initial(icon_state)]rad")
 		I.blend_mode = BLEND_ADD
 		I.alpha = round(255*power_output/max_power_output)
-		overlays += I 
+		overlays += I
 		set_light(rad_power + power_output - max_safe_output,1,"#3b97ca")
 	else
 		set_light(0)
@@ -438,8 +442,8 @@
 
 /obj/machinery/power/port_gen/pacman/super/potato
 	name = "nuclear reactor"
-	desc = "PTTO-3, An industrial nuclear all-in-one power plant by Neo-Chernobyl Gmbh. Runs on uranium and vodka. Rated for 200 kW max safe output."
-	power_gen = 25000			//Watts output per power_output level
+	desc = "PTTO-3, an industrial all-in-one nuclear power plant by Neo-Chernobyl GmbH. It uses uranium and vodka as a fuel source. Rated for 150 kW max safe output."
+	power_gen = 30000			//Watts output per power_output level
 	icon_state = "potato"
 	max_safe_output = 4
 	max_power_output = 8	//The maximum power setting without emagging.

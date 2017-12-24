@@ -1,6 +1,7 @@
 /obj/effect/overmap/sector/exoplanet/grass
 	name = "lush exoplanet"
 	desc = "Planet with abundant flora and fauna."
+	color = "#538224"
 
 /obj/effect/overmap/sector/exoplanet/grass/generate_map()
 	if(prob(40))
@@ -15,20 +16,20 @@
 		atmosphere.temperature = T20C + rand(10, 30)
 		atmosphere.update_values()
 
-/obj/effect/overmap/sector/exoplanet/grass/update_biome()
+/obj/effect/overmap/sector/exoplanet/grass/adapt_seed(var/datum/seed/S)
 	..()
-	for(var/datum/seed/S in seeds)
-		var/carnivore_prob = rand(100)
-		if(carnivore_prob < 15)
-			S.set_trait(TRAIT_CARNIVOROUS,2)
-		else if(carnivore_prob < 30)
-			S.set_trait(TRAIT_CARNIVOROUS,1)
-		if(prob(15) || (S.get_trait(TRAIT_CARNIVOROUS) && prob(40)))
-			S.set_trait(TRAIT_BIOLUM,1)
-			S.set_trait(TRAIT_BIOLUM_COLOUR,get_random_colour(0,75,190))
+	var/carnivore_prob = rand(100)
+	if(carnivore_prob < 15)
+		S.set_trait(TRAIT_CARNIVOROUS,2)
+	else if(carnivore_prob < 30)
+		S.set_trait(TRAIT_CARNIVOROUS,1)
+	if(prob(15) || (S.get_trait(TRAIT_CARNIVOROUS) && prob(40)))
+		S.set_trait(TRAIT_BIOLUM,1)
+		S.set_trait(TRAIT_BIOLUM_COLOUR,get_random_colour(0,75,190))
 
-		if(prob(30))
-			S.set_trait(TRAIT_PARASITE,1)
+	if(prob(30))
+		S.set_trait(TRAIT_PARASITE,1)
+	if(!S.get_trait(TRAIT_LARGE))
 		var/vine_prob = rand(100)
 		if(vine_prob < 15)
 			S.set_trait(TRAIT_SPREAD,2)

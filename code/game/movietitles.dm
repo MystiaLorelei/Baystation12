@@ -19,8 +19,8 @@ client
 	if(mob)
 		mob.overlay_fullscreen("fishbed",/obj/screen/fullscreen/fishbed)
 		mob.overlay_fullscreen("fadeout",/obj/screen/fullscreen/fadeout)
-	
-		if(mob.is_preference_enabled(/datum/client_preference/play_lobby_music))
+
+		if(mob.get_preference_value(/datum/client_preference/play_lobby_music) == GLOB.PREF_YES)
 			sound_to(mob, sound(null, channel = 1))
 			sound_to(mob, sound('sound/music/THUNDERDOME.ogg', wait = 0, volume = 40, channel = 1))
 
@@ -112,9 +112,9 @@ client
 		if(GetAssignment(H) != "Unassigned")
 			job = ", [uppertext(GetAssignment(H))]"
 		var/used_name = H.real_name
-		var/datum/data/record/R = find_record("name", H.real_name, GLOB.data_core.general)
-		if(R && R.fields["mil_rank"])
-			var/datum/mil_rank/rank = mil_branches.get_rank(R.fields["mil_branch"], R.fields["mil_rank"])
+		var/datum/computer_file/crew_record/R = get_crewmember_record(H.real_name)
+		if(R && R.get_rank())
+			var/datum/mil_rank/rank = mil_branches.get_rank(R.get_branch(), R.get_rank())
 			if(rank.name_short)
 				used_name = "[rank.name_short] [used_name]"
 		if(prob(90))

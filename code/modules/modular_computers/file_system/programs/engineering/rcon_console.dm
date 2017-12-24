@@ -3,6 +3,7 @@
 	filedesc = "RCON Remote Control"
 	nanomodule_path = /datum/nano_module/rcon
 	program_icon_state = "generic"
+	program_menu_icon = "power"
 	extended_desc = "This program allows remote control of power distribution systems. This program can not be run on tablet computers."
 	required_access = access_engine
 	requires_ntnet = 1
@@ -31,6 +32,7 @@
 		"charge" = round(SMES.Percentage()),
 		"input_set" = SMES.input_attempt,
 		"input_val" = round(SMES.input_level/1000, 0.1),
+		"input_load" = round(SMES.input_available/1000, 0.1),
 		"output_set" = SMES.output_attempt,
 		"output_val" = round(SMES.output_level/1000, 0.1),
 		"output_load" = round(SMES.output_used/1000, 0.1),

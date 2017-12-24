@@ -1,6 +1,7 @@
 /obj/effect/overmap/sector/exoplanet/snow
 	name = "snow exoplanet"
 	desc = "Cold planet with limited plant life."
+	color = "#e8faff"
 
 /obj/effect/overmap/sector/exoplanet/snow/generate_map()
 	for(var/zlevel in map_z)
@@ -17,7 +18,7 @@
 /datum/random_map/noise/exoplanet/snow
 	descriptor = "snow exoplanet"
 	smoothing_iterations = 1
-	flora_prob = 30
+	flora_prob = 10
 	large_flora_prob = 20
 	water_level_max = 3
 	land_type = /turf/simulated/floor/exoplanet/snow

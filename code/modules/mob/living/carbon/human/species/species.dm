@@ -38,6 +38,7 @@
 	var/pixel_offset_y = 0                    // Used for offsetting large icons.
 
 	var/mob_size	= MOB_MEDIUM
+	var/strength    = STR_MEDIUM
 	var/show_ssd = "fast asleep"
 	var/virus_immune
 	var/short_sighted                         // Permanent weldervision.
@@ -105,7 +106,6 @@
 	var/warning_high_pressure = WARNING_HIGH_PRESSURE // High pressure warning.
 	var/warning_low_pressure = WARNING_LOW_PRESSURE   // Low pressure warning.
 	var/hazard_low_pressure = HAZARD_LOW_PRESSURE     // Dangerously low pressure.
-	var/light_dam                                     // If set, mob will be damaged in light over this value and heal in light below its negative.
 	var/body_temperature = 310.15	                  // Species will try to stabilize at this temperature.
 	                                                  // (also affects temperature processing)
 
@@ -159,6 +159,7 @@
 
 	var/obj/effect/decal/cleanable/blood/tracks/move_trail = /obj/effect/decal/cleanable/blood/tracks/footprints // What marks are left when walking
 
+	var/list/skin_overlays = list()
 
 	var/list/has_limbs = list(
 		BP_CHEST =  list("path" = /obj/item/organ/external/chest),
@@ -183,6 +184,28 @@
 
 	var/pass_flags = 0
 	var/breathing_sound = 'sound/voice/monkey.ogg'
+	var/list/equip_adjust = list()
+	var/list/equip_overlays = list()
+
+	var/sexybits_location	//organ tag where they are located if they can be kicked for increased pain
+/*
+These are all the things that can be adjusted for equipping stuff and
+each one can be in the NORTH, SOUTH, EAST, and WEST direction. Specify
+the direction to shift the thing and what direction.
+
+example:
+	equip_adjust = list(
+		slot_back_str = list(NORTH = list(SOUTH = 12, EAST = 7), EAST = list(SOUTH = 2, WEST = 12))
+			)
+
+This would shift back items (backpacks, axes, etc.) when the mob
+is facing either north or east.
+When the mob faces north the back item icon is shifted 12 pixes down and 7 pixels to the right.
+When the mob faces east the back item icon is shifted 2 pixels down and 12 pixels to the left.
+
+The slots that you can use are found in items_clothing.dm and are the inventory slot string ones, so make sure
+	you use the _str version of the slot.
+*/
 
 /datum/species/proc/get_eyes(var/mob/living/carbon/human/H)
 	return
@@ -214,12 +237,12 @@
 	return sanitizeName(name)
 
 /datum/species/proc/equip_survival_gear(var/mob/living/carbon/human/H,var/extendedtank = 1)
-	if(H.backbag == 1)
-		if (extendedtank)	H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/engineer(H), slot_r_hand)
-		else	H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H), slot_r_hand)
-	else
+	if(istype(H.get_equipped_item(slot_back), /obj/item/weapon/storage/backpack))
 		if (extendedtank)	H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/engineer(H.back), slot_in_backpack)
 		else	H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H.back), slot_in_backpack)
+	else
+		if (extendedtank)	H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/engineer(H), slot_r_hand)
+		else	H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H), slot_r_hand)
 
 /datum/species/proc/create_organs(var/mob/living/carbon/human/H) //Handles creation of mob organs.
 
@@ -432,6 +455,9 @@
 	else
 		return move_trail
 
+/datum/species/proc/update_skin(var/mob/living/carbon/human/H)
+	return
+
 /datum/species/proc/disarm_attackhand(var/mob/living/carbon/human/attacker, var/mob/living/carbon/human/target)
 	attacker.do_attack_animation(target)
 
@@ -479,3 +505,14 @@
 
 	playsound(target.loc, 'sound/weapons/punchmiss.ogg', 25, 1, -1)
 	target.visible_message("<span class='danger'>[attacker] attempted to disarm \the [target]!</span>")
+
+/datum/species/proc/disfigure_msg(var/mob/living/carbon/human/H) //Used for determining the message a disfigured face has on examine. To add a unique message, just add this onto a specific species and change the "return" message.
+	var/datum/gender/T = gender_datums[H.get_gender()]
+	return "<span class='danger'>[T.His] face is horribly mangled!</span>\n"
+
+/datum/species/proc/max_skin_tone()
+	if(appearance_flags & HAS_SKIN_TONE_GRAV)
+		return 100
+	if(appearance_flags & HAS_SKIN_TONE_SPCR)
+		return 165
+	return 220

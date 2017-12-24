@@ -398,8 +398,12 @@
 	if(!outfit)
 		return
 
+	var/reset_equipment = (outfit.flags&OUTFIT_RESET_EQUIPMENT)
+	if(!reset_equipment)
+		reset_equipment = alert("Do you wish to delete all current equipment first?", "Delete Equipment?","Yes", "No") == "Yes"
+
 	feedback_add_details("admin_verb","SEQ")
-	dressup_human(H, outfit)
+	dressup_human(H, outfit, reset_equipment)
 
 /proc/dressup_human(var/mob/living/carbon/human/H, var/decl/hierarchy/outfit/outfit, var/undress = TRUE)
 	if(!H || !outfit)
@@ -537,3 +541,37 @@
 	if(!ishuman(H))	return
 	cmd_analyse_health(H)
 	feedback_add_details("admin_verb","ANLS") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+/obj/effect/debugmarker
+	icon = 'icons/effects/lighting_overlay.dmi'
+	icon_state = "transparent"
+	plane = ABOVE_TURF_PLANE
+	layer = HOLOMAP_LAYER
+	alpha = 127
+
+/client/var/list/image/powernet_markers = list()
+/client/proc/visualpower()
+	set category = "Debug"
+	set name = "Visualize Powernets"
+
+	if(!check_rights(R_DEBUG)) return
+	visualpower_remove()
+	powernet_markers = list()
+
+	for(var/datum/powernet/PN in SSmachines.powernets)
+		var/netcolor = rgb(rand(100,255),rand(100,255),rand(100,255))
+		for(var/obj/structure/cable/C in PN.cables)
+			var/image/I = image('icons/effects/lighting_overlay.dmi', get_turf(C), "transparent")
+			I.plane = ABOVE_TURF_PLANE
+			I.alpha = 127
+			I.color = netcolor
+			I.maptext = "\ref[PN]"
+			powernet_markers += I
+	images += powernet_markers
+
+/client/proc/visualpower_remove()
+	set category = "Debug"
+	set name = "Remove Powernets Visuals"
+
+	images -= powernet_markers
+	QDEL_NULL_LIST(powernet_markers)

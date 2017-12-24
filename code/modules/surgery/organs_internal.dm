@@ -18,7 +18,7 @@
 	if(!affected)
 		return 0
 	if(affected.robotic >= ORGAN_ROBOT)
-		return affected.hatch == 3
+		return affected.hatch_state == HATCH_OPENED
 	else
 		return affected.open() == (affected.encased ? SURGERY_ENCASED : SURGERY_RETRACTED)
 
@@ -140,7 +140,7 @@
 
 	if(!affected)
 		return 0
-	
+
 	if(affected.robotic >= ORGAN_ROBOT)
 		return 0
 
@@ -289,6 +289,10 @@
 	var/o_is = (O.gender == PLURAL) ? "are" : "is"
 	var/o_a =  (O.gender == PLURAL) ? "" : "a "
 
+	if(O.organ_tag == BP_POSIBRAIN && !target.species.has_organ[BP_POSIBRAIN])
+		to_chat(user, "<span class='warning'>There's no place in [target] to fit \the [O.organ_tag].</span>")
+		return SURGERY_FAILURE
+
 	if(O.damage > (O.max_damage * 0.75))
 		to_chat(user, "<span class='warning'>\The [O.name] [o_is] in no state to be transplanted.</span>")
 		return SURGERY_FAILURE
@@ -369,7 +373,7 @@
 		to_chat(user, "<span class='warning'>You can't find anywhere to attach [organ_to_replace] to!</span>")
 		return SURGERY_FAILURE
 
-	target.op_stage.current_organ = organ_to_replace.name
+	target.op_stage.current_organ = organ_to_replace
 	return ..()
 
 /datum/surgery_step/internal/attach_organ/begin_step(mob/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
@@ -446,7 +450,7 @@
 		to_chat(user, "<span class='notice'>The [organ_to_fix.name] needs to be repaired before it is regenerated.</span>")
 		return 0
 
-	target.op_stage.current_organ = organ_to_fix.name
+	target.op_stage.current_organ = organ_to_fix
 
 	return 1
 
@@ -462,20 +466,21 @@
 	var/obj/item/weapon/reagent_containers/container = tool
 
 	var/amount = container.amount_per_transfer_from_this
-	var/datum/reagents/temp = new(amount)
-	container.reagents.trans_to_holder(temp, amount)
+	var/datum/reagents/temp_reagents = new(amount, GLOB.temp_reagents_holder)
+	container.reagents.trans_to_holder(temp_reagents, amount)
 
-	var/rejuvenate = temp.has_reagent(/datum/reagent/peridaxon)
+	var/rejuvenate = temp_reagents.has_reagent(/datum/reagent/peridaxon)
 
-	var/trans = temp.trans_to_mob(target, temp.total_volume, CHEM_BLOOD) //technically it's contact, but the reagents are being applied to internal tissue
+	var/trans = temp_reagents.trans_to_mob(target, temp_reagents.total_volume, CHEM_BLOOD) //technically it's contact, but the reagents are being applied to internal tissue
 	if (trans > 0)
 
 		if(rejuvenate)
 			affected.status &= ~ORGAN_DEAD
 			affected.owner.update_body(1)
 
-		user.visible_message("<span class='notice'>[user] applies [trans] units of the solution to affected tissue in [target]'s [affected.name]</span>.", \
-			"<span class='notice'>You apply [trans] units of the solution to affected tissue in [target]'s [affected.name] with \the [tool].</span>")
+		user.visible_message("<span class='notice'>[user] applies [trans] unit\s of the solution to affected tissue in [target]'s [affected.name]</span>.", \
+			"<span class='notice'>You apply [trans] unit\s of the solution to affected tissue in [target]'s [affected.name] with \the [tool].</span>")
+	qdel(temp_reagents)
 
 /datum/surgery_step/internal/treat_necrosis/fail_step(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 	var/obj/item/organ/external/affected = target.get_organ(target_zone)

@@ -25,7 +25,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	//Secondary variables
 	var/scanmode = 0 //1 is medical scanner, 2 is forensics, 3 is reagent scanner.
 	var/fon = 0 //Is the flashlight function on?
-	var/f_lum = 2 //Luminosity for the flashlight function
+	var/f_lum = 3 //Luminosity for the flashlight function
 	var/message_silent = 0 //To beep or not to beep, that is the question
 	var/news_silent = 1 //To beep or not to beep, that is the question.  The answer is No.
 	var/toff = 0 //If 1, messenger disabled
@@ -337,6 +337,15 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	else
 		return 0
 
+/obj/item/device/pda/proc/toggle_light()
+	if(can_use())
+		if(fon)
+			fon = 0
+			set_light(0)
+		else
+			fon = 1
+			set_light(f_lum)
+
 /obj/item/device/pda/GetAccess()
 	if(id)
 		return id.GetAccess()
@@ -429,6 +438,9 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	var/has_reception = reception.telecomms_reception & TELECOMMS_RECEPTION_SENDER
 	data["reception"] = has_reception
 
+	if(mode==41)
+		data["crew_manifest"] = html_crew_manifest(1, 0)
+
 	if(mode==2)
 		var/convopdas[0]
 		var/pdas[0]
@@ -458,9 +470,6 @@ var/global/list/obj/item/device/pda/PDAs = list()
 				data["convo_name"] = sanitize(c["owner"])
 				data["convo_job"] = sanitize(c["job"])
 				break
-	if(mode==41)
-		GLOB.data_core.get_manifest_list()
-
 
 	if(mode==3)
 		var/turf/T = get_turf(user.loc)
@@ -530,7 +539,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 		data["feed"] = feed
 
-	data["manifest"] = PDA_Manifest
+	data["manifest"] = nano_crew_manifest()
 
 	nanoUI = data
 	// update the ui if it exists, returns null if no ui is passed/found
@@ -639,12 +648,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 //MAIN FUNCTIONS===================================
 
 		if("Light")
-			if(fon)
-				fon = 0
-				set_light(0)
-			else
-				fon = 1
-				set_light(f_lum)
+			toggle_light()
 		if("Medical Scan")
 			if(scanmode == 1)
 				scanmode = 0
@@ -958,6 +962,9 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	if(Adjacent(usr))
 		verb_remove_id()
 
+/obj/item/device/pda/CtrlAltClick()
+	toggle_light()
+
 /obj/item/device/pda/proc/create_message(var/mob/living/U = usr, var/obj/item/device/pda/P, var/tap = 1)
 	if(!istype(P))
 		to_chat(U, "<span class='notice'>ERROR: This user does not accept messages.</span>")
@@ -1008,7 +1015,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 		tnote.Add(list(list("sent" = 1, "owner" = "[P.owner]", "job" = "[P.ownjob]", "message" = "[t]", "target" = "\ref[P]")))
 		P.tnote.Add(list(list("sent" = 0, "owner" = "[owner]", "job" = "[ownjob]", "message" = "[t]", "target" = "\ref[src]")))
 		for(var/mob/M in GLOB.player_list)
-			if(M.stat == DEAD && M.is_preference_enabled(/datum/client_preference/ghost_ears)) // src.client is so that ghosts don't have to listen to mice
+			if(M.stat == DEAD && M.get_preference_value(/datum/client_preference/ghost_ears) == GLOB.PREF_ALL_SPEECH) // src.client is so that ghosts don't have to listen to mice
 				if(istype(M, /mob/new_player))
 					continue
 				M.show_message("<span class='game say'>PDA Message - <span class='name'>[owner]</span> -> <span class='name'>[P.owner]</span>: <span class='message'>[t]</span></span>")

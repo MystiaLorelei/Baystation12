@@ -2,7 +2,7 @@
 
 SUBSYSTEM_DEF(processing)
 	name = "Processing"
-	priority = 25
+	priority = SS_PRIORITY_PROCESSING
 	flags = SS_BACKGROUND|SS_POST_FIRE_TIMING|SS_NO_INIT
 	wait = 10
 
@@ -25,7 +25,8 @@ SUBSYSTEM_DEF(processing)
 		var/datum/thing = current_run[current_run.len]
 		current_run.len--
 		if(QDELETED(thing) || (call(thing, process_proc)(wait, times_fired) == PROCESS_KILL))
-			thing.is_processing = null
+			if(thing)
+				thing.is_processing = null
 			processing -= thing
 		if (MC_TICK_CHECK)
 			return

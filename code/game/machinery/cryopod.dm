@@ -66,8 +66,7 @@
 	onclose(user, "cryopod_console")
 
 /obj/machinery/computer/cryopod/Topic(href, href_list)
-
-	if(..())
+	if((. = ..()))
 		return
 
 	var/mob/user = usr
@@ -221,9 +220,8 @@
 /obj/machinery/cryopod/lifepod/Initialize()
 	. = ..()
 	airtank = new()
-	var/turf/T = get_turf(src)
-	if(T)
-		airtank.copy_from(T.air)
+	airtank.adjust_gas("oxygen", MOLES_O2STANDARD, 0)
+	airtank.adjust_gas("nitrogen", MOLES_N2STANDARD)
 
 /obj/machinery/cryopod/lifepod/return_air()
 	return airtank
@@ -400,18 +398,9 @@
 			//current_mode.possible_traitors.Remove(occupant)
 
 	// Delete them from datacore.
-
-	if(PDA_Manifest.len)
-		PDA_Manifest.Cut()
-	for(var/datum/data/record/R in GLOB.data_core.medical)
-		if ((R.fields["name"] == occupant.real_name))
-			qdel(R)
-	for(var/datum/data/record/T in GLOB.data_core.security)
-		if ((T.fields["name"] == occupant.real_name))
-			qdel(T)
-	for(var/datum/data/record/G in GLOB.data_core.general)
-		if ((G.fields["name"] == occupant.real_name))
-			qdel(G)
+	var/datum/computer_file/crew_record/R = get_crewmember_record(occupant.real_name)
+	if(R)
+		qdel(R)
 
 	icon_state = base_icon_state
 

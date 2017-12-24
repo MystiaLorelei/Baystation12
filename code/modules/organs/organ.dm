@@ -172,9 +172,11 @@ var/list/organ_cache = list()
 	// immunosuppressant that changes transplant data to make it match.
 	if(owner.virus_immunity() < 10) //for now just having shit immunity will suppress it
 		return
+	if(isrobotic())
+		return
 	if(dna)
 		if(!rejecting)
-			if(blood_incompatible(dna.b_type, owner.dna.b_type, species, owner.species))
+			if(owner.blood_incompatible(dna.b_type, species))
 				rejecting = 1
 		else
 			rejecting++ //Rejection severity increases over time.
@@ -280,7 +282,8 @@ var/list/organ_cache = list()
 /obj/item/organ/proc/replaced(var/mob/living/carbon/human/target, var/obj/item/organ/external/affected)
 	owner = target
 	forceMove(owner) //just in case
-
+	if(isrobotic())
+		set_dna(owner.dna)
 	return 1
 
 /obj/item/organ/attack(var/mob/target, var/mob/user)

@@ -18,8 +18,7 @@
 		/obj/item/device/radio,
 		/obj/item/weapon/pen,
 		/obj/item/device/tape/random,
-		/obj/item/clothing/suit/storage/vest/solgov/command,
-		/obj/item/clothing/accessory/holster/thigh,
+		/obj/item/clothing/suit/armor/pcarrier/medium/command,
 		/obj/item/device/taperecorder,
 		/obj/item/device/flash,
 		/obj/item/device/megaphone,
@@ -27,7 +26,7 @@
 		/obj/item/weapon/storage/belt/utility/full,
 		/obj/item/weapon/folder/blue,
 		/obj/item/device/radio/headset/pilot,
-		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack, /obj/item/weapon/storage/backpack/satchel_norm)),
+		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack, /obj/item/weapon/storage/backpack/satchel/grey)),
 		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack/dufflebag, /obj/item/weapon/storage/backpack/messenger)),
 		new /datum/atom_creator/weighted(list(/obj/item/device/flashlight, /obj/item/device/flashlight/flare, /obj/item/device/flashlight/glowstick/random))
 	)
@@ -52,7 +51,8 @@
 		/obj/item/device/radio/beacon,
 		/obj/item/clothing/glasses/science,
 		/obj/item/taperoll/research,
-		/obj/item/weapon/material/hatchet/machete,
+		/obj/item/weapon/material/hatchet/machete/deluxe,
+		/obj/item/clothing/accessory/holster/machete,
 		/obj/item/weapon/storage/plants,
 		/obj/item/device/spaceflare,
 		/obj/item/clothing/gloves/thick/botany,
@@ -64,7 +64,9 @@
 		/obj/item/weapon/clipboard,
 		/obj/item/weapon/folder/blue,
 		/obj/item/device/radio/headset/pathfinder,
-		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack, /obj/item/weapon/storage/backpack/satchel_norm)),
+		/obj/item/weapon/storage/box/encryptionkey/exploration,
+		/obj/item/device/binoculars,
+		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack, /obj/item/weapon/storage/backpack/satchel/grey)),
 		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack/dufflebag, /obj/item/weapon/storage/backpack/messenger)),
 		new /datum/atom_creator/weighted(list(/obj/item/device/flashlight, /obj/item/device/flashlight/flare, /obj/item/device/flashlight/glowstick/random))
 	)
@@ -89,6 +91,7 @@
 		/obj/item/clothing/glasses/science,
 		/obj/item/taperoll/research,
 		/obj/item/weapon/material/hatchet/machete,
+		/obj/item/clothing/accessory/holster/machete,
 		/obj/item/device/spaceflare,
 		/obj/item/clothing/gloves/thick/botany,
 		/obj/item/weapon/storage/plants,
@@ -96,7 +99,8 @@
 		/obj/item/device/analyzer,
 		/obj/item/device/slime_scanner,
 		/obj/item/device/radio/headset/exploration,
-		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack, /obj/item/weapon/storage/backpack/satchel_norm)),
+		/obj/item/device/binoculars,
+		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack, /obj/item/weapon/storage/backpack/satchel/grey)),
 		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack/dufflebag, /obj/item/weapon/storage/backpack/messenger)),
 		new /datum/atom_creator/weighted(list(/obj/item/device/flashlight, /obj/item/device/flashlight/flare, /obj/item/device/flashlight/glowstick/random))
 	)

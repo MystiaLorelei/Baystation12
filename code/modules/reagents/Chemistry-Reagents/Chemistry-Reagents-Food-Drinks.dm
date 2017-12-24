@@ -94,12 +94,12 @@
 	..()
 
 	if(alien == IS_UNATHI)
-		if(dose < 2)
-			if(dose == metabolism * 2 || prob(5))
+		if(M.chem_doses[type] < 2)
+			if(M.chem_doses[type] == metabolism * 2 || prob(5))
 				M.emote("yawn")
-		else if(dose < 5)
+		else if(M.chem_doses[type] < 5)
 			M.eye_blurry = max(M.eye_blurry, 10)
-		else if(dose < 20)
+		else if(M.chem_doses[type] < 20)
 			if(prob(50))
 				M.Weaken(2)
 			M.drowsyness = max(M.drowsyness, 20)
@@ -156,6 +156,14 @@
 	reagent_state = LIQUID
 	nutriment_factor = 5
 	color = "#4f330f"
+
+/datum/reagent/nutriment/garlicsauce
+	name = "Garlic Sauce"
+	description = "Garlic sauce, perfect for spicing up a plate of garlic."
+	taste_description = "garlic"
+	reagent_state = LIQUID
+	nutriment_factor = 4
+	color = "#d8c045"
 
 /datum/reagent/nutriment/rice
 	name = "Rice"
@@ -301,8 +309,8 @@
 		var/mob/living/carbon/human/H = M
 		if(!H.can_feel_pain())
 			return
-	if(dose < agony_dose)
-		if(prob(5) || dose == metabolism) //dose == metabolism is a very hacky way of forcing the message the first time this procs
+	if(M.chem_doses[type] < agony_dose)
+		if(prob(5) || M.chem_doses[type] == metabolism) //dose == metabolism is a very hacky way of forcing the message the first time this procs
 			to_chat(M, discomfort_message)
 	else
 		M.apply_effect(agony_amount, PAIN, 0)
@@ -376,15 +384,15 @@
 		message = "<span class='danger'>Your face and throat burn!</span>"
 		if(prob(25))
 			M.custom_emote(2, "[pick("coughs!","coughs hysterically!","splutters!")]")
-		M.Stun(5)
 		M.Weaken(5)
+		M.Stun(6)
 
-/datum/reagent/condensedcapsaicin/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed)
+/datum/reagent/capsaicin/condensed/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(!H.can_feel_pain())
 			return
-	if(dose == metabolism)
+	if(M.chem_doses[type] == metabolism)
 		to_chat(M, "<span class='danger'>You feel like your insides are burning!</span>")
 	else
 		M.apply_effect(4, PAIN, 0)
@@ -425,7 +433,7 @@
 /datum/reagent/drink/juice/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed)
 	..()
 	M.immunity = min(M.immunity + 0.25, M.immunity_norm*1.5)
-	var/effective_dose = dose/2
+	var/effective_dose = M.chem_doses[type]/2
 	if(alien == IS_UNATHI)
 		if(effective_dose < 2)
 			if(effective_dose == metabolism * 2 || prob(5))
@@ -545,6 +553,26 @@
 
 	glass_name = "potato juice"
 	glass_desc = "Juice from a potato. Bleh."
+
+/datum/reagent/drink/juice/garlic
+	name = "Garlic Juice"
+	description = "Who would even drink this?"
+	taste_description = "bad breath"
+	nutrition = 1
+	color = "#eeddcc"
+
+	glass_name = "garlic juice"
+	glass_desc = "Who would even drink juice from garlic?"
+
+/datum/reagent/drink/juice/onion
+	name = "Onion Juice"
+	description = "Juice from an onion, for when you need to cry."
+	taste_description = "stinging tears"
+	nutrition = 1
+	color = "#ffeedd"
+
+	glass_name = "onion juice"
+	glass_desc = "Juice from an onion, for when you need to cry."
 
 /datum/reagent/drink/juice/tomato
 	name = "Tomato Juice"
@@ -825,7 +853,7 @@
 /datum/reagent/milkshake/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed)
 	..()
 
-	var/effective_dose = dose/2
+	var/effective_dose = M.chem_doses[type]/2
 	if(alien == IS_UNATHI)
 		if(effective_dose < 2)
 			if(effective_dose == metabolism * 2 || prob(5))
@@ -1225,7 +1253,7 @@
 
 /datum/reagent/ethanol/vodka
 	name = "Vodka"
-	description = "Number one drink AND fueling choice for Russians galaxywide."
+	description = "Number one drink AND fueling choice for Terrans around the galaxy."
 	taste_description = "grain alcohol"
 	color = "#0064c8" // rgb: 0, 100, 200
 	strength = 15
@@ -1236,6 +1264,13 @@
 /datum/reagent/ethanol/vodka/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed)
 	..()
 	M.apply_effect(max(M.radiation - 1 * removed, 0), IRRADIATE, blocked = 0)
+
+/datum/reagent/ethanol/vodka/premium
+	name = "Premium Vodka"
+	description = "Premium distilled vodka imported directly from the Terran Colonial Confederation."
+	taste_description = "clear kvass"
+	color = "#aaddff" // rgb: 170, 221, 255 - very light blue.
+	strength = 10
 
 /datum/reagent/ethanol/whiskey
 	name = "Whiskey"
@@ -1257,8 +1292,24 @@
 	glass_name = "wine"
 	glass_desc = "A very classy looking drink."
 
-// Cocktails
+/datum/reagent/ethanol/wine/premium
+	name = "White Wine"
+	description = "An exceptionally expensive alchoholic beverage made from distilled white grapes."
+	taste_description = "white velvet"
+	color = "#ffddaa" // rgb: 255, 221, 170 - a light cream
+	strength = 20
 
+/datum/reagent/ethanol/herbal
+	name = "Herbal Liquor"
+	description = "A complex blend of herbs, spices and roots mingle in this old Earth classic."
+	taste_description = "a sweet summer garden"
+	color = "#dfff00"
+	strength = 13
+
+	glass_name = "herbal liquor"
+	glass_desc = "It's definitely green. Or is it yellow?"
+
+// Cocktails
 /datum/reagent/ethanol/acid_spit
 	name = "Acid Spit"
 	description = "A drink for the daring, can be deadly if incorrectly prepared!"
@@ -1525,7 +1576,6 @@
 	color = "#ffbb00"
 	strength = 100
 
-
 	glass_name = "grog"
 	glass_desc = "A fine and cepa drink for Space."
 
@@ -1689,6 +1739,46 @@
 	glass_name = "margarita"
 	glass_desc = "On the rocks with salt on the rim. Arriba~!"
 
+/datum/reagent/ethanol/battuta
+	name = "Ibn Batutta"
+	description = "One of the Official Cocktails of the Expeditionary Corps, celebrating Muhammad Ibn Battuta."
+	taste_description = "a Moroccan garden"
+	color = "#dfbe00"
+	strength = 18
+
+	glass_name = "Ibn Batutta cocktail"
+	glass_desc = "A refreshing blend of herbal liquor, the juice of an orange and a hint of mint. Named for Muhammad Ibn Battuta, whose travels spanned from Mali eastward to China in the 14th century."
+
+/datum/reagent/ethanol/magellan
+	name = "Magellan"
+	description = "One of the Official Cocktails of the Expeditionary Corps, celebrating Ferdinand Magellan."
+	taste_description = "an aristrocatic experience"
+	color = "#6b3535"
+	strength = 13
+
+	glass_name = "Magellan cocktail"
+	glass_desc = "A tasty sweetened blend of wine and fine whiskey. Named for Ferdinand Magellan, who led the first expedition to circumnavigate Earth in the 15th century."
+
+/datum/reagent/ethanol/zhenghe
+	name = "Zheng He"
+	description = "One of the Official Cocktails of the Expeditionary Corps, celebrating Zheng He."
+	taste_description = "herbal bitterness"
+	color = "#173b06"
+	strength = 20
+
+	glass_name = "Zheng He cocktail"
+	glass_desc = "A rather bitter blend of vermouth and well-steeped black tea. Named for Zheng He, who travelled from Nanjing in China as far as Mogadishu in the Horn of Africa in the 15th century."
+
+/datum/reagent/ethanol/armstrong
+	name = "Armstrong"
+	description = "One of the Official Cocktails of the Expeditionary Corps, celebrating Neil Armstrong."
+	taste_description = "limes and alcoholic beer"
+	color = "#ffd300"
+	strength = 15
+
+	glass_name = "Armstrong cocktail"
+	glass_desc = "Beer, vodka and lime come together in this instant classic. Named for Neil Armstrong, who was the first man to set foot on Luna, in the 20th century."
+
 /datum/reagent/ethanol/mead
 	name = "Mead"
 	description = "A Viking's drink, though a cheap one."
@@ -1754,13 +1844,13 @@
 
 /datum/reagent/ethanol/pwine/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed)
 	..()
-	if(dose > 30)
+	if(M.chem_doses[type] > 30)
 		M.adjustToxLoss(2 * removed)
-	if(dose > 60 && ishuman(M) && prob(5))
+	if(M.chem_doses[type] > 60 && ishuman(M) && prob(5))
 		var/mob/living/carbon/human/H = M
 		var/obj/item/organ/internal/heart/L = H.internal_organs_by_name[BP_HEART]
 		if (L && istype(L))
-			if(dose < 120)
+			if(M.chem_doses[type] < 120)
 				L.take_damage(10 * removed, 0)
 			else
 				L.take_damage(100, 0)

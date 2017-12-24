@@ -168,6 +168,10 @@
 	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
 	startswith = list(/obj/item/ammo_casing/a145 = 7)
 
+/obj/item/weapon/storage/box/sniperammo/apds
+	name = "box of 14.5mm APDS shells"
+	startswith = list(/obj/item/ammo_casing/a145/apds = 3)
+
 /obj/item/weapon/storage/box/flashbangs
 	name = "box of flashbangs"
 	desc = "A box containing 7 antipersonnel flashbang grenades.<br> WARNING: These devices are extremely dangerous and can cause blindness or deafness from repeated use."
@@ -298,6 +302,12 @@
 	icon_state = "id"
 	startswith = list(/obj/item/weapon/card/id = 7)
 
+/obj/item/weapon/storage/box/large/ids
+	name = "box of spare IDs"
+	desc = "Has so, so many empty IDs."
+	icon_state = "id_large"
+	startswith = list(/obj/item/weapon/card/id = 14)
+
 /obj/item/weapon/storage/box/seccarts
 	name = "box of spare R.O.B.U.S.T. Cartridges"
 	desc = "A box full of R.O.B.U.S.T. Cartridges, used by Security."
@@ -349,6 +359,8 @@
 			W.damtype = "burn"
 			W.icon_state = "match_lit"
 			START_PROCESSING(SSobj, W)
+			playsound(src.loc, 'sound/items/match.ogg', 60, 1, -4)
+			user.visible_message("<span class='notice'>[user] strikes the match on the matchbox.</span>")
 		W.update_icon()
 		return
 
@@ -461,11 +473,6 @@
 
 //Spare Armbands
 
-/obj/item/weapon/storage/box/armband
-	name = "box of spare military police armbands"
-	desc = "A box full of security armbands. For use in emergencies when provisional security personnel are needed."
-	startswith = list(/obj/item/clothing/accessory/armband/mp = 5)
-
 /obj/item/weapon/storage/box/armband/engine
 	name = "box of spare engineering armbands"
 	desc = "A box full of engineering armbands. For use in emergencies when provisional engineering peronnel are needed."
@@ -475,3 +482,12 @@
 	name = "box of spare medical armbands"
 	desc = "A box full of medical armbands. For use in emergencies when provisional medical personnel are needed."
 	startswith = list(/obj/item/clothing/accessory/armband/med = 5)
+
+/obj/item/weapon/storage/box/imprinting
+	name = "box of education implants"
+	desc = "A box full of neural implants for on-job training."
+	startswith = list(
+		/obj/item/weapon/implanter,
+		/obj/item/weapon/implantpad,
+		/obj/item/weapon/implantcase/imprinting = 3
+		)

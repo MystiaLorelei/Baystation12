@@ -101,9 +101,9 @@
 /client/proc/cmd_admin_world_narrate() // Allows administrators to fluff events a little easier -- TLE
 	set category = "Special Verbs"
 	set name = "Global Narrate"
+	set desc = "Narrate to everyone."
 
-	if (!holder)
-		to_chat(src, "Only administrators may use this command.")
+	if(!check_rights(R_ADMIN))
 		return
 
 	var/msg = sanitize(input("Message:", text("Enter the text you wish to appear to everyone:")) as text)
@@ -115,12 +115,13 @@
 	log_and_message_admins(" - GlobalNarrate: [msg]")
 	feedback_add_details("admin_verb","GLN") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
-/client/proc/cmd_admin_direct_narrate(var/mob/M)	// Targetted narrate -- TLE
+// Targetted narrate: will narrate to one specific mob
+/client/proc/cmd_admin_direct_narrate(var/mob/M)
 	set category = "Special Verbs"
 	set name = "Direct Narrate"
+	set desc = "Narrate to a specific mob."
 
-	if(!holder)
-		to_chat(src, "Only administrators may use this command.")
+	if(!check_rights(R_ADMIN))
 		return
 
 	if(!M)
@@ -138,6 +139,73 @@
 	log_and_message_admins(" - DirectNarrate to ([M.name]/[M.key]): [msg]")
 	feedback_add_details("admin_verb","DIRN") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
+// Local narrate, narrates to everyone who can see where you are regardless of whether they are blind or deaf.
+/client/proc/cmd_admin_local_narrate()
+	set category = "Special Verbs"
+	set name = "Local Narrate"
+	set desc = "Narrate to everyone who can see the turf your mob is on."
+
+	if(!check_rights(R_ADMIN))
+		return
+
+	var/msg = sanitize(input("Message:", text("Enter the text you wish to appear to your target:")) as text)
+
+	if( !msg )
+		return
+
+	var/list/listening_hosts = hosts_in_view_range(usr)
+
+	for(var/listener in listening_hosts)
+		to_chat(listener, msg)
+	log_and_message_admins(" - LocalNarrate: [msg]")
+
+// Visible narrate, it's as if it's a visible message
+/client/proc/cmd_admin_visible_narrate(var/atom/A)
+	set category = "Special Verbs"
+	set name = "Visible Narrate"
+	set desc = "Narrate to those who can see the given atom."
+
+	if(!check_rights(R_ADMIN))
+		return
+
+	var/mob/M = mob
+
+	if(!M)
+		to_chat(src, "You must be in control of a mob to use this.")
+		return
+
+	var/msg = sanitize(input("Message:", text("Enter the text you wish to appear to your target:")) as text)
+
+	if( !msg )
+		return
+
+	M.visible_message(msg, narrate = TRUE)
+	log_and_message_admins(" - VisibleNarrate on [A]: [msg]")
+
+// Visible narrate, it's as if it's a audible message
+/client/proc/cmd_admin_audible_narrate(var/atom/A)
+	set category = "Special Verbs"
+	set name = "Audible Narrate"
+	set desc = "Narrate to those who can hear the given atom."
+
+	if(!holder)
+		to_chat(src, "Only administrators may use this command.")
+		return
+
+	var/mob/M = mob
+
+	if(!M)
+		to_chat(src, "You must be in control of a mob to use this.")
+		return
+
+	var/msg = sanitize(input("Message:", text("Enter the text you wish to appear to your target:")) as text)
+
+	if( !msg )
+		return
+
+	M.audible_message(msg, narrate = TRUE)
+	log_and_message_admins(" - AudibleNarrate on [A]: [msg]")
+
 /client/proc/cmd_admin_godmode(mob/M as mob in SSmobs.mob_list)
 	set category = "Special Verbs"
 	set name = "Godmode"
@@ -149,7 +217,6 @@
 	log_admin("[key_name(usr)] has toggled [key_name(M)]'s nodamage to [(M.status_flags & GODMODE) ? "On" : "Off"]")
 	message_admins("[key_name_admin(usr)] has toggled [key_name_admin(M)]'s nodamage to [(M.status_flags & GODMODE) ? "On" : "Off"]", 1)
 	feedback_add_details("admin_verb","GOD") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-
 
 proc/cmd_admin_mute(mob/M as mob, mute_type)
 	if(!usr || !usr.client)
@@ -362,21 +429,15 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	var/mob/living/carbon/human/new_character = new(pick(GLOB.latejoin))//The mob being spawned.
 
-	var/datum/data/record/record_found			//Referenced to later to either randomize or not randomize the character.
-	if(G_found.mind && !G_found.mind.active)	//mind isn't currently in use by someone/something
-		/*Try and locate a record for the person being respawned through data_core.
-		This isn't an exact science but it does the trick more often than not.*/
-		var/id = md5("[G_found.real_name][G_found.mind.assigned_role]")
-		for(var/datum/data/record/t in GLOB.data_core.locked)
-			if(t.fields["id"]==id)
-				record_found = t//We shall now reference the record.
-				break
+	var/datum/computer_file/crew_record/record_found			//Referenced to later to either randomize or not randomize the character.
+	if(G_found.mind && !G_found.mind.active)
+		record_found = get_crewmember_record(G_found.real_name)
 
 	if(record_found)//If they have a record we can determine a few things.
-		new_character.real_name = record_found.fields["name"]
-		new_character.gender = record_found.fields["sex"]
-		new_character.age = record_found.fields["age"]
-		new_character.b_type = record_found.fields["b_type"]
+		new_character.real_name = record_found.get_name()
+		new_character.gender = record_found.get_sex()
+		new_character.age = record_found.get_age()
+		new_character.b_type = record_found.get_bloodtype()
 	else
 		new_character.gender = pick(MALE,FEMALE)
 		var/datum/preferences/A = new()
@@ -399,19 +460,9 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!new_character.mind.assigned_role)	new_character.mind.assigned_role = "Assistant"//If they somehow got a null assigned role.
 
 	//DNA
+	new_character.dna.ready_dna(new_character)
 	if(record_found)//Pull up their name from database records if they did have a mind.
-		new_character.dna = new()//Let's first give them a new DNA.
-		new_character.dna.unique_enzymes = record_found.fields["b_dna"]//Enzymes are based on real name but we'll use the record for conformity.
-
-		// I HATE BYOND.  HATE.  HATE. - N3X
-		var/list/newSE= record_found.fields["enzymes"]
-		var/list/newUI = record_found.fields["identity"]
-		new_character.dna.SE = newSE.Copy() //This is the default of enzymes so I think it's safe to go with.
-		new_character.dna.UpdateSE()
-		new_character.UpdateAppearance(newUI.Copy())//Now we configure their appearance based on their unique identity, same as with a DNA machine or somesuch.
-	else//If they have no records, we just do a random DNA for them, based on their random appearance/savefile.
-		new_character.dna.ready_dna(new_character)
-
+		new_character.dna.unique_enzymes = record_found.get_dna()//Enzymes are based on real name but we'll use the record for conformity.
 	new_character.key = G_found.key
 
 	/*
@@ -433,10 +484,6 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	//Announces the character on all the systems, based on the record.
 	if(!issilicon(new_character))//If they are not a cyborg/AI.
 		if(!record_found && !player_is_antag(new_character.mind, only_offstation_roles = 1)) //If there are no records for them. If they have a record, this info is already in there. MODE people are not announced anyway.
-			//Power to the user!
-			if(alert(new_character,"Warning: No data core entry detected. Would you like to announce the arrival of this character by adding them to various databases, such as medical records?",,"No","Yes")=="Yes")
-				GLOB.data_core.manifest_inject(new_character)
-
 			if(alert(new_character,"Would you like an active AI to announce this character?",,"No","Yes")=="Yes")
 				call(/proc/AnnounceArrival)(new_character, new_character.mind.assigned_role)
 

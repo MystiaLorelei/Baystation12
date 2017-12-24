@@ -80,8 +80,6 @@
 	if(byond_version < RECOMMENDED_VERSION)
 		world.log << "Your server's byond version does not meet the recommended requirements for this server. Please update BYOND"
 
-	config.post_load()
-
 	if(config && config.server_name != null && config.server_suffix && world.port > 0)
 		// dumb and hardcoded but I don't care~
 		config.server_name += " #[(world.port % 1000) / 100]"
@@ -110,8 +108,7 @@
 	populate_material_list()
 
 	if(config.generate_map)
-		if(GLOB.using_map.perform_map_generation())
-			GLOB.using_map.refresh_mining_turfs()
+		GLOB.using_map.perform_map_generation()
 	GLOB.using_map.build_exoplanets()
 
 	// Create robolimbs for chargen.
@@ -128,10 +125,6 @@
 	spawn(1)
 		initialize_unit_tests()
 #endif
-
-	spawn(3000)		//so we aren't adding to the round-start lag
-		if(config.ToRban)
-			ToRban_autoupdate()
 
 #undef RECOMMENDED_VERSION
 
@@ -171,45 +164,36 @@ var/world_topic_spam_protect_time = world.timeofday
 		s["roundduration"] = roundduration2text()
 		s["map"] = GLOB.using_map.full_name
 
-		if(input["status"] == "2")
-			var/list/players = list()
-			var/list/admins = list()
+		var/active = 0
+		var/list/players = list()
+		var/list/admins = list()
+		var/legacy = input["status"] != "2"
+		for(var/client/C in GLOB.clients)
+			if(C.holder)
+				if(C.is_stealthed())
+					continue	//so stealthmins aren't revealed by the hub
+				admins[C.key] = C.holder.rank
+			if(legacy)
+				s["player[players.len]"] = C.key
+			players += C.key
+			if(istype(C.mob, /mob/living))
+				active++
 
-			for(var/client/C in GLOB.clients)
-				if(C.holder)
-					if(C.is_stealthed())
-						continue
-					admins[C.key] = C.holder.rank
-				players += C.key
-
-			s["players"] = players.len
+		s["players"] = players.len
+		s["admins"] = admins.len
+		if(!legacy)
 			s["playerlist"] = list2params(players)
-			s["admins"] = admins.len
 			s["adminlist"] = list2params(admins)
-		else
-			var/n = 0
-			var/admins = 0
-
-			for(var/client/C in GLOB.clients)
-				if(C.holder)
-					if(C.is_stealthed())
-						continue	//so stealthmins aren't revealed by the hub
-					admins++
-				s["player[n]"] = C.key
-				n++
-
-			s["players"] = n
-			s["admins"] = admins
+			s["active_players"] = active
 
 		return list2params(s)
 
 	else if(T == "manifest")
-		GLOB.data_core.get_manifest_list()
 		var/list/positions = list()
-
+		var/list/nano_crew_manifest = nano_crew_manifest()
 		// We rebuild the list in the format external tools expect
-		for(var/dept in PDA_Manifest)
-			var/list/dept_list = PDA_Manifest[dept]
+		for(var/dept in nano_crew_manifest)
+			var/list/dept_list = nano_crew_manifest[dept]
 			if(dept_list.len > 0)
 				positions[dept] = list()
 				for(var/list/person in dept_list)
