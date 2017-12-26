@@ -5,6 +5,7 @@
 	icon_override = 'icons/mob/species/resomi/resomi_cloak.dmi'
 	icon_state = "tesh_cloak_bo"
 	item_state = "tesh_cloak_bo"
+	slowdown_general = 0
 	species_restricted = list(SPECIES_RESOMI)
 	body_parts_covered = UPPER_TORSO|ARMS
 

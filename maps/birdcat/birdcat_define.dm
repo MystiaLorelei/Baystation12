@@ -20,7 +20,8 @@
 	allowed_spawns = list("Cryogenic Storage")
 	default_spawn = "Cryogenic Storage"
 	use_overmap = 1
-	num_exoplanets = 3
+	away_site_budget = 4
+	num_exoplanets = 1
 	welcome_sound = 'sound/effects/cowboysting.ogg'
 
 	emergency_shuttle_leaving_dock = "Attention all hands: the escape pods have been launched, maintaining burn for %ETA%."
@@ -42,10 +43,3 @@
 	GLOB.traders += new /datum/trader/xeno_shop
 	GLOB.traders += new /datum/trader/medical
 	GLOB.traders += new /datum/trader/mining
-
-/datum/map/birdcat/perform_map_generation()
-	new /datum/random_map/automata/cave_system(null,1,1,4,world.maxx,world.maxy) // Create the mining Z-level.
-	new /datum/random_map/noise/ore(null,1,1,4,64, 64)             // Create the mining ore distribution map.
-	new /datum/random_map/automata/cave_system(null,1,1,5,world.maxx,world.maxy) // Create the mining Z-level.
-	new /datum/random_map/noise/ore(null,1,1,5,64, 64)             // Create the mining ore distribution map.
-	return 1

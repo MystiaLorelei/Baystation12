@@ -144,6 +144,7 @@
 	name = "small exoskeleton"
 	desc = "A lightweight powered exoskeleton fit for a Resomi. Expressly designed to help the wearer haul things around without expending much effort, It's not appreciably useful in combat situations."
 	icon_state = "exoskeleton"
+	slowdown_general = 0
 	item_state_slots = null
 
 /*

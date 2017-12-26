@@ -2,10 +2,16 @@
 	#include "overmap_unit_testing.dm"
 
 	#include "bearcat/bearcat.dm"
-	#include "sector/sector.dm"
-	#include "sector/sector-2.dmm"
-	#include "sector/torch-7.dmm"
-	#include "sector/torch-9.dmm"
+	#include "../away/empty.dmm"
+	#include "../away/mining/mining.dm"
+	#include "../away/derelict/derelict.dm"
+	#include "../away/lost_supply_base/lost_supply_base.dm"
+	#include "../away/marooned/marooned.dm"
+	#include "../away/smugglers/smugglers.dm"
+	#include "../away/magshield/magshield.dm"
+	#include "../away/casino/casino.dm"
+	//#include "../away/yacht/yacht.dm"
+	#include "../away/slavers/slavers_base.dm"
 
 	#include "../../code/modules/lobby_music/desire.dm"
 

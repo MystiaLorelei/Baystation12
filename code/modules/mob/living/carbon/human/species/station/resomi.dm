@@ -35,12 +35,13 @@
 	metabolism_mod = 2.0
 	pass_flags = PASSTABLE
 	mob_size = MOB_SMALL
+	strength = STR_HIGH
 	holder_type = /obj/item/weapon/holder/human
 	//light_sensitive = 6
 	darksight = 8
 	gluttonous = GLUT_TINY
 	blood_volume = 400
-	hunger_factor = 0.2
+	hunger_factor = DEFAULT_HUNGER_FACTOR * 3
 
 	spawn_flags = SPECIES_CAN_JOIN | SPECIES_IS_WHITELISTED | SPECIES_NO_FBP_CONSTRUCTION | SPECIES_NO_FBP_CHARGEN
 	appearance_flags = HAS_HAIR_COLOR | HAS_SKIN_COLOR | HAS_EYE_COLOR
