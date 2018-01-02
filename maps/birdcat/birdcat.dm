@@ -10,7 +10,7 @@
 	#include "../away/smugglers/smugglers.dm"
 	#include "../away/magshield/magshield.dm"
 	#include "../away/casino/casino.dm"
-	//#include "../away/yacht/yacht.dm"
+	#include "../away/yacht/yacht.dm"
 	#include "../away/blueriver/blueriver.dm"
 	#include "../away/slavers/slavers_base.dm"
 
