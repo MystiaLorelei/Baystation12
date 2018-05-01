@@ -33,12 +33,13 @@
 	brute_mod = 1.35
 	burn_mod =  1.35
 	metabolism_mod = 2.0
-	pass_flags = PASSTABLE
+	pass_flags = PASS_FLAG_TABLE
 	mob_size = MOB_SMALL
 	strength = STR_HIGH
 	holder_type = /obj/item/weapon/holder/human
 	//light_sensitive = 6
-	darksight = 8
+	darksight_range = 8
+	darksight_tint = DARKTINT_GOOD
 	gluttonous = GLUT_TINY
 	blood_volume = 400
 	hunger_factor = DEFAULT_HUNGER_FACTOR * 3
