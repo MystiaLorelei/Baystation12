@@ -2,7 +2,7 @@
 	icon = 'icons/obj/robotics.dmi'
 	icon_state = "fab-idle"
 	name = "Exosuit Fabricator"
-	desc = "A machine used for construction of robotcs and mechas."
+	desc = "A machine used for construction of robotics and mechas."
 	density = 1
 	anchored = 1
 	use_power = 1
@@ -169,6 +169,9 @@
 	var/stack_singular = "[stack.material.use_name] [stack.material.sheet_singular_name]" // eg "steel sheet", "wood plank"
 	var/stack_plural = "[stack.material.use_name] [stack.material.sheet_plural_name]" // eg "steel sheets", "wood planks"
 	var/amnt = stack.perunit
+
+	if(stack.uses_charge)
+		return
 
 	if(!(material in materials))
 		to_chat(user, "<span class=warning>\The [src] does not accept [stack_plural]!</span>")

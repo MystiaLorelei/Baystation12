@@ -11,6 +11,7 @@
 	w_class = ITEM_SIZE_NORMAL
 	matter = list(DEFAULT_WALL_MATERIAL = 1000)
 	screen_shake = 1
+	combustion = 1
 
 	var/caliber = "357"		//determines which casings will fit
 	var/handle_casings = EJECT_CASINGS	//determines how spent casings should be handled
@@ -82,7 +83,7 @@
 
 	switch(handle_casings)
 		if(EJECT_CASINGS) //eject casing onto ground.
-			chambered.loc = get_turf(src)
+			chambered.forceMove(get_turf(src))
 		if(CYCLE_CASINGS) //cycle the casing back to the end.
 			if(ammo_magazine)
 				ammo_magazine.stored_ammo += chambered

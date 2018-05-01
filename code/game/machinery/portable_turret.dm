@@ -338,7 +338,7 @@ var/list/turret_icons
 				update_icon()
 		wrenching = 0
 
-	else if(istype(I, /obj/item/weapon/card/id)||istype(I, /obj/item/device/pda))
+	else if(istype(I, /obj/item/weapon/card/id)||istype(I, /obj/item/modular_computer))
 		//Behavior lock/unlock mangement
 		if(allowed(user))
 			locked = !locked
@@ -822,7 +822,7 @@ var/list/turret_icons
 
 					//The final step: create a full turret
 					var/obj/machinery/porta_turret/Turret = new target_type(loc)
-					Turret.name = finish_name
+					Turret.SetName(finish_name)
 					Turret.installation = installation
 					Turret.gun_charge = gun_charge
 					Turret.enabled = 0

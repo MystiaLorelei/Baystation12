@@ -12,7 +12,7 @@
 	density = 1
 	anchored = 1
 	animate_movement=1
-	light_range = 3
+	light_outer_range = 3
 
 	can_buckle = 1
 	buckle_movable = 1
@@ -142,7 +142,7 @@
 	var/obj/effect/overlay/pulse2 = new /obj/effect/overlay(loc)
 	pulse2.icon = 'icons/effects/effects.dmi'
 	pulse2.icon_state = "empdisable"
-	pulse2.name = "emp sparks"
+	pulse2.SetName("emp sparks")
 	pulse2.anchored = 1
 	pulse2.set_dir(pick(GLOB.cardinal))
 
@@ -172,7 +172,7 @@
 	if(powered && cell.charge < (charge_use * CELLRATE))
 		return 0
 	on = 1
-	set_light(initial(light_range))
+	set_light(initial(light_max_bright), 1, 5)
 	update_icon()
 	return 1
 

@@ -40,15 +40,14 @@
 	brainmob = new(src)
 
 	if(istype(H))
-		brainmob.name = H.real_name
+		brainmob.SetName(H.real_name)
 		brainmob.real_name = H.real_name
 		brainmob.dna = H.dna.Clone()
 		brainmob.add_language("Encoded Audio Language")
 
 /obj/item/organ/internal/posibrain/Destroy()
-	if(brainmob)
-		QDEL_NULL(brainmob)
-	..()
+	QDEL_NULL(brainmob)
+	return ..()
 
 /obj/item/organ/internal/posibrain/attack_self(mob/user as mob)
 	if(brainmob && !brainmob.key && searching == 0)
@@ -119,7 +118,7 @@
 	..()
 
 /obj/item/organ/internal/posibrain/proc/PickName()
-	src.brainmob.name = "[pick(list("PBU","HIU","SINA","ARMA","OSI"))]-[random_id(type,100,999)]"
+	src.brainmob.SetName("[pick(list("PBU","HIU","SINA","ARMA","OSI"))]-[random_id(type,100,999)]")
 	src.brainmob.real_name = src.brainmob.name
 
 /obj/item/organ/internal/posibrain/proc/shackle(var/given_lawset)
@@ -149,7 +148,7 @@
 	if(H && H.mind)
 		brainmob.set_stat(CONSCIOUS)
 		H.mind.transfer_to(brainmob)
-		brainmob.name = H.real_name
+		brainmob.SetName(H.real_name)
 		brainmob.real_name = H.real_name
 		brainmob.dna = H.dna.Clone()
 		brainmob.show_laws(brainmob)
@@ -164,7 +163,7 @@
 		return ..()
 
 	if(name == initial(name))
-		name = "\the [owner.real_name]'s [initial(name)]"
+		SetName("\the [owner.real_name]'s [initial(name)]")
 
 	transfer_identity(owner)
 

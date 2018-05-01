@@ -354,7 +354,7 @@ other types of metals and chemistry for reagents).
 	id = "plasmacutter"
 	req_tech = list(TECH_MATERIAL = 4, TECH_PHORON = 3, TECH_ENGINEERING = 3)
 	materials = list(DEFAULT_WALL_MATERIAL = 1500, "glass" = 500, "gold" = 500, "phoron" = 500)
-	build_path = /obj/item/weapon/pickaxe/plasmacutter
+	build_path = /obj/item/weapon/gun/energy/plasmacutter
 	sort_string = "KAAAC"
 
 /datum/design/item/mining/pick_diamond
@@ -661,7 +661,7 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/weapon/gun/energy/xray/pistol
 	sort_string = "TAFAA"
 
-/datum/design/item/weapon/xraypistol
+/datum/design/item/weapon/xrayrifle
 	id = "xrayrifle"
 	req_tech = list(TECH_COMBAT = 5, TECH_MATERIAL = 3, TECH_MAGNET = 2, TECH_ILLEGAL = 2)
 	materials = list(DEFAULT_WALL_MATERIAL = 5000, "glass" = 1000, "uranium" = 1000)
@@ -675,26 +675,12 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/weapon/gun/launcher/grenade
 	sort_string = "TAGAA"
 
-/datum/design/item/weapon/pneumatic
-	id = "pneumatic"
-	req_tech = list(TECH_COMBAT = 4, TECH_MATERIAL = 3)
-	materials = list(DEFAULT_WALL_MATERIAL = 5000, "glass" = 2000, "silver" = 500)
-	build_path = /obj/item/weapon/gun/launcher/pneumatic
-	sort_string = "TAGAB"
-
-/datum/design/item/weapon/railgun
-	id = "railgun"
-	req_tech = list(TECH_COMBAT = 5, TECH_MATERIAL = 4, TECH_MAGNET = 4)
-	materials = list(DEFAULT_WALL_MATERIAL = 6000, "gold" = 2000, "silver" = 2000)
-	build_path = /obj/item/weapon/gun/magnetic/railgun
-	sort_string = "TAHAA"
-
 /datum/design/item/weapon/flechette
 	id = "flechette"
 	req_tech = list(TECH_COMBAT = 8, TECH_MATERIAL = 4, TECH_MAGNET = 4)
 	materials = list(DEFAULT_WALL_MATERIAL = 8000, "gold" = 4000, "silver" = 4000, "diamond" = 2000)
 	build_path = /obj/item/weapon/gun/magnetic/railgun/flechette
-	sort_string = "TAHAB"
+	sort_string = "TAHAA"
 
 /datum/design/item/weapon/phoronpistol
 	id = "ppistol"
@@ -703,19 +689,12 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/weapon/gun/energy/toxgun
 	sort_string = "TAJAA"
 
-/datum/design/item/weapon/mindflayer
-	id = "mindflayer"
-	req_tech = list(TECH_COMBAT = 5, TECH_MAGNET = 4)
-	materials = list(DEFAULT_WALL_MATERIAL = 5000, "glass" = 1000, "uranium" = 1000)
-	build_path = /obj/item/weapon/gun/energy/mindflayer
-	sort_string = "TAJAB"
-
 /datum/design/item/weapon/decloner
 	id = "decloner"
 	req_tech = list(TECH_COMBAT = 8, TECH_MATERIAL = 7, TECH_BIO = 5, TECH_POWER = 6)
 	materials = list("gold" = 5000,"uranium" = 10000, "mutagen" = 40)
 	build_path = /obj/item/weapon/gun/energy/decloner
-	sort_string = "TAJAC"
+	sort_string = "TAJAB"
 
 /datum/design/item/weapon/smg
 	id = "smg"
@@ -928,7 +907,7 @@ other types of metals and chemistry for reagents).
 	id = "beacon_locator"
 	req_tech = list(TECH_MAGNET = 3, TECH_ENGINEERING = 2, TECH_BLUESPACE = 3)
 	materials = list(DEFAULT_WALL_MATERIAL = 1000,"glass" = 500)
-	build_path = /obj/item/device/beacon_locator
+	build_path = /obj/item/weapon/pinpointer/radio
 	sort_string = "VADAC"
 
 /datum/design/item/bluespace/ano_scanner
@@ -1354,99 +1333,6 @@ other types of metals and chemistry for reagents).
 	build_path = /obj/item/weapon/computer_hardware/processor_unit/photonic/small
 	sort_string = "VBAFD"
 
-// PDA and cartridges
-/datum/design/item/pda
-	name = "PDA design"
-	desc = "Cheaper than whiny non-digital assistants."
-	id = "pda"
-	req_tech = list(TECH_ENGINEERING = 2, TECH_POWER = 3)
-	materials = list(DEFAULT_WALL_MATERIAL = 50, "glass" = 50)
-	build_path = /obj/item/device/pda
-	sort_string = "VCAAA"
-
-/datum/design/item/pda_cartridge
-	req_tech = list(TECH_ENGINEERING = 2, TECH_POWER = 3)
-	materials = list(DEFAULT_WALL_MATERIAL = 50, "glass" = 50)
-
-/datum/design/item/pda_cartridge/AssembleDesignName()
-	..()
-	name = "PDA accessory ([item_name])"
-
-/datum/design/item/pda_cartridge/cart_basic
-	id = "cart_basic"
-	build_path = /obj/item/weapon/cartridge
-	sort_string = "VCBAA"
-
-/datum/design/item/pda_cartridge/engineering
-	id = "cart_engineering"
-	build_path = /obj/item/weapon/cartridge/engineering
-	sort_string = "VCBAB"
-
-/datum/design/item/pda_cartridge/atmos
-	id = "cart_atmos"
-	build_path = /obj/item/weapon/cartridge/atmos
-	sort_string = "VCBAC"
-
-/datum/design/item/pda_cartridge/medical
-	id = "cart_medical"
-	build_path = /obj/item/weapon/cartridge/medical
-	sort_string = "VCBAD"
-
-/datum/design/item/pda_cartridge/chemistry
-	id = "cart_chemistry"
-	build_path = /obj/item/weapon/cartridge/chemistry
-	sort_string = "VCBAE"
-
-/datum/design/item/pda_cartridge/security
-	id = "cart_security"
-	build_path = /obj/item/weapon/cartridge/security
-	sort_string = "VCBAF"
-
-/datum/design/item/pda_cartridge/janitor
-	id = "cart_janitor"
-	build_path = /obj/item/weapon/cartridge/janitor
-	sort_string = "VCBAG"
-
-/datum/design/item/pda_cartridge/science
-	id = "cart_science"
-	build_path = /obj/item/weapon/cartridge/signal/science
-	sort_string = "VCBAH"
-
-/datum/design/item/pda_cartridge/quartermaster
-	id = "cart_quartermaster"
-	build_path = /obj/item/weapon/cartridge/quartermaster
-	sort_string = "VCBAI"
-
-/datum/design/item/pda_cartridge/hop
-	id = "cart_hop"
-	build_path = /obj/item/weapon/cartridge/hop
-	sort_string = "VCBAJ"
-
-/datum/design/item/pda_cartridge/hos
-	id = "cart_hos"
-	build_path = /obj/item/weapon/cartridge/hos
-	sort_string = "VCBAK"
-
-/datum/design/item/pda_cartridge/ce
-	id = "cart_ce"
-	build_path = /obj/item/weapon/cartridge/ce
-	sort_string = "VCBAL"
-
-/datum/design/item/pda_cartridge/cmo
-	id = "cart_cmo"
-	build_path = /obj/item/weapon/cartridge/cmo
-	sort_string = "VCBAM"
-
-/datum/design/item/pda_cartridge/rd
-	id = "cart_rd"
-	build_path = /obj/item/weapon/cartridge/rd
-	sort_string = "VCBAN"
-
-/datum/design/item/pda_cartridge/captain
-	id = "cart_captain"
-	build_path = /obj/item/weapon/cartridge/captain
-	sort_string = "VCBAO"
-
 //RIG Modules
 //Sidenote; Try to keep a requirement of 5 engineering for each, but keep the rest as similiar to it's original as possible.
 /datum/design/item/rig/AssembleDesignName()
@@ -1509,11 +1395,11 @@ other types of metals and chemistry for reagents).
 
 /datum/design/item/rig/plasmacutter
 	name = "Plasma Cutter"
-	desc = "A rock cutter that uses bursts of hot plasma, mountable on a RIG."
+	desc = "A rock cutter that projects bursts of hot plasma, mountable on a RIG."
 	id = "rig_plasmacutter"
-	req_tech = list(TECH_MATERIAL = 4, TECH_PHORON = 3, TECH_ENGINEERING = 6)
+	req_tech = list(TECH_MATERIAL = 4, TECH_PHORON = 3, TECH_ENGINEERING = 6, TECH_COMBAT = 4)
 	materials = list(DEFAULT_WALL_MATERIAL = 2000, "glass" = 1000, "plastic" = 1000, "gold" = 700, "phoron" = 500)
-	build_path = /obj/item/rig_module/device/plasmacutter
+	build_path = /obj/item/rig_module/mounted/plasmacutter
 	sort_string = "VCCAB"
 
 /datum/design/item/rig/orescanner
@@ -1624,6 +1510,15 @@ other types of metals and chemistry for reagents).
 	materials = list(DEFAULT_WALL_MATERIAL = 6000, "glass" = 3000, "diamond" = 2000, "silver" = 2000, "uranium" = 2000, "gold" = 2000, "plastic" = 2000)
 	build_path = /obj/item/rig_module/stealth_field
 	sort_string = "WCLAA"
+
+/datum/design/item/rig/cooling_unit
+	name = "Cooling Unit"
+	desc = "A suit cooling unit, mountable on a RIG."
+	id = "rig_cooler"
+	req_tech = list(TECH_MATERIAL = 2, TECH_MAGNET = 2, TECH_ENGINEERING = 5)
+	materials = list(DEFAULT_WALL_MATERIAL = 3000, "glass" = 3500, "plastic" = 2000)
+	build_path = /obj/item/rig_module/cooling_unit
+	sort_string = "WCLAB"
 
 
 /datum/design/prefab

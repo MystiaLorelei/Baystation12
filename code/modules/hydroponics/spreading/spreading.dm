@@ -46,7 +46,7 @@
 	icon_state = ""
 	plane = OBJ_PLANE
 	layer = OBJ_LAYER
-	pass_flags = PASSTABLE
+	pass_flags = PASS_FLAG_TABLE
 	mouse_opacity = 1
 
 	var/health = 10
@@ -177,7 +177,7 @@
 
 	// Apply colour and light from seed datum.
 	if(seed.get_trait(TRAIT_BIOLUM))
-		set_light(1+round(seed.get_trait(TRAIT_POTENCY)/20), l_color = seed.get_trait(TRAIT_BIOLUM_COLOUR))
+		set_light(0.5, 0.1, 3, l_color = seed.get_trait(TRAIT_BIOLUM_COLOUR))
 	else
 		set_light(0)
 
@@ -237,8 +237,10 @@
 		sampled = 1
 	else
 		..()
-		if(W.force)
-			health -= W.force
+		var/damage = W.force
+		if(W.edge)
+			damage *= 2
+		health -= damage
 		playsound(get_turf(src), W.hitsound, 100, 1)
 	check_health()
 

@@ -25,7 +25,6 @@
 
 /obj/effect/overmap/sector/exoplanet/New(nloc, max_x, max_y)
 	if(!GLOB.using_map.use_overmap)
-		qdel(src)
 		return
 
 	maxx = max_x ? max_x : world.maxx
@@ -35,9 +34,7 @@
 
 	world.maxz++
 	forceMove(locate(1,1,world.maxz))
-	map_z = GetConnectedZlevels(z)
-	for(var/zlevel in map_z)
-		map_sectors["[zlevel]"] = src
+
 	var/list/feature_types = possible_features.Copy()
 	possible_features.Cut()
 	for(var/T in feature_types)
@@ -50,7 +47,8 @@
 		generate_atmosphere()
 		generate_map()
 		generate_features()
-		generate_landing()
+		for(var/i = 0 to 3)
+			generate_landing()
 		update_biome()
 		START_PROCESSING(SSobj, src)
 
@@ -114,7 +112,7 @@
 /obj/effect/overmap/sector/exoplanet/proc/generate_map()
 
 /obj/effect/overmap/sector/exoplanet/proc/generate_features()
-	seedRuins(map_z, features_budget, /area/exoplanet, possible_features)
+	seedRuins(map_z, features_budget, /area/exoplanet, possible_features, maxx, maxy)
 
 /obj/effect/overmap/sector/exoplanet/proc/get_biostuff(var/datum/random_map/noise/exoplanet/random_map)
 	seeds += random_map.small_flora_types
@@ -149,10 +147,10 @@
 
 /obj/effect/overmap/sector/exoplanet/proc/adapt_animal(var/mob/living/simple_animal/A)
 	if(species[A.type])
-		A.name = species[A.type]
+		A.SetName(species[A.type])
 		A.real_name = species[A.type]
 	else
-		A.name = "alien creature"
+		A.SetName("alien creature")
 		A.real_name = "alien creature"
 		A.verbs |= /mob/living/simple_animal/proc/name_species
 	A.minbodytemp = atmosphere.temperature - 20
@@ -175,7 +173,7 @@
 	log_and_message_admins("renamed [species_type] to [newname]")
 	for(var/mob/living/simple_animal/A in animals)
 		if(istype(A,species_type))
-			A.name = newname
+			A.SetName(newname)
 			A.real_name = newname
 			A.verbs -= /mob/living/simple_animal/proc/name_species
 	return TRUE
@@ -232,26 +230,30 @@
 	badgas = pick(badgases)
 
 /obj/effect/overmap/sector/exoplanet/proc/process_map_edge(atom/movable/A)
-	var/new_x
-	var/new_y
+	var/new_x = A.x
+	var/new_y = A.y
+	var/old_x = A.x
+	var/old_y = A.y
 	if(A.x <= TRANSITIONEDGE)
 		new_x = maxx - TRANSITIONEDGE - 2
-		new_y = rand(TRANSITIONEDGE + 2, maxy - TRANSITIONEDGE - 2)
+		old_x = A.x + 1
 
 	else if (A.x >= (maxx - TRANSITIONEDGE + 1))
 		new_x = TRANSITIONEDGE + 1
-		new_y = rand(TRANSITIONEDGE + 2, maxy - TRANSITIONEDGE - 2)
+		old_x = A.x - 1
 
 	else if (A.y <= TRANSITIONEDGE)
 		new_y = maxy - TRANSITIONEDGE -2
-		new_x = rand(TRANSITIONEDGE + 2, maxx - TRANSITIONEDGE - 2)
+		old_y = A.y + 1
 
 	else if (A.y >= (maxy - TRANSITIONEDGE + 1))
 		new_y = TRANSITIONEDGE + 1
-		new_x = rand(TRANSITIONEDGE + 2, maxx - TRANSITIONEDGE - 2)
+		old_y = A.y - 1
 
 	var/turf/T = locate(new_x, new_y, A.z)
 	if(T)
+		if(T.density) // dense thing will block movement
+			T = locate(old_x, old_y, A.z)
 		A.forceMove(T)
 
 /area/exoplanet
@@ -311,7 +313,6 @@
 		if(istype(T, /turf/simulated))
 			var/turf/simulated/S = T
 			S.blocks_air = 1
-
 
 /datum/random_map/noise/exoplanet/get_map_char(var/value)
 	if(water_type && noise2value(value) < water_level)
@@ -410,8 +411,8 @@
 				initial_gas = E.atmosphere.gas.Copy()
 				temperature = E.atmosphere.temperature
 			if(E.lightlevel)
-				light_power = E.lightlevel
-				light_range = 2
+				light_max_bright = E.lightlevel
+				light_outer_range = 2
 	..()
 
 /turf/simulated/floor/exoplanet/attackby(obj/item/C, mob/user)

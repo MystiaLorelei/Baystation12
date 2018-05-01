@@ -37,6 +37,11 @@
 
 	var/affected_by_emp_until = 0
 
+/obj/machinery/camera/examine(mob/user)
+	. = ..()
+	if(stat & BROKEN)
+		to_chat(user, "<span class='warning'>It is completely demolished.</span>")
+
 /obj/machinery/camera/malf_upgrade(var/mob/living/silicon/ai/user)
 	..()
 	malf_upgraded = 1
@@ -194,6 +199,7 @@
 				if(stat & BROKEN)
 					assembly.state = 2
 					to_chat(user, "<span class='notice'>You repaired \the [src] frame.</span>")
+					cancelCameraAlarm()
 				else
 					assembly.state = 1
 					to_chat(user, "<span class='notice'>You cut \the [src] free from the wall.</span>")
@@ -203,21 +209,11 @@
 			return
 
 	// OTHER
-	else if (can_use() && (istype(W, /obj/item/weapon/paper) || istype(W, /obj/item/device/pda)) && isliving(user))
+	else if (can_use() && istype(W, /obj/item/weapon/paper) && isliving(user))
 		var/mob/living/U = user
-		var/obj/item/weapon/paper/X = null
-		var/obj/item/device/pda/P = null
-
-		var/itemname = ""
-		var/info = ""
-		if(istype(W, /obj/item/weapon/paper))
-			X = W
-			itemname = X.name
-			info = X.info
-		else
-			P = W
-			itemname = P.name
-			info = P.notehtml
+		var/obj/item/weapon/paper/X = W
+		var/itemname = X.name
+		var/info = X.info
 		to_chat(U, "You hold \a [itemname] up to the camera ...")
 		for(var/mob/living/silicon/ai/O in GLOB.living_mob_list_)
 			if(!O.client) continue

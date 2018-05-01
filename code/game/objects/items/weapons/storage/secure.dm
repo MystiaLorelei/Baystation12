@@ -119,7 +119,6 @@
 					src.code += text("[]", href_list["type"])
 					if (length(src.code) > 5)
 						src.code = "ERROR"
-			src.add_fingerprint(usr)
 			for(var/mob/M in viewers(1, src.loc))
 				if ((M.client && M.machine == src))
 					src.attack_self(M)
@@ -152,6 +151,7 @@
 	w_class = ITEM_SIZE_HUGE
 	max_w_class = ITEM_SIZE_NORMAL
 	max_storage_space = DEFAULT_BACKPACK_STORAGE
+	use_sound = 'sound/effects/storage/briefcase.ogg'
 
 	attack_hand(mob/user as mob)
 		if ((src.loc == user) && (src.locked == 1))

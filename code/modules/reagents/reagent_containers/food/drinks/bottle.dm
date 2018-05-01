@@ -28,9 +28,9 @@
 	..()
 
 	var/mob/M = thrower
-	if(isGlass && istype(M) && M.a_intent == I_HURT)
+	if(isGlass && istype(M) && M.a_intent != I_HELP)
 		var/throw_dist = get_dist(throw_source, loc)
-		if(speed >= throw_speed && smash_check(throw_dist)) //not as reliable as smashing directly
+		if(speed > throw_speed || smash_check(throw_dist)) //not as reliable as smashing directly
 			if(reagents)
 				hit_atom.visible_message("<span class='notice'>The contents of \the [src] splash all over [hit_atom]!</span>")
 				reagents.splash(hit_atom, reagents.total_volume)
@@ -40,7 +40,7 @@
 	if(!isGlass || !smash_duration)
 		return 0
 
-	var/list/chance_table = list(95, 95, 90, 85, 75, 55, 35) //starting from distance 0
+	var/list/chance_table = list(95, 95, 90, 85, 75, 60, 40, 15) //starting from distance 0
 	var/idx = max(distance + 1, 1) //since list indices start at 1
 	if(idx > chance_table.len)
 		return 0
@@ -94,14 +94,14 @@
 		to_chat(user, "<span class='notice'>You stuff [R] into [src].</span>")
 		rag = R
 		rag.forceMove(src)
-		flags &= ~OPENCONTAINER
+		atom_flags &= ~ATOM_FLAG_OPEN_CONTAINER
 		update_icon()
 
 /obj/item/weapon/reagent_containers/food/drinks/bottle/proc/remove_rag(mob/user)
 	if(!rag) return
 	user.put_in_hands(rag)
 	rag = null
-	flags |= (initial(flags) & OPENCONTAINER)
+	atom_flags |= ATOM_FLAG_OPEN_CONTAINER
 	update_icon()
 
 /obj/item/weapon/reagent_containers/food/drinks/bottle/open(mob/user)
@@ -113,7 +113,7 @@
 	if(rag)
 		var/underlay_image = image(icon='icons/obj/drinks.dmi', icon_state=rag.on_fire? "[rag_underlay]_lit" : rag_underlay)
 		underlays += underlay_image
-		set_light(rag.light_range, rag.light_power, rag.light_color)
+		set_light(rag.light_max_bright, 0.1, rag.light_outer_range, 2, rag.light_color)
 	else
 		set_light(0)
 
@@ -457,7 +457,7 @@
 /obj/item/weapon/reagent_containers/food/drinks/bottle/small
 	volume = 50
 	smash_duration = 1
-	flags = 0 //starts closed
+	atom_flags = 0 //starts closed
 	rag_underlay = "rag_small"
 
 /obj/item/weapon/reagent_containers/food/drinks/bottle/small/beer
@@ -478,3 +478,15 @@
 /obj/item/weapon/reagent_containers/food/drinks/bottle/small/ale/New()
 	. = ..()
 	reagents.add_reagent(/datum/reagent/ethanol/ale, 30)
+
+//Probably not the right place for it, but no idea where else to put it without making a brand new DM and slogging through making vars from scratch.
+
+/obj/item/weapon/reagent_containers/food/drinks/bottle/oiljug
+	name = "oil jug"
+	desc = "A plastic jug of engine oil. Not for human consumption."
+	icon_state = "oil"
+	isGlass = 0
+
+/obj/item/weapon/reagent_containers/food/drinks/bottle/oiljug/New()
+	. = ..()
+	reagents.add_reagent(/datum/reagent/lube/oil, 100)

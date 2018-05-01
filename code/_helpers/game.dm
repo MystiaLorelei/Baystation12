@@ -35,6 +35,10 @@
 					return TRUE
 	return FALSE
 
+/proc/get_z(O)
+	var/turf/loc = get_turf(O)
+	return loc ? loc.z : 0
+
 /proc/get_area(O)
 	var/turf/loc = get_turf(O)
 	if(loc)
@@ -572,4 +576,4 @@ datum/projectile_data
 	return seconds * 10
 
 /proc/round_is_spooky(var/spookiness_threshold = config.cult_ghostwriter_req_cultists)
-	return (cult.current_antagonists.len > spookiness_threshold)
+	return (GLOB.cult.current_antagonists.len > spookiness_threshold)

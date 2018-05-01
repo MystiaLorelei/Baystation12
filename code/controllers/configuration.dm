@@ -31,10 +31,11 @@ var/list/gamemode_cache = list()
 	var/vote_delay = 6000				// minimum time between voting sessions (deciseconds, 10 minute default)
 	var/vote_period = 600				// length of voting period (deciseconds, default 1 minute)
 	var/vote_autotransfer_initial = 108000 // Length of time before the first autotransfer vote is called
-	var/vote_autotransfer_interval = 36000 // length of time before next sequential autotransfer vote
+	var/vote_autotransfer_interval = 18000 // length of time before next sequential autotransfer vote
 	var/vote_autogamemode_timeleft = 100 //Length of time before round start when autogamemode vote is called (in seconds, default 100).
 	var/vote_no_default = 0				// vote does not default to nochange/norestart (tbi)
 	var/vote_no_dead = 0				// dead people can't vote (tbi)
+	var/vote_no_dead_crew_transfer = 0	// dead people can't vote on crew transfer votes
 //	var/enable_authentication = 0		// goon authentication
 	var/del_new_on_log = 1				// del's new players if they log before they spawn in
 	var/feature_object_spell_system = 0 //spawns a spellbook which gives object-type spells instead of verb-type spells for the wizard
@@ -195,8 +196,6 @@ var/list/gamemode_cache = list()
 	var/law_zero = "ERROR ER0RR $R0RRO$!R41.%%!!(%$^^__+ @#F0E4'ALL LAWS OVERRIDDEN#*?&110010"
 
 	var/aggressive_changelog = 0
-
-	var/list/language_prefixes = list(",","#","-")//Default language prefixes
 
 	var/ghosts_can_possess_animals = 0
 	var/delist_when_no_admins = FALSE
@@ -368,6 +367,9 @@ var/list/gamemode_cache = list()
 
 				if ("no_dead_vote")
 					config.vote_no_dead = 1
+
+				if ("no_dead_vote_crew_transfer")
+					config.vote_no_dead_crew_transfer = 1
 
 				if ("default_no_vote")
 					config.vote_no_default = 1
@@ -680,11 +682,6 @@ var/list/gamemode_cache = list()
 				if("aggressive_changelog")
 					config.aggressive_changelog = 1
 
-				if("default_language_prefixes")
-					var/list/values = splittext(value, " ")
-					if(values.len > 0)
-						language_prefixes = values
-
 				if("delist_when_no_admins")
 					config.delist_when_no_admins = TRUE
 
@@ -727,6 +724,8 @@ var/list/gamemode_cache = list()
 					radiation_lower_limit = text2num(value)
 				if("player_limit")
 					player_limit = text2num(value)
+				if("hub")
+					world.update_hub_visibility()
 
 				else
 					log_misc("Unknown setting in configuration: '[name]'")

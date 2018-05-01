@@ -60,8 +60,7 @@ GLOBAL_LIST_INIT(chop_sound,list('sound/weapons/chop1.ogg','sound/weapons/chop2.
 	if(isarea(source))
 		error("[source] is an area and is trying to make the sound: [soundin]")
 		return
-
-	frequency = isnull(frequency) ? get_rand_frequency() : frequency // Same frequency for everybody
+	frequency = vary && isnull(frequency) ? get_rand_frequency() : frequency // Same frequency for everybody
 	var/turf/turf_source = get_turf(source)
 
  	// Looping through the player list has the added bonus of working for mobs inside containers
@@ -86,11 +85,10 @@ var/const/FALLOFF_SOUNDS = 0.5
 		S.channel = 0 //Any channel
 		S.volume = vol
 		S.environment = -1
-		if (vary)
-			if(frequency)
-				S.frequency = frequency
-			else
-				S.frequency = get_rand_frequency()
+		if(frequency)
+			S.frequency = frequency
+		else if (vary)
+			S.frequency = get_rand_frequency()
 
 	//sound volume falloff with pressure
 	var/pressure_factor = 1.0
@@ -143,7 +141,7 @@ var/const/FALLOFF_SOUNDS = 0.5
 				S.environment = DIZZY
 			else if (M.confused)
 				S.environment = DIZZY
-			else if (M.sleeping)
+			else if (M.stat == UNCONSCIOUS)
 				S.environment = UNDERWATER
 			else if (pressure_factor < 0.5)
 				S.environment = SPACE
@@ -161,7 +159,7 @@ var/const/FALLOFF_SOUNDS = 0.5
 
 /client/proc/playtitlemusic()
 	if(get_preference_value(/datum/client_preference/play_lobby_music) == GLOB.PREF_YES)
-		GLOB.using_map.lobby_music.play_to(src)
+		GLOB.using_map.lobby_track.play_to(src)
 
 /proc/get_rand_frequency()
 	return rand(32000, 55000) //Frequency stuff only works with 45kbps oggs.

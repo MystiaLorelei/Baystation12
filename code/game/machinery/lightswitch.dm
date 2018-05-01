@@ -23,7 +23,7 @@
 		src.connected_area = get_area(src)
 
 	if(name == initial(name))
-		name = "light switch ([connected_area.name])"
+		SetName("light switch ([connected_area.name])")
 
 	connected_area.set_lightswitch(on)
 	update_icon()
@@ -42,7 +42,7 @@
 		icon_state = "light[on]"
 		overlay.icon_state = "light[on]-overlay"
 		overlays += overlay
-		set_light(2, 0.3, on ? "#82ff4c" : "#f86060")
+		set_light(0.1, 0.1, 1, 2, on ? "#82ff4c" : "#f86060")
 
 /obj/machinery/light_switch/examine(mob/user)
 	if(..(user, 1))
