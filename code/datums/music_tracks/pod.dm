@@ -1,4 +1,4 @@
-/lobby_music/pod
+/music_track/pod
 	artist = "Necros"
 	title = "Point of Departure"
 	song = 'sound/music/POD.ogg'

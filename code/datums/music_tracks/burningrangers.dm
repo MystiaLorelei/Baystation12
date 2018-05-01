@@ -1,4 +1,4 @@
-/lobby_music/burningrangers
+/music_track/burningrangers
 	artist = "Naofumi Hataya"
 	title = "Main theme from Burning Rangers (Japanese version)"
 	song = 'sound/music/burning_rangers.ogg'

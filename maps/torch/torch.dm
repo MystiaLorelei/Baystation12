@@ -91,20 +91,8 @@
 	#include "../away/errant_pisces/errant_pisces.dm"
 	#include "../away/lar_maria/lar_maria.dm"
 
-<<<<<<< HEAD
-	#include "../../code/modules/lobby_music/chasing_time.dm"
-	#include "../../code/modules/lobby_music/absconditus.dm"
-	#include "../../code/modules/lobby_music/clouds_of_fire.dm"
-	#include "../../code/modules/lobby_music/endless_space.dm"
-	#include "../../code/modules/lobby_music/dilbert.dm"
-	#include "../../code/modules/lobby_music/space_oddity.dm"
-	#include "../../code/modules/lobby_music/title1.dm"
-	#include "../../code/modules/lobby_music/POD.dm"
-	#include "../../code/modules/lobby_music/marhaba.dm"
-	#include "../../code/modules/lobby_music/comet_haley.dm"
-=======
+
 	#include "../../code/datums/music_tracks/chasing_time.dm"
->>>>>>> 44b6121b5dc81c87a6be3ea9646b2a629d892b57
 
 	#define using_map_DATUM /datum/map/torch
 

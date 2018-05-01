@@ -1,4 +1,4 @@
-/lobby_music/desire
+/music_track/desire
 	album = "Outlaw Star"
 	title = "Desire"
 	song = 'sound/music/desire.ogg'
