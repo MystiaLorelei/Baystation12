@@ -398,7 +398,7 @@
 	if (NOCLONE in subject.mutations)
 		scantemp = "Error: Major genetic degradation."
 		return
-	if (subject.species && subject.species.flags & NO_SCANSPECIES_FLAG_NO_SCAN)
+	if (subject.species && subject.species.appearance_flags & SPECIES_FLAG_NO_SCAN)
 		scantemp = "Error: Incompatible species."
 		return
 	if (subject.ckey && !isnull(find_record(subject.ckey)))
