@@ -76,7 +76,7 @@
 	landmark_tag = "nav_bearcat_lift_bottom"
 	base_area = /area/ship/scrap/cargo/lower
 	base_turf = /turf/simulated/floor
-																			 
+
 /obj/effect/shuttle_landmark/below_deck_bow
 	name = "Near CSV Bearcat Bow"
 	landmark_tag = "nav_bearcat_below_bow"

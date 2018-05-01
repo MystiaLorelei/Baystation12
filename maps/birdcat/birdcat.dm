@@ -13,6 +13,11 @@
 	#include "../away/yacht/yacht.dm"
 	#include "../away/blueriver/blueriver.dm"
 	#include "../away/slavers/slavers_base.dm"
+	#include "../away/hydro/hydro.dm"
+	#include "../away/mobius_rift/mobius_rift.dm"
+	#include "../away/icarus/icarus.dm"
+	#include "../away/errant_pisces/errant_pisces.dm"
+	#include "../away/lar_maria/lar_maria.dm"
 
 	#include "../../code/modules/lobby_music/desire.dm"
 
