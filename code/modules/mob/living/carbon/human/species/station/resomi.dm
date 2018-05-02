@@ -24,6 +24,7 @@
 
 	icobase = 'icons/mob/human_races/r_resomi.dmi'
 	deform = 'icons/mob/human_races/r_resomi.dmi'
+	eye_icon = "eyes_resomi"
 	damage_overlays = 'icons/mob/human_races/masks/dam_resomi.dmi'
 	damage_mask = 'icons/mob/human_races/masks/dam_mask_resomi.dmi'
 	blood_mask = 'icons/mob/human_races/masks/blood_resomi.dmi'
