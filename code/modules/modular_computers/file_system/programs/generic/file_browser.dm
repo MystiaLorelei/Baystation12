@@ -3,6 +3,7 @@
 	filedesc = "NTOS File Manager"
 	extended_desc = "This program allows management of files."
 	program_icon_state = "generic"
+	program_key_state = "generic_key"
 	program_menu_icon = "folder-collapsed"
 	size = 8
 	requires_ntnet = 0
@@ -11,6 +12,7 @@
 	nanomodule_path = /datum/nano_module/program/computer_filemanager/
 	var/open_file
 	var/error
+	usage_flags = PROGRAM_ALL
 
 /datum/computer_file/program/filemanager/Topic(href, href_list)
 	if(..())

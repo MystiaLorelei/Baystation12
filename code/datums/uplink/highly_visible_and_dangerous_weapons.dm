@@ -24,6 +24,12 @@
 	item_cost = 32
 	path = /obj/item/weapon/storage/box/syndie_kit/g9mm
 
+/datum/uplink_item/item/badassery/money_cannon
+	name = "Modified Money Cannon"
+	item_cost = 48
+	path = /obj/item/weapon/gun/launcher/money/hacked
+	desc = "Too much money? Not enough screaming? Try the Money Cannon."
+
 /datum/uplink_item/item/visible_weapons/riggedlaser
 	name = "Exosuit (APLU) Rigged Laser"
 	item_cost = 32
@@ -112,3 +118,15 @@
 	item_cost = 60
 	antag_costs = list(MODE_MERCENARY = 20)
 	path = /obj/item/weapon/gun/magnetic/railgun/flechette
+
+/datum/uplink_item/item/visible_weapons/railgun // Like a semi-auto AMR
+	name = "Railgun"
+	item_cost = 96
+	antag_costs = list(MODE_MERCENARY = 88)
+	path = /obj/item/weapon/gun/magnetic/railgun
+
+/datum/uplink_item/item/visible_weapons/railguntcc // Only slightly better than the normal railgun; but cooler looking
+	name = "Advanced Railgun"
+	item_cost = 112 // This high price is to make it less common for normal tators, and make it "seem" scarier
+	antag_costs = list(MODE_MERCENARY = 96) // This, on the other hand, is to encourage usage specifically by mercs with high budgets.
+	path = /obj/item/weapon/gun/magnetic/railgun/tcc

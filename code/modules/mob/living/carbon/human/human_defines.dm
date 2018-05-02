@@ -18,7 +18,8 @@
 	var/g_eyes = 0
 	var/b_eyes = 0
 
-	var/s_tone = 0	//Skin tone
+	var/s_tone = 0  //Skin tone
+	var/s_base = "" //Skin base
 
 	//Skin colour
 	var/r_skin = 0
@@ -58,9 +59,6 @@
 	var/obj/item/r_store = null
 	var/obj/item/l_store = null
 	var/obj/item/s_store = null
-
-	var/used_skillpoints = 0
-	var/list/skills = list()
 
 	var/icon/stand_icon = null
 	var/icon/lying_icon = null

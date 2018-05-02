@@ -18,7 +18,6 @@
 	icon_closed = "medical"
 	icon_locked = "medical1"
 	icon_opened = "medicalopen"
-	icon_broken = "medicalbroken"
 	icon_off = "medicaloff"
 	req_access = list(access_medical_equip)
 
@@ -42,7 +41,6 @@
 	icon_closed = "medical"
 	icon_locked = "medical1"
 	icon_opened = "medicalopen"
-	icon_broken = "medicalbroken"
 	icon_off = "medicaloff"
 	req_access = list(access_surgery)
 
@@ -59,7 +57,6 @@
 	icon_closed = "securemed"
 	icon_locked = "securemed1"
 	icon_opened = "securemedopen"
-	icon_broken = "securemedbroken"
 	icon_off = "securemedoff"
 
 /obj/structure/closet/secure_closet/medical3/WillContain()
@@ -88,7 +85,6 @@
 	icon_closed = "medical"
 	icon_locked = "medical1"
 	icon_opened = "medicalopen"
-	icon_broken = "medicalbroken"
 	icon_off = "medicaloff"
 	req_access = list(access_medical_equip)
 
@@ -103,7 +99,6 @@
 	    /obj/item/clothing/suit/storage/toggle/fr_jacket,
 	    /obj/item/clothing/suit/storage/toggle/labcoat,
 	    /obj/item/device/radio/headset/headset_med,
-	    /obj/item/weapon/cartridge/medical,
 	    /obj/item/device/flashlight,
 	    /obj/item/weapon/tank/emergency/oxygen/engi,
 	    /obj/item/clothing/glasses/hud/health,
@@ -123,7 +118,6 @@
 	icon_closed = "cmosecure"
 	icon_locked = "cmosecure1"
 	icon_opened = "cmosecureopen"
-	icon_broken = "cmosecurebroken"
 	icon_off = "cmosecureoff"
 
 /obj/structure/closet/secure_closet/CMO/WillContain()
@@ -136,7 +130,6 @@
 		/obj/item/clothing/under/rank/chief_medical_officer,
 		/obj/item/clothing/suit/storage/toggle/labcoat/cmo,
 		/obj/item/clothing/suit/storage/toggle/labcoat/cmoalt,
-		/obj/item/weapon/cartridge/cmo,
 		/obj/item/clothing/gloves/latex,
 		/obj/item/clothing/shoes/brown,
 		/obj/item/device/radio/headset/heads/cmo,
@@ -152,7 +145,6 @@
 	icon_closed = "medical"
 	icon_locked = "medical1"
 	icon_opened = "medicalopen"
-	icon_broken = "medicalbroken"
 	icon_off = "medicaloff"
 	req_access = list(access_chemistry)
 
@@ -170,7 +162,7 @@
 	icon_closed = "medical_wall_unlocked"
 	icon_locked = "medical_wall_locked"
 	icon_opened = "medical_wall_open"
-	icon_broken = "medical_wall_spark"
+	icon_broken = "medical_wall_sparks"
 	icon_off = "medical_wall_off"
 	anchored = 1
 	density = 0
@@ -185,7 +177,6 @@
 	icon_closed = "chaplainsecure"
 	icon_locked = "chaplainsecure1"
 	icon_opened = "chaplainsecureopen"
-	icon_broken = "chaplainsecurebroken"
 	icon_off = "chaplainsecureoff"
 
 /obj/structure/closet/secure_closet/counselor/WillContain()
@@ -199,6 +190,7 @@
 		/obj/item/weapon/deck/tarot,
 		/obj/item/weapon/reagent_containers/food/drinks/bottle/holywater,
 		/obj/item/weapon/nullrod,
+		/obj/item/weapon/storage/bible,
 		/obj/item/clothing/suit/straight_jacket,
 		/obj/item/weapon/reagent_containers/glass/bottle/stoxin,
 		/obj/item/weapon/reagent_containers/syringe,
@@ -218,7 +210,6 @@
 	icon_closed = "secureviro"
 	icon_locked = "secureviro1"
 	icon_opened = "secureviroopen"
-	icon_broken = "securevirobroken"
 	icon_off = "securevirooff"
 	req_access = list(access_virology)
 
@@ -249,7 +240,6 @@
 	icon_closed = "securemed"
 	icon_locked = "securemed1"
 	icon_opened = "securemedopen"
-	icon_broken = "securemedbroken"
 	icon_off = "securemedoff"
 	req_access = list(access_psychiatrist)
 

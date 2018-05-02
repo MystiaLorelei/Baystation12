@@ -88,17 +88,17 @@ proc/getsensorlevel(A)
 
 //The base miss chance for the different defence zones
 var/list/global/base_miss_chance = list(
-	BP_HEAD = 40,
+	BP_HEAD = 50,
 	BP_CHEST = 10,
 	BP_GROIN = 20,
-	BP_L_LEG = 30,
-	BP_R_LEG = 30,
+	BP_L_LEG = 50,
+	BP_R_LEG = 50,
 	BP_L_ARM = 30,
 	BP_R_ARM = 30,
 	BP_L_HAND = 50,
 	BP_R_HAND = 50,
-	BP_L_FOOT = 50,
-	BP_R_FOOT = 50,
+	BP_L_FOOT = 60,
+	BP_R_FOOT = 60,
 )
 
 //Used to weight organs when an organ is hit randomly (i.e. not a directed, aimed attack).
@@ -593,7 +593,7 @@ proc/is_blind(A)
 /mob/proc/fully_replace_character_name(var/new_name, var/in_depth = TRUE)
 	if(!new_name || new_name == real_name)	return 0
 	real_name = new_name
-	name = new_name
+	SetName(new_name)
 	if(mind)
 		mind.name = new_name
 	if(dna)
@@ -622,3 +622,39 @@ proc/is_blind(A)
 			to_chat(src, "<span class='danger'>The jitters are killing you! You feel your heart beating out of your chest.</span>")
 			admin_victim_log(src, "has taken <i>minor heart damage</i> at jitteriness level [src.jitteriness].")
 	return 1
+
+/mob/proc/try_teleport(var/area/thearea)
+	if(!istype(thearea))
+		if(istype(thearea, /list))
+			thearea = thearea[1]
+	var/list/L = list()
+	for(var/turf/T in get_area_turfs(thearea))
+		if(!T.density)
+			var/clear = 1
+			for(var/obj/O in T)
+				if(O.density)
+					clear = 0
+					break
+			if(clear)
+				L+=T
+
+	if(buckled)
+		buckled = null
+
+	var/attempt = null
+	var/success = 0
+	var/turf/end
+	while(L.len)
+		attempt = pick(L)
+		success = Move(attempt)
+		if(!success)
+			L.Remove(attempt)
+		else
+			end = attempt
+			break
+
+	if(!success)
+		end = pick(L)
+		forceMove(end)
+
+	return end

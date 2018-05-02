@@ -3,7 +3,7 @@
 	icon = 'icons/obj/robot_parts.dmi'
 	item_state = "buildpipe"
 	icon_state = "blank"
-	flags = CONDUCT
+	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	slot_flags = SLOT_BELT
 	var/list/part = null // Order of args is important for installing robolimbs.
 	var/sabotaged = 0 //Emagging limbs can have repercussions when installed as prosthetics.
@@ -20,12 +20,12 @@
 		model_info = model
 		var/datum/robolimb/R = all_robolimbs[model]
 		if(R)
-			name = "[R.company] [initial(name)]"
+			SetName("[R.company] [initial(name)]")
 			desc = "[R.desc]"
 			if(icon_state in icon_states(R.icon))
 				icon = R.icon
 	else
-		name = "robot [initial(name)]"
+		SetName("robot [initial(name)]")
 
 /obj/item/robot_parts/proc/can_install(mob/user)
 	return TRUE
@@ -185,7 +185,7 @@
 				to_chat(user, "<span class='warning'>Sticking a dead [W] into the frame would sort of defeat the purpose.</span>")
 				return
 
-			if(jobban_isbanned(B, "Cyborg"))
+			if(jobban_isbanned(B, "Robot"))
 				to_chat(user, "<span class='warning'>This [W] does not seem to fit.</span>")
 				return
 
@@ -204,7 +204,7 @@
 			if(O.mind && O.mind.special_role)
 				O.mind.store_memory("In case you look at this after being borged, the objectives are only here until I find a way to make them not show up for you, as I can't simply delete them without screwing up round-end reporting. --NeoFite")
 
-			O.job = "Cyborg"
+			O.job = "Robot"
 
 			var/obj/item/robot_parts/chest/chest = parts[BP_CHEST]
 			O.cell = chest.cell
@@ -270,7 +270,7 @@
 				return
 			var/name = sanitizeSafe(input(user,"Set a name for the new prosthetic."), MAX_NAME_LEN)
 			if(!name)
-				name = "prosthetic ([random_id("prosthetic_id", 1, 999)])"
+				SetName("prosthetic ([random_id("prosthetic_id", 1, 999)])")
 
 			// Create a new, nonliving human.
 			var/mob/living/carbon/human/H = new /mob/living/carbon/human(get_turf(loc))

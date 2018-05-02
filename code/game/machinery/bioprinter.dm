@@ -200,11 +200,17 @@
 	component_parts += new /obj/item/weapon/circuitboard/bioprinter
 
 /obj/machinery/organ_printer/flesh/print_organ(var/choice)
-	var/obj/item/organ/O = ..()
+	var/obj/item/organ/O
 	var/weakref/W = loaded_dna["donor"]
-	var/mob/living/carbon/C = W.resolve()
-	if(C)
-		O.set_dna(C.dna)
+	var/mob/living/carbon/human/H = W.resolve()
+	if(H && istype(H))
+		if(H.species && H.species.has_organ[choice])
+			var/new_organ = H.species.has_organ[choice]
+			O = new new_organ(get_turf(src))
+			O.status |= ORGAN_CUT_AWAY
+		else
+			O = ..()
+		O.set_dna(H.dna)
 		if(O.species)
 			// This is a very hacky way of doing of what organ/New() does if it has an owner
 			O.w_class = max(O.w_class + mob_size_difference(O.species.mob_size, MOB_MEDIUM), 1)
@@ -216,10 +222,10 @@
 	// Load with matter for printing.
 	for(var/path in amount_list)
 		if(istype(W, path))
-			if((max_stored_matter - stored_matter) < amount_list[path])
+			if(max_stored_matter == stored_matter)
 				to_chat(user, "<span class='warning'>\The [src] is too full.</span>")
 				return
-			stored_matter += amount_list[path]
+			stored_matter += min(amount_list[path], max_stored_matter - stored_matter)
 			user.drop_item()
 			to_chat(user, "<span class='info'>\The [src] processes \the [W]. Levels of stored biomass now: [stored_matter]</span>")
 			qdel(W)

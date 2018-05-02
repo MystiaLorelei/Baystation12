@@ -4,19 +4,19 @@
 		if(get_id_name("Unknown") != GetVoice())
 			alt_name = "(as [get_id_name("Unknown")])"
 		else
-			name = get_id_name("Unknown")
+			SetName(get_id_name("Unknown"))
 
 	//parse the language code and consume it
 	if(!speaking)
 		speaking = parse_language(message)
 		if (speaking)
 			message = copytext(message,2+length(speaking.key))
-		else 
+		else
 			speaking = get_default_language()
 
 	message = sanitize(message)
 	var/obj/item/organ/internal/voicebox/vox = locate() in internal_organs
-	var/snowflake_speak = (speaking && (speaking.flags & NONVERBAL|SIGNLANG)) || (vox && vox.is_usable() && (speaking in vox.assists_languages))
+	var/snowflake_speak = (speaking && (speaking.flags & (NONVERBAL|SIGNLANG))) || (vox && vox.is_usable() && (speaking in vox.assists_languages))
 	if(!isSynthetic() && need_breathe() && failed_last_breath && !snowflake_speak)
 		var/obj/item/organ/internal/lungs/L = internal_organs_by_name[species.breathing_organ]
 		if(L.breath_fail_ratio > 0.9)
@@ -41,10 +41,11 @@
 			var/virgin = 1	//has the text been modified yet?
 			var/temp = winget(client, "input", "text")
 			if(findtextEx(temp, "Say \"", 1, 7) && length(temp) > 5)	//case sensitive means
+				var/main_key = get_prefix_key(/decl/prefix/radio_main_channel)
+				temp = replacetext(temp, main_key, "")	//general radio
 
-				temp = replacetext(temp, ";", "")	//general radio
-
-				if(findtext(trim_left(temp), ":", 6, 7))	//dept radio
+				var/channel_key = get_prefix_key(/decl/prefix/radio_channel_selection)
+				if(findtext(trim_left(temp), channel_key, 6, 7))	//dept radio
 					temp = copytext(trim_left(temp), 8)
 					virgin = 0
 
@@ -52,10 +53,11 @@
 					temp = copytext(trim_left(temp), 6)	//normal speech
 					virgin = 0
 
-				while(findtext(trim_left(temp), ":", 1, 2))	//dept radio again (necessary)
+				while(findtext(trim_left(temp), channel_key, 1, 2))	//dept radio again (necessary)
 					temp = copytext(trim_left(temp), 3)
 
-				if(findtext(temp, "*", 1, 2))	//emotes
+				var/custom_emote_key = get_prefix_key(/decl/prefix/custom_emote)
+				if(findtext(temp, custom_emote_key, 1, 2))	//emotes
 					return
 				temp = copytext(trim_left(temp), 1, rand(5,8))
 
@@ -240,7 +242,7 @@
 
 /mob/living/carbon/human/parse_language(var/message)
 	var/prefix = copytext(message,1,2)
-	if(length(message) >= 1 && prefix == "!")
+	if(length(message) >= 1 && prefix == get_prefix_key(/decl/prefix/audible_emote))
 		return all_languages["Noise"]
 
 	if(length(message) >= 2 && is_language_prefix(prefix))

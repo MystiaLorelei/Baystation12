@@ -9,7 +9,6 @@
 	icon_closed = "rdsecure"
 	icon_locked = "rdsecure1"
 	icon_opened = "rdsecureopen"
-	icon_broken = "rdsecurebroken"
 	icon_off = "rdsecureoff"
 
 /obj/structure/closet/secure_closet/RD_torch/WillContain()
@@ -23,7 +22,6 @@
 		/obj/item/clothing/suit/storage/toggle/labcoat,
 		/obj/item/clothing/suit/storage/toggle/labcoat/science,
 		/obj/item/clothing/suit/storage/toggle/labcoat/rd,
-		/obj/item/weapon/cartridge/rd,
 		/obj/item/clothing/shoes/white,
 		/obj/item/clothing/gloves/latex,
 		/obj/item/clothing/glasses/science,
@@ -53,7 +51,6 @@
 	icon_closed = "secureres"
 	icon_locked = "secureres1"
 	icon_opened = "secureresopen"
-	icon_broken = "secureresbroken"
 	icon_off = "secureresoff"
 
 /obj/structure/closet/secure_closet/secure_closet/xenoarchaeologist_torch/WillContain()
@@ -62,7 +59,6 @@
 		/obj/item/clothing/suit/storage/toggle/labcoat/science,
 		/obj/item/clothing/suit/storage/toggle/labcoat,
 		/obj/item/clothing/shoes/white,
-		/obj/item/weapon/cartridge/signal/science,
 		/obj/item/device/radio/headset/torchnanotrasen,
 		/obj/item/clothing/mask/gas,
 		/obj/item/weapon/clipboard,
@@ -70,6 +66,7 @@
 		/obj/item/device/taperecorder,
 		/obj/item/device/tape/random = 3,
 		/obj/item/device/camera,
+		/obj/item/device/analyzer,
 		/obj/item/taperoll/research,
 		/obj/item/clothing/gloves/latex,
 		/obj/item/clothing/glasses/science,
@@ -87,7 +84,6 @@
 	icon_closed = "secureres"
 	icon_locked = "secureres1"
 	icon_opened = "secureresopen"
-	icon_broken = "secureresbroken"
 	icon_off = "secureresoff"
 
 /obj/structure/closet/secure_closet/scientist_torch/WillContain()
@@ -96,7 +92,6 @@
 		/obj/item/clothing/suit/storage/toggle/labcoat/science,
 		/obj/item/clothing/suit/storage/toggle/labcoat,
 		/obj/item/clothing/shoes/white,
-		/obj/item/weapon/cartridge/signal/science,
 		/obj/item/device/radio/headset/torchnanotrasen,
 		/obj/item/clothing/mask/gas/half,
 		/obj/item/weapon/tank/emergency/oxygen/engi,
@@ -105,6 +100,7 @@
 		/obj/item/device/taperecorder,
 		/obj/item/device/tape/random = 3,
 		/obj/item/device/camera,
+		/obj/item/device/analyzer,
 		/obj/item/taperoll/research,
 		/obj/item/clothing/gloves/latex,
 		/obj/item/clothing/glasses/science,
@@ -119,7 +115,6 @@
 	icon_closed = "miningsec"
 	icon_locked = "miningsec1"
 	icon_opened = "miningsecopen"
-	icon_broken = "miningsecbroken"
 	icon_off = "miningsecoff"
 
 /obj/structure/closet/secure_closet/prospector/WillContain()
@@ -148,7 +143,6 @@
 	icon_closed = "guard"
 	icon_locked = "guard1"
 	icon_opened = "guardopen"
-	icon_broken = "guardbroken"
 	icon_off = "guardoff"
 
 /obj/structure/closet/secure_closet/guard/WillContain()
@@ -170,14 +164,17 @@
 		/obj/item/weapon/reagent_containers/spray/pepper,
 		/obj/item/weapon/melee/baton/loaded,
 		/obj/item/weapon/handcuffs = 2,
+		/obj/item/device/flashlight/maglight,
 		/obj/item/clothing/glasses/sunglasses,
 		/obj/item/clothing/glasses/tacgoggles,
 		/obj/item/clothing/mask/balaclava,
 		/obj/item/taperoll/research,
 		/obj/item/device/hailer,
-		/obj/item/clothing/accessory/storage/webbing,
+		/obj/item/clothing/accessory/storage/black_vest,
+		/obj/item/clothing/accessory/holster/thigh,
+		/obj/item/clothing/accessory/badge/holo/NT,
 		/obj/item/device/megaphone,
-		/obj/item/weapon/gun/energy/stunrevolver,
+		/obj/item/weapon/gun/energy/secure/stunrevolver,
 		/obj/item/clothing/shoes/jackboots,
 		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack/security, /obj/item/weapon/storage/backpack/satchel_sec)),
 		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack/dufflebag/sec, /obj/item/weapon/storage/backpack/messenger/sec))

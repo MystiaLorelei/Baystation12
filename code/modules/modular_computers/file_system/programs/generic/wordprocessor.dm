@@ -3,6 +3,7 @@
 	filedesc = "NanoWord"
 	extended_desc = "This program allows the editing and preview of text documents."
 	program_icon_state = "word"
+	program_key_state = "atmos_key"
 	size = 4
 	requires_ntnet = 0
 	available_on_ntnet = 1
@@ -12,6 +13,7 @@
 	var/loaded_data
 	var/error
 	var/is_edited
+	usage_flags = PROGRAM_ALL
 
 /datum/computer_file/program/wordprocessor/proc/get_file(var/filename)
 	var/obj/item/weapon/computer_hardware/hard_drive/HDD = computer.hard_drive

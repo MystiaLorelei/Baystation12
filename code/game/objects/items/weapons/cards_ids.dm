@@ -18,6 +18,7 @@
 	w_class = ITEM_SIZE_TINY
 	slot_flags = SLOT_EARS
 	var/associated_account_number = 0
+	var/list/associated_email_login = list("login" = "", "password" = "")
 
 	var/list/files = list(  )
 
@@ -36,9 +37,9 @@
 	set src in usr
 
 	if (t)
-		src.name = text("data disk- '[]'", t)
+		src.SetName(text("data disk- '[]'", t))
 	else
-		src.name = "data disk"
+		src.SetName("data disk")
 	src.add_fingerprint(usr)
 	return
 
@@ -149,11 +150,14 @@ var/const/NO_EMAG_ACT = -50
 	return
 
 /obj/item/weapon/card/id/proc/update_name()
-	name = "[registered_name]'s ID Card"
+	SetName("[get_display_name()]'s ID Card")
+
+/obj/item/weapon/card/id/proc/get_display_name()
+	. = registered_name
 	if(military_rank && military_rank.name_short)
-		name = military_rank.name_short + " " + name
+		. = military_rank.name_short + " " + .
 	if(assignment)
-		name = name + " ([assignment])"
+		. += " ([assignment])"
 
 /obj/item/weapon/card/id/proc/set_id_photo(var/mob/M)
 	front = getFlatIcon(M, SOUTH, always_use_defdir = 1)

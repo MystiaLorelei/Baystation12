@@ -132,9 +132,8 @@
 
 /obj/item/weapon/storage/fancy/cigarettes/New()
 	..()
-	flags |= NOREACT
+	atom_flags |= ATOM_FLAG_NO_REACT|ATOM_FLAG_OPEN_CONTAINER
 	create_reagents(5 * max_storage_space)//so people can inject cigarettes without opening a packet, now with being able to inject the whole one
-	flags |= OPENCONTAINER
 
 /obj/item/weapon/storage/fancy/cigarettes/remove_from_storage(obj/item/W as obj, atom/new_location)
 	// Don't try to transfer reagents to lighters
@@ -235,6 +234,7 @@
 	desc = "The Trident brand's wood tipped little cigar, favored by the Sol corps diplomatique for their pleasant aroma. Machine made on Mars for over 100 years."
 	icon_state = "CRpacket"
 	item_state = "Dpacket"
+	max_storage_space = 5
 	key_type = /obj/item/clothing/mask/smokable/cigarette/trident
 	startswith = list(/obj/item/clothing/mask/smokable/cigarette/trident = 5)
 
@@ -262,7 +262,6 @@
 	icon = 'icons/obj/cigarettes.dmi'
 	w_class = ITEM_SIZE_SMALL
 	max_w_class = ITEM_SIZE_TINY
-	max_storage_space = 6
 	throwforce = 2
 	slot_flags = SLOT_BELT
 	storage_slots = 7
@@ -272,7 +271,7 @@
 
 /obj/item/weapon/storage/fancy/cigar/New()
 	..()
-	flags |= NOREACT
+	atom_flags |= ATOM_FLAG_NO_REACT
 	create_reagents(10 * storage_slots)
 
 /obj/item/weapon/storage/fancy/cigar/remove_from_storage(obj/item/W as obj, atom/new_location)

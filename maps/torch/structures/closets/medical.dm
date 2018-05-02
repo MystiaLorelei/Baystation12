@@ -9,7 +9,6 @@
 	icon_closed = "cmosecure"
 	icon_locked = "cmosecure1"
 	icon_opened = "cmosecureopen"
-	icon_broken = "cmosecurebroken"
 	icon_off = "cmosecureoff"
 
 /obj/structure/closet/secure_closet/CMO_torch/WillContain()
@@ -19,7 +18,6 @@
 		/obj/item/clothing/shoes/white,
 		/obj/item/clothing/suit/storage/toggle/labcoat/cmo,
 		/obj/item/clothing/suit/storage/toggle/labcoat/cmoalt,
-		/obj/item/weapon/cartridge/cmo,
 		/obj/item/device/radio/headset/heads/cmo,
 		/obj/item/device/flash,
 		/obj/item/device/megaphone,
@@ -29,10 +27,6 @@
 		/obj/item/clothing/accessory/stethoscope,
 		/obj/item/device/flashlight/pen,
 		/obj/item/clothing/glasses/hud/health,
-		/obj/item/weapon/gun/projectile/colt/officer,
-		/obj/item/ammo_magazine/c45m,
-		/obj/item/ammo_magazine/c45m,
-		/obj/item/clothing/accessory/holster/thigh,
 		/obj/item/clothing/suit/armor/pcarrier/medium/command,
 		/obj/item/clothing/head/helmet/solgov/command,
 		/obj/item/device/holowarrant,
@@ -50,7 +44,6 @@
 	icon_closed = "securesenmed"
 	icon_locked = "securesenmed1"
 	icon_opened = "securesenmedopen"
-	icon_broken = "securesenmedbroken"
 	icon_off = "securesenmedoff"
 
 /obj/structure/closet/secure_closet/medical_torchsenior/WillContain()
@@ -59,7 +52,6 @@
 		/obj/item/clothing/suit/storage/toggle/labcoat,
 		/obj/item/clothing/suit/surgicalapron,
 		/obj/item/clothing/shoes/white,
-		/obj/item/weapon/cartridge/cmo,
 		/obj/item/device/radio/headset/headset_med,
 		/obj/item/taperoll/medical,
 		/obj/item/weapon/storage/belt/medical,
@@ -83,7 +75,6 @@
 	icon_closed = "securemed"
 	icon_locked = "securemed1"
 	icon_opened = "securemedopen"
-	icon_broken = "securemedbroken"
 	icon_off = "securemedoff"
 
 /obj/structure/closet/secure_closet/medical_torch/WillContain()
@@ -93,7 +84,6 @@
 		/obj/item/clothing/suit/storage/toggle/labcoat,
 		/obj/item/clothing/suit/storage/toggle/fr_jacket,
 		/obj/item/clothing/shoes/white,
-		/obj/item/weapon/cartridge/medical,
 		/obj/item/device/radio/headset/headset_med,
 		/obj/item/taperoll/medical,
 		/obj/item/weapon/storage/belt/medical/emt,
@@ -114,16 +104,15 @@
 	icon_closed = "securemed"
 	icon_locked = "securemed1"
 	icon_opened = "securemedopen"
-	icon_broken = "securemedbroken"
 	icon_off = "securemedoff"
 
 /obj/structure/closet/secure_closet/medical_contractor/WillContain()
 	return list(
+		/obj/item/clothing/head/soft/mime,
 		/obj/item/clothing/under/rank/orderly,
 		/obj/item/clothing/accessory/storage/webbing,
 		/obj/item/clothing/suit/storage/toggle/labcoat,
 		/obj/item/clothing/shoes/white,
-		/obj/item/weapon/cartridge/medical,
 		/obj/item/device/radio/headset/headset_med,
 		/obj/item/taperoll/medical,
 		/obj/item/weapon/storage/belt/medical/emt,

@@ -12,9 +12,8 @@
 
 /datum/phenomena/dimensional_locker/Destroy()
 	if(!cabinet.loc)
-		qdel(cabinet)
-	cabinet = null
-	return ..()
+		QDEL_NULL(cabinet)
+	. = ..()
 
 /datum/phenomena/dimensional_locker/activate(var/atom/a, var/mob/living/deity/user)
 	..()
@@ -70,6 +69,7 @@
 /datum/phenomena/banishing_smite
 	name = "Banishing Smite"
 	cost = 25
+	cooldown = 300
 	flags = PHENOMENA_NEAR_STRUCTURE|PHENOMENA_MUNDANE|PHENOMENA_FOLLOWER|PHENOMENA_NONFOLLOWER
 	expected_type = /mob/living
 
@@ -98,3 +98,4 @@
 	for(var/o in contents)
 		var/atom/movable/M = o
 		M.forceMove(get_turf(src))
+	. = ..()

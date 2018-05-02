@@ -5,7 +5,6 @@
 	icon_closed = "capsecure"
 	icon_locked = "capsecure1"
 	icon_opened = "capsecureopen"
-	icon_broken = "capsecurebroken"
 	icon_off = "capsecureoff"
 
 /obj/structure/closet/secure_closet/captains/WillContain()
@@ -17,7 +16,6 @@
 		/obj/item/clothing/head/caphat/cap,
 		/obj/item/clothing/under/rank/captain,
 		/obj/item/clothing/suit/armor/vest/nt,
-		/obj/item/weapon/cartridge/captain,
 		/obj/item/clothing/head/helmet,
 		/obj/item/clothing/shoes/brown,
 		/obj/item/device/radio/headset/heads/captain,
@@ -37,7 +35,6 @@
 	icon_closed = "hopsecure"
 	icon_locked = "hopsecure1"
 	icon_opened = "hopsecureopen"
-	icon_broken = "hopsecurebroken"
 	icon_off = "hopsecureoff"
 
 /obj/structure/closet/secure_closet/hop/WillContain()
@@ -45,7 +42,6 @@
 		/obj/item/clothing/glasses/sunglasses,
 		/obj/item/clothing/suit/armor/vest/nt,
 		/obj/item/clothing/head/helmet,
-		/obj/item/weapon/cartridge/hop,
 		/obj/item/device/radio/headset/heads/hop,
 		/obj/item/weapon/storage/box/ids = 2,
 		/obj/item/weapon/gun/projectile/sec/flash,
@@ -59,7 +55,6 @@
 	icon_closed = "hopsecure"
 	icon_locked = "hopsecure1"
 	icon_opened = "hopsecureopen"
-	icon_broken = "hopsecurebroken"
 	icon_off = "hopsecureoff"
 
 /obj/structure/closet/secure_closet/hop2/WillContain()
@@ -86,7 +81,6 @@
 	icon_closed = "hossecure"
 	icon_locked = "hossecure1"
 	icon_opened = "hossecureopen"
-	icon_broken = "hossecurebroken"
 	icon_off = "hossecureoff"
 
 /obj/structure/closet/secure_closet/hos/WillContain()
@@ -101,7 +95,6 @@
 		/obj/item/clothing/suit/armor/hos/jensen,
 		/obj/item/clothing/suit/armor/hos,
 		/obj/item/clothing/head/HoS/dermal,
-		/obj/item/weapon/cartridge/hos,
 		/obj/item/device/radio/headset/heads/hos,
 		/obj/item/clothing/glasses/sunglasses/sechud,
 		/obj/item/taperoll/police,
@@ -124,7 +117,6 @@
 	icon_closed = "wardensecure"
 	icon_locked = "wardensecure1"
 	icon_opened = "wardensecureopen"
-	icon_broken = "wardensecurebroken"
 	icon_off = "wardensecureoff"
 
 /obj/structure/closet/secure_closet/warden/WillContain()
@@ -138,7 +130,6 @@
 		/obj/item/clothing/under/rank/warden/corp,
 		/obj/item/clothing/suit/armor/vest/warden,
 		/obj/item/clothing/head/warden,
-		/obj/item/weapon/cartridge/security,
 		/obj/item/device/radio/headset/headset_sec,
 		/obj/item/clothing/glasses/sunglasses/sechud,
 		/obj/item/taperoll/police,
@@ -160,7 +151,6 @@
 	icon_closed = "sec"
 	icon_locked = "sec1"
 	icon_opened = "secopen"
-	icon_broken = "secbroken"
 	icon_off = "secoff"
 
 /obj/structure/closet/secure_closet/security/WillContain()
@@ -213,7 +203,7 @@
 	icon_closed = "cabinetdetective"
 	icon_locked = "cabinetdetective_locked"
 	icon_opened = "cabinetdetective_open"
-	icon_broken = "cabinetdetective_broken"
+	icon_broken = "cabinetdetective_sparks"
 	icon_off = "cabinetdetective_broken"
 
 /obj/structure/closet/secure_closet/detective/WillContain()

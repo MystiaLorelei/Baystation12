@@ -2,6 +2,7 @@
 	filename = "ntndownloader"
 	filedesc = "NTNet Software Download Tool"
 	program_icon_state = "generic"
+	program_key_state = "generic_key"
 	program_menu_icon = "arrowthickstop-1-s"
 	extended_desc = "This program allows downloads of software from official NT repositories"
 	unsendable = 1
@@ -18,6 +19,7 @@
 	var/download_netspeed = 0
 	var/downloaderror = ""
 	var/list/downloads_queue[0]
+	usage_flags = PROGRAM_ALL
 
 /datum/computer_file/program/ntnetdownload/kill_program()
 	..()
@@ -163,6 +165,8 @@
 	for(var/datum/computer_file/program/P in ntnet_global.available_station_software)
 		// Only those programs our user can run will show in the list
 		if(!P.can_run(user) && P.requires_access_to_download)
+			continue
+		if(!P.is_supported_by_hardware(my_computer.hardware_flag, 1, user))
 			continue
 		all_entries.Add(list(list(
 		"filename" = P.filename,

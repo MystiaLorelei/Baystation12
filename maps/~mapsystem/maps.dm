@@ -87,7 +87,8 @@ var/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 
 	var/lobby_icon									// The icon which contains the lobby image(s)
 	var/list/lobby_screens = list()                 // The list of lobby screen to pick() from. If left unset the first icon state is always selected.
-	var/lobby_music/lobby_music                     // The track that will play in the lobby screen. Handed in the /setup_map() proc.
+	var/music_track/lobby_track                     // The track that will play in the lobby screen.
+	var/list/lobby_tracks = list()                  // The list of lobby tracks to pick() from. If left unset will randomly select among all available /music_track subtypes.
 	var/welcome_sound = 'sound/AI/welcome.ogg'		// Sound played on roundstart
 
 	var/default_law_type = /datum/ai_laws/nanotrasen  // The default lawset use by synth units, if not overriden by their laws var.
@@ -96,7 +97,10 @@ var/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 	var/id_hud_icons = 'icons/mob/hud.dmi' // Used by the ID HUD (primarily sechud) overlay.
 
 	var/num_exoplanets = 0
+	var/list/planet_size  //dimensions of planet zlevel, defaults to world size. Due to how maps are generated, must be (2^n+1) e.g. 17,33,65,129 etc. Map will just round up to those if set to anything other.
 	var/away_site_budget = 0
+
+	var/list/loadout_blacklist	//list of types of loadout items that will not be pickable
 
 	//Economy stuff
 	var/starting_money = 75000		//Money in station account
@@ -120,7 +124,7 @@ var/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 		"Nyx",
 		"Tau Ceti",
 		"Epsilon Ursae Minoris",
-		"S'randarr",
+		"Zamsiin-lr",
 		"Gilgamesh"
 		)
 
@@ -136,7 +140,8 @@ var/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 		"Grayson Manufactories Ltd.",
 		"Aether Atmospherics",
 		"Zeng-Hu Pharmaceuticals",
-		"Hephaestus Industries"
+		"Hephaestus Industries",
+		"Commonwealth of Ahdomai"
 		)
 
 	var/list/religion_choices = list(
@@ -154,13 +159,17 @@ var/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 		map_levels = station_levels.Copy()
 	if(!allowed_jobs)
 		allowed_jobs = subtypesof(/datum/job)
+	if(!planet_size)
+		planet_size = list(world.maxx, world.maxy)
 
 /datum/map/proc/setup_map()
-	var/list/lobby_music_tracks = subtypesof(/lobby_music)
-	var/lobby_music_type = /lobby_music
-	if(lobby_music_tracks.len)
-		lobby_music_type = pick(lobby_music_tracks)
-	lobby_music = new lobby_music_type()
+	var/lobby_track_type
+	if(lobby_tracks.len)
+		lobby_track_type = pick(lobby_tracks)
+	else
+		lobby_track_type = pick(subtypesof(/music_track))
+
+	lobby_track = decls_repository.get_decl(lobby_track_type)
 	world.update_status()
 
 /datum/map/proc/send_welcome()
@@ -178,12 +187,20 @@ var/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 	var/list/sites_by_spawn_weight = list()
 	for (var/site_name in SSmapping.away_sites_templates)
 		var/datum/map_template/ruin/away_site/site = SSmapping.away_sites_templates[site_name]
+
+		if(site.spawn_guaranteed && site.load_new_z()) // no check for budget, but guaranteed means guaranteed
+			report_progress("Loaded guaranteed away site [site]!")
+			away_site_budget -= site.cost
+			continue
+
 		sites_by_spawn_weight[site] = site.spawn_weight
 	while (away_site_budget > 0 && sites_by_spawn_weight.len)
 		var/datum/map_template/ruin/away_site/selected_site = pickweight(sites_by_spawn_weight)
 		if (!selected_site)
 			break
 		sites_by_spawn_weight -= selected_site
+		if(selected_site.cost > away_site_budget)
+			continue
 		if (selected_site.load_new_z())
 			report_progress("Loaded away site [selected_site]!")
 			away_site_budget -= selected_site.cost
@@ -196,7 +213,7 @@ var/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 
 	for(var/i = 0, i < num_exoplanets, i++)
 		var/exoplanet_type = pick(subtypesof(/obj/effect/overmap/sector/exoplanet))
-		var/obj/effect/overmap/sector/exoplanet/new_planet = new exoplanet_type
+		var/obj/effect/overmap/sector/exoplanet/new_planet = new exoplanet_type(null, planet_size[1], planet_size[2])
 		new_planet.build_level()
 
 // Used to apply various post-compile procedural effects to the map.
@@ -210,7 +227,7 @@ var/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 		M.update_icon()
 	for(var/thing in mining_floors["[zlevel]"])
 		var/turf/simulated/floor/asteroid/M = thing
-		if (istype(M))
+		if(istype(M))
 			M.updateMineralOverlays()
 
 /datum/map/proc/get_network_access(var/network)
