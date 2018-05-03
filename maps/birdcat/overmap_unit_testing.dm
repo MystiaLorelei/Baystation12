@@ -34,8 +34,6 @@
 		/area/space,
 		/area/mine/explored,
 		/area/mine/unexplored,
-		/area/centcom/control,
-		/area/maintenance/exterior,
 		/area/exoplanet,
 		/area/exoplanet/desert,
 		/area/exoplanet/grass,
