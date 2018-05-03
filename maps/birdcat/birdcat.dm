@@ -19,7 +19,7 @@
 	#include "../away/errant_pisces/errant_pisces.dm"
 	#include "../away/lar_maria/lar_maria.dm"
 
-	#include "../../code/modules/lobby_music/desire.dm"
+	#include "../../code/datums/music_tracks/desire.dm"
 
 	#define using_map_DATUM /datum/map/birdcat
 
