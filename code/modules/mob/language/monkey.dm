@@ -24,3 +24,15 @@
 	desc = "Meow meow meow."
 	key = "9"
 	shorthand = "TM"
+
+/datum/language/bird
+	name = "Bird"
+	desc = "Chirp chirp, give me food"
+	speech_verb = "chirps"
+	ask_verb = "tweets"
+	exclaim_verb = "squawks"
+	key = "m"
+	flags = RESTRICTED
+	machine_understands = 0
+	space_chance = 100
+	syllables = list("chirp", "squawk", "caw",  "warble", "cruck", "whistle", "peent", "hoot", "chatter", "cluck", "cuckoo", "cry", "trill", "quack", "tweet")

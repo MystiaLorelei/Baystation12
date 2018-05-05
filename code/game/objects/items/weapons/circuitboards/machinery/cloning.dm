@@ -25,6 +25,7 @@
 							/obj/item/weapon/stock_parts/console_screen = 1,
 							/obj/item/stack/cable_coil = 2)
 
+
 /obj/item/weapon/circuitboard/resleever
 	name = T_BOARD("neural lace resleever")
 	build_path = /obj/machinery/resleever

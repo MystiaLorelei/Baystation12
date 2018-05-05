@@ -127,12 +127,14 @@
 		item.loc = src
 		user.visible_message("\The [user] adds \a [item] to \the [src]!", "You add \a [item] to \the [src]!")
 		return
-	else if (!istype(item, /obj/item/grab))
+
+	else if (!istype(item, /obj/item/grab/normal))
 		return
-	var/obj/item/grab/G = item
+
+	var/obj/item/grab/normal/G = item
 	if (!ismob(G.affecting))
 		return
-	if (src.occupant)
+	if (occupant)
 		to_chat(user, "<span class='warning'>The scanner is already occupied!</span>")
 		return
 	if (G.affecting.abiotic())
