@@ -9,6 +9,7 @@
 	w_class = ITEM_SIZE_SMALL
 	light_strength = 5
 	slot_flags = SLOT_ID | SLOT_BELT
+	sprite_sheets = list(SPECIES_RESOMI = 'icons/mob/species/resomi/id.dmi')
 	stores_pen = TRUE
 	stored_pen = /obj/item/weapon/pen
 
@@ -36,7 +37,7 @@
 		eject_id()
 	else
 		..()
-	
+
 // PDA box
 /obj/item/weapon/storage/box/PDAs
 	name = "box of spare PDAs"

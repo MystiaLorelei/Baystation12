@@ -35,4 +35,4 @@
 	flags = RESTRICTED
 	machine_understands = 0
 	space_chance = 100
-	syllables = list("chirp", "squawk", "caw",  "warble", "cruck", "whistle", "peent", "hoot", "chatter", "cluck", "cuckoo", "cry", "trill", "quack", "tweet")
+	syllables = list("chirp", "chirpchirp", "chirpchirpchirp", "cheep", "cheepcheep", "cheeeeep", "squawk", "caw", "cawcaw", "caaaaaaw", "cawcawcaw", "warble", "warblechirp", "warblecheep", "chirpwarble", "cheepwarble", "cruck", "whistle", "peent", "hoot", "chatter", "cluck", "cuckoo", "cry", "trill", "quack", "tweet")
