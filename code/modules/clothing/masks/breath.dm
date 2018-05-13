@@ -17,6 +17,7 @@
 		SPECIES_TAJARA = 'icons/mob/species/tajaran/mask.dmi',
 		SPECIES_VOX = 'icons/mob/species/vox/masks.dmi',
 		SPECIES_UNATHI = 'icons/mob/onmob/Unathi/mask.dmi',
+		SPECIES_RESOMI = 'icons/mob/species/resomi/masks.dmi',
 		)
 
 /obj/item/clothing/mask/breath/medical
@@ -25,6 +26,9 @@
 	icon_state = "medical"
 	item_state = "medical"
 	permeability_coefficient = 0.01
+	sprite_sheets = list(
+		SPECIES_RESOMI = 'icons/mob/species/resomi/masks.dmi',
+		)
 
 /obj/item/clothing/mask/breath/anesthetic
 	desc = "A close-fitting sterile mask that is used by the anesthetic wallmounted pump."
@@ -32,6 +36,9 @@
 	icon_state = "medical"
 	item_state = "medical"
 	permeability_coefficient = 0.01
+	sprite_sheets = list(
+		SPECIES_RESOMI = 'icons/mob/species/resomi/masks.dmi',
+		)
 
 /obj/item/clothing/mask/breath/emergency
 	desc = "A close-fitting  mask that is used by the wallmounted emergency oxygen pump."
@@ -39,6 +46,9 @@
 	icon_state = "breath"
 	item_state = "breath"
 	permeability_coefficient = 0.50
+	sprite_sheets = list(
+		SPECIES_RESOMI = 'icons/mob/species/resomi/masks.dmi',
+		)
 
 /obj/item/clothing/mask/breath/bogani
 	name = "large alien mask"

@@ -13,6 +13,9 @@
 	var/gas_filter_strength = 1			//For gas mask filters
 	var/list/filtered_gases = list("phoron", "sleeping_agent")
 	armor = list(melee = 5, bullet = 5, laser = 5, energy = 0, bomb = 0, bio = 75, rad = 0)
+	sprite_sheets = list(
+		SPECIES_RESOMI = 'icons/mob/species/resomi/masks.dmi',
+		)
 
 /obj/item/clothing/mask/gas/filter_air(datum/gas_mixture/air)
 	var/datum/gas_mixture/filtered = new
@@ -38,6 +41,7 @@
 	armor = list(melee = 10, bullet = 10, laser = 10, energy = 0, bomb = 0, bio = 55, rad = 0)
 	sprite_sheets = list(
 		SPECIES_TAJARA = 'icons/mob/species/tajaran/mask.dmi',
+		SPECIES_RESOMI = 'icons/mob/species/resomi/masks.dmi',
 		)
 
 //In scaling order of utility and seriousness
@@ -57,6 +61,9 @@
 	item_state = "gas_alt"
 	body_parts_covered = FACE|EYES
 	armor = list(melee = 5, bullet = 5, laser = 5, energy = 0, bomb = 0, bio = 25, rad = 0)
+	sprite_sheets = list(
+		SPECIES_RESOMI = 'icons/mob/species/resomi/masks.dmi',
+		)
 
 /obj/item/clothing/mask/gas/swat
 	name = "\improper SWAT mask"
@@ -66,6 +73,9 @@
 	siemens_coefficient = 0.7
 	body_parts_covered = FACE|EYES
 	armor = list(melee = 15, bullet = 15, laser = 15, energy = 0, bomb = 0, bio = 75, rad = 0)
+	sprite_sheets = list(
+		SPECIES_RESOMI = 'icons/mob/species/resomi/masks.dmi',
+		)
 
 /obj/item/clothing/mask/gas/syndicate
 	name = "tactical mask"
