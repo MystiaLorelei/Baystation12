@@ -29,11 +29,11 @@ GLOBAL_LIST_INIT(music_tracks, list(
 		new/datum/track("THUNDERDOME", /music_track/thunderdome),
 		new/datum/track("Torch: A Light in the Darkness", /music_track/torch),
 		new/datum/track("Treacherous Voyage", /music_track/treacherous_voyage),
-		new/datum/track("Wake", /music_track/wake)
-		new/datum/track("Burning Rangers", 'sound/music/burning_rangers.ogg'),
-		new/datum/track("Dimension 2012", 'sound/music/dimension_2012.ogg'),
-		new/datum/track("Man in Gauze", 'sound/music/man_in_gauze.ogg'),
-		new/datum/track("Training", 'sound/music/training.ogg')
+		new/datum/track("Wake", /music_track/wake),
+		new/datum/track("Burning Rangers", /music/burning_rangers.ogg),
+		new/datum/track("Dimension 2012", /music/dimension_2012.ogg),
+		new/datum/track("Man in Gauze", /music/man_in_gauze.ogg),
+		new/datum/track("Training", /music/training.ogg)
 ))
 
 datum/track/proc/GetTrack()
