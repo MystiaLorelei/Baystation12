@@ -284,8 +284,5 @@
 #define AURA_TYPE_WEAPON "Weapon"
 #define AURA_TYPE_THROWN "Thrown"
 #define AURA_TYPE_LIFE   "Life"
-<<<<<<< HEAD
-=======
 
 #define SPECIES_BLOOD_DEFAULT 560
->>>>>>> e298d250887a806f86955ec445033a572fbe5486
