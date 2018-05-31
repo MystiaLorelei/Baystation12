@@ -122,6 +122,7 @@ var/const/NO_EMAG_ACT = -50
 
 	var/datum/mil_branch/military_branch = null //Vars for tracking branches and ranks on multi-crewtype maps
 	var/datum/mil_rank/military_rank = null
+	var/offduty = FALSE
 
 /obj/item/weapon/card/id/New()
 	..()
@@ -131,10 +132,6 @@ var/const/NO_EMAG_ACT = -50
 			rank = j.title
 			assignment = rank
 			access |= j.get_access()
-
-/obj/item/weapon/card/id/get_examine_line()
-	. = ..()
-	. += "  <a href='?src=\ref[src];look_at_id=1'>\[View\]</a>"
 
 /obj/item/weapon/card/id/CanUseTopic(var/user)
 	if(user in view(get_turf(src)))
