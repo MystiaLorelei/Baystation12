@@ -22,7 +22,7 @@
 	icon_state = "folder_white"
 
 /obj/item/weapon/folder/nt
-	desc = "A NanoTrasen folder."
+	desc = "A corporate folder."
 	icon_state = "folder_nt"
 
 /obj/item/weapon/folder/update_icon()
@@ -33,8 +33,8 @@
 
 /obj/item/weapon/folder/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if(istype(W, /obj/item/weapon/paper) || istype(W, /obj/item/weapon/photo) || istype(W, /obj/item/weapon/paper_bundle))
-		user.drop_item()
-		W.loc = src
+		if(!user.unEquip(W, src))
+			return
 		to_chat(user, "<span class='notice'>You put the [W] into \the [src].</span>")
 		update_icon()
 	else if(istype(W, /obj/item/weapon/pen))

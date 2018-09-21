@@ -1,13 +1,13 @@
 /obj/item/modular_computer/pda
 	name = "\improper PDA"
-	desc = "A very compact computer designed to keep its user always connected."
+	desc = "A very compact computer, designed to keep its user always connected."
 	icon = 'icons/obj/modular_pda.dmi'
 	icon_state = "pda"
 	icon_state_unpowered = "pda"
 	hardware_flag = PROGRAM_PDA
 	max_hardware_size = 1
 	w_class = ITEM_SIZE_SMALL
-	light_strength = 5
+	light_strength = 2
 	slot_flags = SLOT_ID | SLOT_BELT
 	sprite_sheets = list(SPECIES_RESOMI = 'icons/mob/species/resomi/id.dmi')
 	stores_pen = TRUE

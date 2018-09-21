@@ -27,17 +27,19 @@
 
 /mob/living/carbon/Move(NewLoc, direct)
 	. = ..()
-	if(.)
-		if(src.nutrition && src.stat != 2)
-			src.nutrition -= DEFAULT_HUNGER_FACTOR/10
-			if(src.m_intent == M_RUN)
-				src.nutrition -= DEFAULT_HUNGER_FACTOR/10
-		if((FAT in src.mutations) && src.m_intent == M_RUN && src.bodytemperature <= 360)
-			src.bodytemperature += 2
+	if(!.)
+		return
 
-		// Moving around increases germ_level faster
-		if(germ_level < GERM_LEVEL_MOVE_CAP && prob(8))
-			germ_level++
+	if (src.nutrition && src.stat != 2)
+		src.nutrition -= DEFAULT_HUNGER_FACTOR/10
+		if (move_intent.flags & MOVE_INTENT_EXERTIVE)
+			src.nutrition -= DEFAULT_HUNGER_FACTOR/10
+	if((FAT in src.mutations) && (move_intent.flags & MOVE_INTENT_EXERTIVE) && src.bodytemperature <= 360)
+		src.bodytemperature += 2
+
+	// Moving around increases germ_level faster
+	if(germ_level < GERM_LEVEL_MOVE_CAP && prob(8))
+		germ_level++
 
 /mob/living/carbon/relaymove(var/mob/living/user, direction)
 	if((user in src.stomach_contents) && istype(user))
@@ -51,7 +53,7 @@
 					var/mob/living/carbon/human/H = src
 					var/obj/item/organ/external/organ = H.get_organ(BP_CHEST)
 					if (istype(organ))
-						organ.take_damage(d, 0)
+						organ.take_external_damage(d, 0)
 					H.updatehealth()
 				else
 					src.take_organ_damage(d)
@@ -120,6 +122,8 @@
 			Weaken(5)
 		if(31 to INFINITY)
 			Weaken(10) //This should work for now, more is really silly and makes you lay there forever
+
+	make_jittery(min(shock_damage*5, 200))
 
 	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 	s.set_up(5, 1, loc)
@@ -272,7 +276,7 @@
 
 /mob/living/carbon/throw_item(atom/target)
 	src.throw_mode_off()
-	if(usr.stat || !target)
+	if(src.stat || !target)
 		return
 	if(target.type == /obj/screen) return
 
@@ -293,7 +297,7 @@
 			itemsize = round(M.mob_size/4)
 			var/turf/start_T = get_turf(loc) //Get the start and target tile for the descriptors
 			var/turf/end_T = get_turf(target)
-			if(start_T && end_T)
+			if(start_T && end_T && usr == src)
 				var/start_T_descriptor = "<font color='#6b5d00'>[start_T] \[[start_T.x],[start_T.y],[start_T.z]\] ([start_T.loc])</font>"
 				var/end_T_descriptor = "<font color='#6b4400'>[start_T] \[[end_T.x],[end_T.y],[end_T.z]\] ([end_T.loc])</font>"
 				admin_attack_log(usr, M, "Threw the victim from [start_T_descriptor] to [end_T_descriptor].", "Was from [start_T_descriptor] to [end_T_descriptor].", "threw, from [start_T_descriptor] to [end_T_descriptor], ")
@@ -302,28 +306,34 @@
 		var/obj/item/I = item
 		itemsize = I.w_class
 
-	src.drop_from_inventory(item)
+	if(!unEquip(item))
+		return
 	if(!item || !isturf(item.loc))
 		return
 
+	var/message = "\The [src] has thrown \the [item]."
+	var/skill_mod = 0.2
+	if(!skill_check(SKILL_HAULING, min(round(itemsize - ITEM_SIZE_HUGE) + 2, SKILL_MAX)))
+		if(prob(30))
+			Weaken(2)
+			message = "\The [src] barely manages to throw \the [item], and is knocked off-balance!"
+	else
+		skill_mod += 0.2
+
+	skill_mod += 0.8 * (get_skill_value(SKILL_HAULING) - SKILL_MIN)/(SKILL_MAX - SKILL_MIN)
+	throw_range *= skill_mod
+
 	//actually throw it!
-	src.visible_message("<span class='warning'>[src] has thrown [item].</span>", range = min(itemsize*2,world.view))
+	src.visible_message("<span class='warning'>[message]</span>", range = min(itemsize*2,world.view))
 
 	if(!src.lastarea)
 		src.lastarea = get_area(src.loc)
 	if((istype(src.loc, /turf/space)) || (src.lastarea.has_gravity == 0))
-		src.inertia_dir = get_dir(target, src)
-		step(src, inertia_dir)
+		if(prob((itemsize * itemsize * 10) * MOB_MEDIUM/src.mob_size))
+			src.inertia_dir = get_dir(target, src)
+			step(src, inertia_dir)
 
-
-/*
-	if(istype(src.loc, /turf/space) || (src.flags & NOGRAV)) //they're in space, move em one space in the opposite direction
-		src.inertia_dir = get_dir(target, src)
-		step(src, inertia_dir)
-*/
-
-
-	item.throw_at(target, throw_range, item.throw_speed, src)
+	item.throw_at(target, throw_range, item.throw_speed * skill_mod, src)
 
 /mob/living/carbon/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	..()
@@ -396,10 +406,6 @@
 /mob/living/carbon/get_default_language()
 	if(default_language && can_speak(default_language))
 		return default_language
-
-	if(!species)
-		return null
-	return species.default_language ? all_languages[species.default_language] : null
 
 /mob/living/carbon/show_inv(mob/user as mob)
 	user.set_machine(src)
@@ -480,3 +486,9 @@
 	for(var/source in stasis_sources)
 		stasis_value += stasis_sources[source]
 	stasis_sources.Cut()
+
+/mob/living/carbon/has_chem_effect(chem, threshold)
+	return (chem_effects[chem] >= threshold)
+
+/mob/living/carbon/get_sex()
+	return species.get_sex(src)

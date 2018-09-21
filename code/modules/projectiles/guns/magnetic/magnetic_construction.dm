@@ -12,7 +12,7 @@
 	if(istype(thing, /obj/item/stack/material) && construction_stage == 1)
 		var/obj/item/stack/material/reinforcing = thing
 		var/material/reinforcing_with = reinforcing.get_material()
-		if(reinforcing_with.name == DEFAULT_WALL_MATERIAL) // Steel
+		if(reinforcing_with.name == MATERIAL_STEEL) // Steel
 			if(reinforcing.get_amount() < 5)
 				to_chat(user, "<span class='warning'>You need at least 5 [reinforcing.singular_name]\s for this task.</span>")
 				return
@@ -27,7 +27,6 @@
 		return
 
 	if(istype(thing, /obj/item/pipe) && construction_stage == 3)
-		user.drop_from_inventory(thing)
 		qdel(thing)
 		user.visible_message("<span class='notice'>\The [user] jams \the [thing] into \the [src].</span>")
 		increment_construction_stage()
@@ -61,7 +60,6 @@
 
 	if(istype(thing, /obj/item/weapon/smes_coil) && construction_stage >= 6 && construction_stage <= 8)
 		user.visible_message("<span class='notice'>\The [user] installs \a [thing] into \the [src].</span>")
-		user.drop_from_inventory(thing)
 		qdel(thing)
 		increment_construction_stage()
 		return

@@ -442,8 +442,13 @@
 	required_reagents = list(/datum/reagent/tramadol/oxycodone = 1, /datum/reagent/dylovene = 1)
 	result_amount = 2
 
-/* Solidification */
+/datum/chemical_reaction/methyl_bromide
+	name = "Methyl Bromide"
+	required_reagents = list(/datum/reagent/toxin/bromide = 1, /datum/reagent/ethanol = 1, /datum/reagent/hydrazine = 1)
+	result_amount = 3
+	result = /datum/reagent/toxin/methyl_bromide
 
+/* Solidification */
 /datum/chemical_reaction/phoronsolidification
 	name = "Solid Phoron"
 	result = null
@@ -543,18 +548,29 @@
 
 	holder.clear_reagents()
 
-/datum/chemical_reaction/napalm
-	name = "Napalm"
+/datum/chemical_reaction/phlogiston
+	name = "Phlogiston"
 	result = null
 	required_reagents = list(/datum/reagent/aluminum = 1, /datum/reagent/toxin/phoron = 1, /datum/reagent/acid = 1 )
 	result_amount = 1
 
-/datum/chemical_reaction/napalm/on_reaction(var/datum/reagents/holder, var/created_volume)
+/datum/chemical_reaction/phlogiston/on_reaction(var/datum/reagents/holder, var/created_volume)
 	var/turf/location = get_turf(holder.my_atom.loc)
 	for(var/turf/simulated/floor/target_tile in range(0,location))
 		target_tile.assume_gas(/datum/reagent/toxin/phoron, created_volume, 400+T0C)
 		spawn (0) target_tile.hotspot_expose(700, 400)
-	holder.del_reagent("napalm")
+
+/datum/chemical_reaction/napalm
+	name = "Napalm"
+	result = /datum/reagent/napalm
+	required_reagents = list(/datum/reagent/aluminum = 1, /datum/reagent/acid = 1, /datum/reagent/glycerol = 1 ) //because bananas grow on palms and palm oil is used to make napalm. =/= logic
+	result_amount = 2
+
+/datum/chemical_reaction/napalmb
+	name = "Napalm B"
+	result = /datum/reagent/napalm/b
+	required_reagents = list(/datum/reagent/toxin/plasticide = 1, /datum/reagent/fuel = 1 )
+	result_amount = 2
 
 /datum/chemical_reaction/chemsmoke
 	name = "Chemsmoke"
@@ -1290,7 +1306,13 @@
 /datum/chemical_reaction/soysauce
 	name = "Soy Sauce"
 	result = /datum/reagent/nutriment/soysauce
-	required_reagents = list(/datum/reagent/drink/milk/soymilk = 4, /datum/reagent/acid = 1)
+	required_reagents = list(/datum/reagent/drink/milk/soymilk = 5, /datum/reagent/nutriment/vinegar = 5)
+	result_amount = 10
+
+/datum/chemical_reaction/soysauce_acid
+	name = "Bitey Soy Sauce"
+	result = /datum/reagent/nutriment/soysauce
+	required_reagents = list(/datum/reagent/drink/milk/soymilk = 4, /datum/reagent/acid = 1) 
 	result_amount = 5
 
 /datum/chemical_reaction/ketchup
@@ -1410,7 +1432,7 @@
 /datum/chemical_reaction/patron
 	name = "Patron"
 	result = /datum/reagent/ethanol/patron
-	required_reagents = list(/datum/reagent/ethanol/tequilla = 10, "silver" = 1)
+	required_reagents = list(/datum/reagent/ethanol/tequilla = 10, /datum/reagent/silver = 1)
 	result_amount = 10
 
 /datum/chemical_reaction/bilk
@@ -1422,8 +1444,14 @@
 /datum/chemical_reaction/icetea
 	name = "Iced Tea"
 	result = /datum/reagent/drink/tea/icetea
-	required_reagents = list(/datum/reagent/drink/ice = 1, /datum/reagent/drink/tea = 2)
+	required_reagents = list(/datum/reagent/drink/ice = 1, /datum/reagent/drink/tea = 2, /datum/reagent/sugar = 1)
 	result_amount = 3
+
+/datum/chemical_reaction/sweettea
+	name = "Sweet Tea"
+	result = /datum/reagent/drink/tea/icetea
+	required_reagents = list(/datum/chemical_reaction/icetea = 3, /datum/reagent/sugar = 1)
+	result_amount = 4
 
 /datum/chemical_reaction/icecoffee
 	name = "Iced Coffee"
@@ -1985,3 +2013,59 @@
 	result = /datum/reagent/nanoblood
 	required_reagents = list(/datum/reagent/dexalinp = 1, /datum/reagent/iron = 1, /datum/reagent/blood = 1)
 	result_amount = 3
+
+/datum/chemical_reaction/vinegar
+	name = "Apple Vinegar"
+	result = /datum/reagent/nutriment/vinegar
+	required_reagents = list(/datum/reagent/drink/juice/apple = 10)
+	catalysts = list(/datum/reagent/enzyme = 5)
+	result_amount = 10
+
+/datum/chemical_reaction/vinegar2
+	name = "Clear Vinegar"
+	result = /datum/reagent/nutriment/vinegar
+	required_reagents = list(/datum/reagent/ethanol = 10)
+	catalysts = list(/datum/reagent/enzyme = 5)
+	result_amount = 10
+
+/datum/chemical_reaction/mayo
+	name = "Vinegar Mayo"
+	result = /datum/reagent/nutriment/mayo
+	required_reagents = list(/datum/reagent/nutriment/vinegar = 5, /datum/reagent/nutriment/protein/egg = 5)
+	result_amount = 10
+
+/datum/chemical_reaction/mayo2
+	name = "Lemon Mayo"
+	result = /datum/reagent/nutriment/mayo
+	required_reagents = list(/datum/reagent/drink/juice/lemon = 5, /datum/reagent/nutriment/protein/egg = 5)
+	result_amount = 10
+
+/datum/chemical_reaction/anfo
+	name = "EZ-ANFO"
+	result = /datum/reagent/anfo
+	required_reagents = list(/datum/reagent/toxin/fertilizer/eznutrient=20, /datum/reagent/fuel=10)
+	result_amount = 15
+
+/datum/chemical_reaction/anfo2
+	name = "Left 4 ANFO"
+	result = /datum/reagent/anfo
+	required_reagents = list(/datum/reagent/toxin/fertilizer/left4zed=10, /datum/reagent/fuel=5)
+	result_amount = 10
+
+/datum/chemical_reaction/anfo3
+	name = "Robust ANFO"
+	result = /datum/reagent/anfo
+	required_reagents = list(/datum/reagent/toxin/fertilizer/robustharvest=15, /datum/reagent/fuel=5)
+	result_amount = 10
+
+/datum/chemical_reaction/anfo4
+	name = "Chemlab ANFO"
+	result = /datum/reagent/anfo
+	required_reagents = list(/datum/reagent/ammonia=10, /datum/reagent/fuel=5)
+	result_amount = 15
+
+/datum/chemical_reaction/anfo_plus
+	name = "ANFO+"
+	result = /datum/reagent/anfo/plus
+	required_reagents = list(/datum/reagent/anfo=15, /datum/reagent/aluminum=5)
+	result_amount = 20

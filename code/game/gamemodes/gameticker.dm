@@ -69,8 +69,14 @@ var/global/datum/controller/gameticker/ticker
 							sleep(1)
 							vote.process()
 			if(pregame_timeleft <= 0 || ((initialization_stage & INITIALIZATION_NOW_AND_COMPLETE) == INITIALIZATION_NOW_AND_COMPLETE))
-				current_state = GAME_STATE_SETTING_UP
-				Master.SetRunLevel(RUNLEVEL_SETUP)
+				if (Master.current_runlevel >= RUNLEVEL_LOBBY)
+					current_state = GAME_STATE_SETTING_UP
+					Master.SetRunLevel(RUNLEVEL_SETUP)
+				else
+					var/additional_time = 20
+					to_world("<B><FONT color='blue'>Waiting an additional [additional_time] seconds for initializations to complete...</FONT></B>")
+					log_world("Master initializations were not complete by the time the round was due to start! Waiting an additional [additional_time] seconds...")
+					pregame_timeleft += additional_time // yeah, this will repeat, but it's not good to go into a round with stuff not initialized!
 
 	while (!setup())
 
@@ -149,8 +155,6 @@ var/global/datum/controller/gameticker/ticker
 		CreateModularRecord(H)
 
 	callHook("roundstart")
-
-	shuttle_controller.initialize_shuttles()
 
 	spawn(0)//Forking here so we dont have to wait for this to finish
 		mode.post_setup()
@@ -486,7 +490,7 @@ var/global/datum/controller/gameticker/ticker
 	mode.declare_completion()//To declare normal completion.
 
 	//Ask the event manager to print round end information
-	GLOB.event_manager.RoundEnd()
+	SSevent.RoundEnd()
 
 	//Print a list of antagonists to the server log
 	var/list/total_antagonists = list()

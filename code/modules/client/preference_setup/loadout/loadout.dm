@@ -171,7 +171,12 @@ var/list/gear_datums = list()
 		entry += "<td width = 10% style='vertical-align:top'>[G.cost]</td>"
 		entry += "<td><font size=2>[G.get_description(get_gear_metadata(G,1))]</font>"
 		var/allowed = 1
-		if(G.allowed_roles)
+		if(G.allowed_branches && pref.char_branch)
+			var/datum/mil_branch/player_branch = mil_branches.get_branch(pref.char_branch)
+			if(!(player_branch.type in G.allowed_branches))
+				entry += "<br><i><font color=cc5555>[player_branch.name]</font></i>"
+				allowed = 0
+		if(allowed && G.allowed_roles)
 			var/good_job = 0
 			var/bad_job = 0
 			entry += "<br><i>"
@@ -293,6 +298,7 @@ var/list/gear_datums = list()
 	var/cost = 1           //Number of points used. Items in general cost 1 point, storage/armor/gloves/special use costs 2 points.
 	var/slot               //Slot to equip to.
 	var/list/allowed_roles //Roles that can spawn with this item.
+	var/list/allowed_branches //Service branches that can spawn with it.
 	var/whitelisted        //Term to check the whitelist for..
 	var/sort_category = "General"
 	var/flags              //Special tweaks in new
@@ -311,7 +317,7 @@ var/list/gear_datums = list()
 		gear_tweaks += new/datum/gear_tweak/path/type(path)
 	if(flags & GEAR_HAS_SUBTYPE_SELECTION)
 		gear_tweaks += new/datum/gear_tweak/path/subtype(path)
-		
+
 /datum/gear/proc/get_description(var/metadata)
 	. = description
 	for(var/datum/gear_tweak/gt in gear_tweaks)
@@ -336,12 +342,9 @@ var/list/gear_datums = list()
 
 /datum/gear/proc/spawn_on_mob(var/mob/living/carbon/human/H, var/metadata)
 	var/obj/item/item = spawn_item(H, metadata)
-
 	if(H.equip_to_slot_if_possible(item, slot, del_on_fail = 1, force = 1))
 		to_chat(H, "<span class='notice'>Equipping you with \the [item]!</span>")
-		return TRUE
-
-	return FALSE
+		. = item
 
 /datum/gear/proc/spawn_in_storage_or_drop(var/mob/living/carbon/human/H, var/metadata)
 	var/obj/item/item = spawn_item(H, metadata)

@@ -11,7 +11,10 @@ proc/is_complete_print(var/print)
 atom/var/list/suit_fibers
 atom/var/var/list/fingerprints
 atom/var/var/list/fingerprintshidden
-atom/var/var/fingerprintslast = null
+atom/var/var/fingerprintslast
+obj/item/var/list/trace_DNA
+mob/living/carbon/human/var/gunshot_residue
+obj/item/clothing/var/gunshot_residue
 
 /atom/proc/add_hiddenprint(mob/M)
 	if(!M || !M.key)
@@ -64,16 +67,18 @@ atom/var/var/fingerprintslast = null
 			else if(prob(75))
 				return 0
 			H.gloves.add_fingerprint(M)
-
+	var/additional_chance = 0
+	if(!M.skill_check(SKILL_FORENSICS, SKILL_BASIC))
+		additional_chance = 10
 	// Add the fingerprints
-	add_partial_print(full_print)
+	add_partial_print(full_print, additional_chance)
 	return 1
 
-/atom/proc/add_partial_print(full_print)
+/atom/proc/add_partial_print(full_print, bonus)
 	if(!fingerprints[full_print])
-		fingerprints[full_print] = stars(full_print, rand(0, 20))	//Initial touch, not leaving much evidence the first time.
+		fingerprints[full_print] = stars(full_print, rand(0 + bonus, 20 + bonus))	//Initial touch, not leaving much evidence the first time.
 	else
-		switch(stringpercent(fingerprints[full_print]))		//tells us how many stars are in the current prints.
+		switch(max(stringpercent(fingerprints[full_print]) - bonus,0))		//tells us how many stars are in the current prints.
 			if(28 to 32)
 				if(prob(1))
 					fingerprints[full_print] = full_print 		// You rolled a one buddy.
@@ -106,14 +111,26 @@ atom/var/var/fingerprintslast = null
 
 /atom/proc/transfer_fingerprints_to(var/atom/A)
 	if(fingerprints)
-		if(!A.fingerprints)
-			A.fingerprints = list()
-		A.fingerprints |= fingerprints.Copy()            //detective
+		LAZYDISTINCTADD(A.fingerprints, fingerprints)
 	if(fingerprintshidden)
-		if(!A.fingerprintshidden)
-			A.fingerprintshidden = list()
-		A.fingerprintshidden |= fingerprintshidden.Copy()    //admin
+		LAZYDISTINCTADD(A.fingerprintshidden, fingerprintshidden)
 		A.fingerprintslast = fingerprintslast
+	if(suit_fibers)
+		LAZYDISTINCTADD(A.suit_fibers, suit_fibers)
+	if(blood_DNA)
+		A.blood_DNA |= blood_DNA
+
+/obj/item/transfer_fingerprints_to(var/atom/A)
+	..()
+	if(istype(A,/obj/item) && trace_DNA)
+		var/obj/item/I = A
+		LAZYDISTINCTADD(I.trace_DNA, trace_DNA)
+
+/obj/item/clothing/transfer_fingerprints_to(var/atom/A)
+	..()
+	if(istype(A,/obj/item/clothing) && gunshot_residue)
+		var/obj/item/clothing/C = A
+		C.gunshot_residue = gunshot_residue
 
 atom/proc/add_fibers(mob/living/carbon/human/M)
 	if(!istype(M))
@@ -150,6 +167,14 @@ atom/proc/add_fibers(mob/living/carbon/human/M)
 		if(fibertext && prob(20*item_multiplier))
 			suit_fibers |= fibertext
 
+/obj/item/proc/add_trace_DNA(mob/living/carbon/M)
+	if(!istype(M))
+		return
+	if(M.isSynthetic())
+		return
+	if(istype(M.dna))
+		LAZYDISTINCTADD(trace_DNA, M.dna.unique_enzymes)
+
 /mob/proc/get_full_print()
 	return FALSE
 
@@ -166,20 +191,25 @@ atom/proc/add_fibers(mob/living/carbon/human/M)
 	if(E)
 		return E.get_fingerprint()
 
-/obj/item/organ/external/proc/get_fingerprint()
-	return
 
-/obj/item/organ/external/arm/get_fingerprint()
-	for(var/obj/item/organ/external/hand/H in children)
-		return H.get_fingerprint()
 
-/obj/item/organ/external/hand/get_fingerprint()
-	if(robotic >= ORGAN_ROBOT)
-		return null
-	if(dna && !is_stump())
-		return md5(dna.uni_identity)
+//on examination get hints of evidence
+/mob/examinate(atom/A as mob|obj|turf in view())
+	if(..())
+		return 1 //I'll admit I am just imitating examine.dm
 
-/obj/item/organ/external/afterattack(atom/A, mob/user, proximity)
-	..()
-	if(proximity && get_fingerprint())
-		A.add_partial_print(get_fingerprint())
+
+	//Detective is on the case
+	if(get_skill_value(SKILL_FORENSICS) >= SKILL_EXPERT && get_dist(src, A) <= (get_skill_value(SKILL_FORENSICS) - SKILL_ADEPT))
+		if(A.suit_fibers && A.suit_fibers.len > 0)
+			to_chat(src, "<span class='notice'>You notice some fibers embedded in \the [A]</span>")
+		if(A.fingerprints && A.fingerprints.len > 0)
+			to_chat(src, "<span class='notice'>You notice a partial print on \the [A]</span>")
+		var/obj/item/clothing/O = A
+		if(istype(O) && O.gunshot_residue)
+			to_chat(src, "<span class='notice'>You notice a faint acrid smell coming from \the [A]</span>")
+		//Noticing wiped blood is a bit harder
+		if((get_skill_value(SKILL_FORENSICS) >= SKILL_PROF) && A.blood_DNA)
+			to_chat(src, "<span class='warning'>You notice faint blood traces on \The [A]</span>")
+
+

@@ -174,6 +174,7 @@
 				/obj/item/weapon/storage/med_pouch/trauma = 2,
 				/obj/item/weapon/storage/med_pouch/burn = 2,
 				/obj/item/weapon/storage/med_pouch/toxin = 2,
+				/obj/item/weapon/storage/med_pouch/radiation = 2,
 				/obj/item/weapon/storage/med_pouch/oxyloss = 2)
 
 /obj/random/firstaid
@@ -222,7 +223,8 @@
 				/obj/item/clothing/under/syndicate = 2,
 				/obj/item/weapon/reagent_containers/syringe = 3,
 				/obj/item/weapon/reagent_containers/syringe/steroid = 2,
-				/obj/item/weapon/reagent_containers/syringe/drugs = 1)
+				/obj/item/weapon/reagent_containers/syringe/drugs = 1,
+				/obj/item/weapon/reagent_containers/food/snacks/egg/lizard = 3)
 
 /obj/random/drinkbottle
 	name = "random drink"
@@ -274,6 +276,7 @@
 				/obj/item/weapon/gun/projectile/automatic/c20r = 2,
 				/obj/item/weapon/gun/projectile/automatic/sts35 = 2,
 				/obj/item/weapon/gun/projectile/automatic/z8 = 2,
+				/obj/item/weapon/gun/projectile/beretta = 4,
 				/obj/item/weapon/gun/projectile/colt = 4,
 				/obj/item/weapon/gun/projectile/sec = 4,
 				/obj/item/weapon/gun/projectile/sec/wood = 3,
@@ -297,6 +300,7 @@
 /obj/random/handgun/spawn_choices()
 	return list(/obj/item/weapon/gun/projectile/sec = 3,
 				/obj/item/weapon/gun/energy/gun = 2,
+				/obj/item/weapon/gun/projectile/beretta = 2,
 				/obj/item/weapon/gun/projectile/colt = 2,
 				/obj/item/weapon/gun/projectile/pistol = 2,
 				/obj/item/weapon/gun/energy/retro = 1,
@@ -456,13 +460,13 @@ obj/random/closet/spawn_choices()
 	icon_state = "coin"
 
 /obj/random/coin/spawn_choices()
-	return list(/obj/item/weapon/coin/gold = 3,
-				/obj/item/weapon/coin/silver = 4,
-				/obj/item/weapon/coin/diamond = 2,
-				/obj/item/weapon/coin/iron = 4,
-				/obj/item/weapon/coin/uranium = 3,
-				/obj/item/weapon/coin/platinum = 1,
-				/obj/item/weapon/coin/phoron = 1)
+	return list(/obj/item/weapon/material/coin/gold = 3,
+				/obj/item/weapon/material/coin/silver = 4,
+				/obj/item/weapon/material/coin/diamond = 2,
+				/obj/item/weapon/material/coin/iron = 4,
+				/obj/item/weapon/material/coin/uranium = 3,
+				/obj/item/weapon/material/coin/platinum = 1,
+				/obj/item/weapon/material/coin/phoron = 1)
 
 /obj/random/toy
 	name = "random toy"
@@ -713,8 +717,8 @@ obj/random/obstruction/spawn_choices()
 				/obj/item/weapon/storage/belt/utility/full = 2,
 				/obj/item/weapon/storage/belt/medical/emt = 2,
 				/obj/item/weapon/storage/belt/medical = 2,
-				/obj/item/weapon/storage/belt/security = 2,
-				/obj/item/weapon/storage/belt/security/tactical = 1)
+				/obj/item/weapon/storage/belt/holster/security = 2,
+				/obj/item/weapon/storage/belt/holster/security/tactical = 1)
 
 /obj/random/shoes
 	name = "random footwear"
@@ -860,10 +864,10 @@ obj/random/obstruction/spawn_choices()
 				/obj/item/clothing/accessory/storage/brown_vest = 2,
 				/obj/item/clothing/accessory/storage/white_vest = 2,
 				/obj/item/clothing/accessory/storage/bandolier = 1,
-				/obj/item/clothing/accessory/holster/thigh = 1,
-				/obj/item/clothing/accessory/holster/hip = 1,
-				/obj/item/clothing/accessory/holster/waist = 1,
-				/obj/item/clothing/accessory/holster/armpit = 1,
+				/obj/item/clothing/accessory/storage/holster/thigh = 1,
+				/obj/item/clothing/accessory/storage/holster/hip = 1,
+				/obj/item/clothing/accessory/storage/holster/waist = 1,
+				/obj/item/clothing/accessory/storage/holster/armpit = 1,
 				/obj/item/clothing/accessory/kneepads = 3,
 				/obj/item/clothing/accessory/stethoscope = 2)
 
@@ -880,6 +884,16 @@ obj/random/obstruction/spawn_choices()
 				/obj/item/weapon/spacecash/bundle/c50 = 2,
 				/obj/item/weapon/spacecash/bundle/c100 = 2,
 				/obj/item/weapon/spacecash/bundle/c1000 = 1)
+
+/obj/random/documents // top secret documents for SCG eyes only
+	name = "random secret documents"
+	icon = 'icons/obj/bureaucracy.dmi'
+	icon_state = "docs_generic"
+
+/obj/random/documents/spawn_choices()
+	return list (/obj/item/documents/scg/verified = 10,
+	/obj/item/documents/scg/red = 10,
+	/obj/item/documents/scg/blue = 10)
 
 /obj/random/maintenance //Clutter and loot for maintenance and away missions
 	name = "random maintenance item"
@@ -1137,7 +1151,7 @@ var/list/random_useful_
 	if(prob(95)) // Misc. junk
 		if(!random_junk_)
 			random_junk_ = subtypesof(/obj/item/trash)
-			random_junk_ += typesof(/obj/item/weapon/cigbutt)
+			random_junk_ += typesof(/obj/item/trash/cigbutt)
 			random_junk_ += /obj/effect/decal/cleanable/spiderling_remains
 			random_junk_ += /obj/item/remains/mouse
 			random_junk_ += /obj/item/remains/robot

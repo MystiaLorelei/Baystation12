@@ -551,7 +551,7 @@
 	waypoint_station = "nav_cargo_station"
 
 /obj/effect/shuttle_landmark/supply/centcom
-	name = "Centcom"
+	name = "Offsite"
 	landmark_tag = "nav_cargo_start"
 
 /obj/effect/shuttle_landmark/supply/station
@@ -615,6 +615,7 @@
 	fuel_consumption = 2
 	logging_home_tag = "nav_hangar_guppy"
 	logging_access = access_guppy_helm
+	skill_needed = SKILL_NONE
 
 /obj/effect/shuttle_landmark/torch/hangar/guppy
 	name = "Guppy Hangar"
@@ -649,7 +650,7 @@
 /datum/shuttle/autodock/overmap/aquila
 	name = "Aquila"
 	move_time = 60
-	shuttle_area = /area/aquila_hangar/start
+	shuttle_area = list(/area/aquila/cockpit, /area/aquila/maintenance, /area/aquila/storage, /area/aquila/secure_storage, /area/aquila/mess, /area/aquila/passenger, /area/aquila/medical, /area/aquila/head, /area/aquila/airlock)
 	current_location = "nav_hangar_aquila"
 	landmark_transition = "nav_transit_aquila"
 	dock_target = "aquila_shuttle"

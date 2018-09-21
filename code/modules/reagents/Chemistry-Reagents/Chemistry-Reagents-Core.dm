@@ -165,7 +165,7 @@
 
 	else if(volume >= 10)
 		var/turf/simulated/S = T
-		S.wet_floor(1, TRUE)
+		S.wet_floor(8, TRUE)
 
 
 /datum/reagent/water/touch_obj(var/obj/O)
@@ -221,4 +221,16 @@
 /datum/reagent/fuel/touch_mob(var/mob/living/L, var/amount)
 	if(istype(L))
 		L.adjust_fire_stacks(amount / 10) // Splashing people with welding fuel to make them easy to ignite!
+
+/datum/reagent/fuel/ex_act(obj/item/weapon/reagent_containers/holder, severity)
+	if(volume <= 50)
+		return
+	var/turf/T = get_turf(holder)
+	if(volume > 500)
+		explosion(T,1,2,4)
+	else if(volume > 100)
+		explosion(T,0,1,3)
+	else if(volume > 50)
+		explosion(T,-1,1,2)
+	remove_self(volume)
 

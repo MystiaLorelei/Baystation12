@@ -1,4 +1,18 @@
 #include "bearcat_areas.dm"
+#include "bearcat_jobs.dm"
+#include "bearcat_access.dm"
+
+/obj/effect/submap_landmark/joinable_submap/bearcat
+	name = "FTV Bearcat"
+	archetype = /decl/submap_archetype/derelict/bearcat
+
+/decl/submap_archetype/derelict/bearcat
+	descriptor = "derelict"
+	map = "Bearcat Wreck"
+	crew_jobs = list(
+		/datum/job/submap/bearcat_captain,
+		/datum/job/submap/bearcat_crewman
+	)
 
 /obj/effect/overmap/ship/bearcat
 	name = "light freighter"
@@ -65,16 +79,14 @@
 	coverlocked = 0
 
 /obj/machinery/door/airlock/autoname/command
-	icon = 'icons/obj/doors/Doorhatchele.dmi'
+	door_color = COLOR_COMMAND_BLUE
 	req_access = list(access_heads)
 
 /obj/machinery/door/airlock/autoname/engineering
+	door_color = COLOR_AMBER
 	req_access = list(access_engine)
 
 /turf/simulated/floor/usedup
-	initial_gas = list("carbon_dioxide" = MOLES_O2STANDARD, "nitrogen" = MOLES_N2STANDARD)
-
-/turf/simulated/floor/wood/usedup
 	initial_gas = list("carbon_dioxide" = MOLES_O2STANDARD, "nitrogen" = MOLES_N2STANDARD)
 
 /turf/simulated/floor/tiled/usedup

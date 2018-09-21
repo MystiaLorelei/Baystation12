@@ -3,7 +3,7 @@
 	desc = "A computer used to control a nearby holodeck."
 	icon_keyboard = "tech_key"
 	icon_screen = "holocontrol"
-	req_access = list(access_heads)
+	req_access = list(access_bridge)
 	var/islocked = 0
 
 	use_power = 1
@@ -226,12 +226,6 @@
 	if(obj == null)
 		return
 
-	if(isobj(obj))
-		var/mob/M = obj.loc
-		if(ismob(M))
-			M.remove_from_mob(obj)
-			M.update_icons()	//so their overlays update
-
 	if(!silent)
 		var/obj/oldobj = obj
 		visible_message("The [oldobj.name] fades away!")
@@ -291,6 +285,7 @@
 	holographic_objs = A.copy_contents_to(linkedholodeck , 1)
 	for(var/obj/holo_obj in holographic_objs)
 		holo_obj.alpha *= 0.8 //give holodeck objs a slight transparency
+		holo_obj.holographic = TRUE
 
 	if(HP.ambience)
 		linkedholodeck.forced_ambience = HP.ambience

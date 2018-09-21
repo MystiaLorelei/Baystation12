@@ -45,7 +45,8 @@
 	//Atmos effect - Yes, you can make creatures that require phoron or co2 to survive. N2O is a trace gas and handled separately, hence why it isn't here. It'd be hard to add it. Hard and me don't mix (Yes, yes make all the dick jokes you want with that.) - Errorage
 	var/min_gas = list("oxygen" = 5)
 	var/max_gas = list("phoron" = 1, "carbon_dioxide" = 5)
-	var/unsuitable_atoms_damage = 2	//This damage is taken when atmos doesn't fit all the requirements above
+
+	var/unsuitable_atmos_damage = 2	//This damage is taken when atmos doesn't fit all the requirements above
 	var/speed = 0 //LETS SEE IF I CAN SET SPEEDS FOR SIMPLE MOBS WITHOUT DESTROYING EVERYTHING. Higher speed is slower, negative speed is faster
 
 	//LETTING SIMPLE ANIMALS ATTACK? WHAT COULD GO WRONG. Defaults to zero so Ian can still be cuddly
@@ -56,14 +57,19 @@
 	var/friendly = "nuzzles"
 	var/environment_smash = 0
 	var/resistance		  = 0	// Damage reduction
+	var/damtype = BRUTE
+	var/defense = "melee" //what armor protects against its attacks
 
 	//Null rod stuff
 	var/supernatural = 0
 	var/purge = 0
+	
+	var/bleed_ticks = 0
+	var/bleed_colour = COLOR_BLOOD_HUMAN
+	var/can_bleed = TRUE
 
 	// contained in a cage
 	var/in_stasis = 0
-
 /mob/living/simple_animal/Life()
 	..()
 	if(!living_observers_present(GetConnectedZlevels(z)))
@@ -77,6 +83,8 @@
 			set_density(1)
 		return 0
 
+	handle_atmos()
+
 	if(health <= 0)
 		death()
 		return
@@ -87,7 +95,12 @@
 	handle_stunned()
 	handle_weakened()
 	handle_paralysed()
+	handle_confused()
 	handle_supernatural()
+	handle_impaired_vision()
+	
+	if(can_bleed && bleed_ticks > 0)
+		handle_bleeding()
 
 	if(buckled && can_escape)
 		if(istype(buckled, /obj/effect/energy_net))
@@ -100,14 +113,11 @@
 
 	//Movement
 	if(!client && !stop_automated_movement && wander && !anchored)
-		if(isturf(src.loc) && !resting && !buckled && canmove)		//This is so it only moves if it's not inside a closet, gentics machine, etc.
+		if(isturf(src.loc) && !resting)		//This is so it only moves if it's not inside a closet, gentics machine, etc.
 			turns_since_move++
 			if(turns_since_move >= turns_per_move)
-				if(!(stop_automated_movement_when_pulled && pulledby)) //Soma animals don't move when pulled
-					var/moving_to = 0 // otherwise it always picks 4, fuck if I know.   Did I mention fuck BYOND
-					moving_to = pick(GLOB.cardinal)
-					set_dir(moving_to)			//How about we turn them the direction they are moving, yay.
-					Move(get_step(src,moving_to))
+				if(!(stop_automated_movement_when_pulled && pulledby)) //Some animals don't move when pulled
+					SelfMove(pick(GLOB.cardinal))
 					turns_since_move = 0
 
 	//Speaking
@@ -126,29 +136,32 @@
 					audible_emote("[pick(emote_hear)].")
 				if("emote_see")
 					visible_emote("[pick(emote_see)].")
+	return 1
 
-	if(in_stasis)
-		return 1 // return early to skip atmos checks
-
+/mob/living/simple_animal/proc/handle_atmos(var/atmos_suitable = 1)
 	//Atmos
-	var/atmos_suitable = 1
 
-	var/atom/A = loc
 	if(!loc)
-		return 1
-	var/datum/gas_mixture/environment = A.return_air()
+		return
 
+	var/datum/gas_mixture/environment = loc.return_air()
 	if(!(SPACERES in mutations) && environment)
-		if( abs(environment.temperature - bodytemperature) > 40 )
-			bodytemperature += (environment.temperature - bodytemperature) / 5
-		if(min_gas)
-			for(var/gas in min_gas)
-				if(environment.gas[gas] < min_gas[gas])
-					atmos_suitable = 0
-		if(max_gas)
-			for(var/gas in max_gas)
-				if(environment.gas[gas] > max_gas[gas])
-					atmos_suitable = 0
+
+		if(abs(environment.temperature - bodytemperature) > 40 )
+			bodytemperature += ((environment.temperature - bodytemperature) / 5)
+
+		 // don't bother checking it twice if we got a supplied 0 val.
+		if(atmos_suitable)
+			if(LAZYLEN(min_gas))
+				for(var/gas in min_gas)
+					if(environment.gas[gas] < min_gas[gas])
+						atmos_suitable = FALSE
+						break
+			if(atmos_suitable && LAZYLEN(max_gas))
+				for(var/gas in max_gas)
+					if(environment.gas[gas] > max_gas[gas])
+						atmos_suitable = FALSE
+						break
 
 	//Atmos effect
 	if(bodytemperature < minbodytemp)
@@ -161,8 +174,7 @@
 		fire_alert = 0
 
 	if(!atmos_suitable)
-		adjustBruteLoss(unsuitable_atoms_damage)
-	return 1
+		adjustBruteLoss(unsuitable_atmos_damage)
 
 /mob/living/simple_animal/proc/escape(mob/living/M, obj/O)
 	O.unbuckle_mob(M)
@@ -208,8 +220,17 @@
 			//TODO: Push the mob away or something
 
 		if(I_HURT)
-			adjustBruteLoss(harm_intent_damage)
-			M.visible_message("<span class='warning'>[M] [response_harm] \the [src]!</span>")
+			var/dealt_damage = harm_intent_damage
+			var/harm_verb = response_harm
+			if(ishuman(M) && M.species)
+				var/datum/unarmed_attack/attack = M.get_unarmed_attack(src)
+				dealt_damage = attack.damage <= dealt_damage ? dealt_damage : attack.damage
+				harm_verb = pick(attack.attack_verb)
+				if(attack.sharp || attack.edge)
+					adjustBleedTicks(dealt_damage)
+
+			adjustBruteLoss(dealt_damage)
+			M.visible_message("<span class='warning'>[M] [harm_verb] \the [src]!</span>")
 			M.do_attack_animation(src)
 
 	return
@@ -222,19 +243,15 @@
 				to_chat(user, "<span class='notice'>That [MED] won't help \the [src] at all!</span>")
 				return
 			if(health < maxHealth)
-				if(MED.amount >= 1)
+				if(MED.can_use(1))
 					adjustBruteLoss(-MED.animal_heal)
-					MED.amount -= 1
-					if(MED.amount <= 0)
-						qdel(MED)
-					for(var/mob/M in viewers(src, null))
-						if ((M.client && !( M.blinded )))
-							M.show_message("<span class='notice'>[user] applies the [MED] on [src].</span>")
+					visible_message("<span class='notice'>[user] applies the [MED] on [src].</span>")
+					MED.use(1)
 		else
 			to_chat(user, "<span class='notice'>\The [src] is dead, medical items won't bring \him back to life.</span>")
 		return
 	if(meat_type && (stat == DEAD))	//if the animal has a meat, and if it is dead.
-		if(istype(O, /obj/item/weapon/material/knife) || istype(O, /obj/item/weapon/material/knife/butch))
+		if(O.edge)
 			harvest(user)
 	else
 		if(!O.force)
@@ -259,6 +276,8 @@
 		damage *= 2
 		purge = 3
 	adjustBruteLoss(damage)
+	if(O.edge || O.sharp)
+		adjustBleedTicks(damage)
 
 	return 0
 
@@ -358,7 +377,10 @@
 			meat.SetName("[src.name] [meat.name]")
 		if(issmall(src))
 			user.visible_message("<span class='danger'>[user] chops up \the [src]!</span>")
-			new/obj/effect/decal/cleanable/blood/splatter(get_turf(src))
+			if(can_bleed)
+				var/obj/effect/decal/cleanable/blood/splatter/splat = new(get_turf(src))
+				splat.basecolor = bleed_colour
+				splat.update_icon()
 			qdel(src)
 		else
 			user.visible_message("<span class='danger'>[user] butchers \the [src] messily!</span>")
@@ -373,3 +395,25 @@
 	return
 /mob/living/simple_animal/ExtinguishMob()
 	return
+
+/mob/living/simple_animal/is_burnable()
+	return heat_damage_per_tick
+
+/mob/living/simple_animal/proc/adjustBleedTicks(var/amount)
+	if(!can_bleed)
+		return
+
+	if(amount > 0)
+		bleed_ticks = max(bleed_ticks, amount)
+	else
+		bleed_ticks = max(bleed_ticks + amount, 0)
+		
+	bleed_ticks = round(bleed_ticks)
+	
+/mob/living/simple_animal/proc/handle_bleeding()
+	bleed_ticks--
+	adjustBruteLoss(1)
+	
+	var/obj/effect/decal/cleanable/blood/drip/drip = new(get_turf(src))
+	drip.basecolor = bleed_colour
+	drip.update_icon()

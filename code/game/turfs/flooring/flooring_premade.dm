@@ -50,11 +50,6 @@
 	icon_state = "grass0"
 	initial_flooring = /decl/flooring/grass
 
-/turf/simulated/floor/diona
-	name = "biomass"
-	icon = 'icons/turf/floors.dmi'
-	initial_flooring = /decl/flooring/diona
-
 /turf/simulated/floor/carpet
 	name = "brown carpet"
 	icon = 'icons/turf/flooring/carpet.dmi'
@@ -122,9 +117,6 @@
 /turf/simulated/floor/reinforced/phoron/fuel
 	initial_gas = list("phoron" = ATMOSTANK_PHORON_FUEL)
 
-/turf/simulated/floor/reinforced/hydrogen
-	initial_gas = list("hydrogen" = ATMOSTANK_HYDROGEN)
-
 /turf/simulated/floor/reinforced/hydrogen/fuel
 	initial_gas = list("hydrogen" = ATMOSTANK_HYDROGEN_FUEL)
 
@@ -157,6 +149,11 @@
 	icon_state = "dark"
 	initial_flooring = /decl/flooring/tiling/dark
 
+/turf/simulated/floor/tiled/dark/monotile
+	name = "floor"
+	icon_state = "monotiledark"
+	initial_flooring = /decl/flooring/tiling/mono/dark
+
 /turf/simulated/floor/tiled/dark/airless
 	initial_gas = null
 
@@ -168,12 +165,12 @@
 /turf/simulated/floor/tiled/white/monotile
 	name = "floor"
 	icon_state = "monotile"
-	initial_flooring = /decl/flooring/tiling/mono
+	initial_flooring = /decl/flooring/tiling/mono/white
 
 /turf/simulated/floor/tiled/monofloor
 	name = "floor"
 	icon_state = "steel_monofloor"
-	initial_flooring = /decl/flooring/tiling/new_tile/monofloor
+	initial_flooring = /decl/flooring/tiling/mono
 
 /turf/simulated/floor/tiled/white/airless
 	name = "airless floor"
@@ -331,3 +328,9 @@
 /turf/simulated/floor/beach/water/New()
 	..()
 	overlays += image("icon"='icons/misc/beach.dmi',"icon_state"="water5","layer"=MOB_LAYER+0.1)
+
+/turf/simulated/floor/crystal
+	name = "crystal floor"
+	icon = 'icons/turf/flooring/crystal.dmi'
+	icon_state = ""
+	initial_flooring = /decl/flooring/crystal

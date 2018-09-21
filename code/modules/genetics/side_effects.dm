@@ -23,11 +23,11 @@
 	start(mob/living/carbon/human/H)
 		H.visible_message("<B>\The [H]</B> starts turning very red...")
 
-	finish(mob/living/carbon/human/H)
-		if(!H.reagents.has_reagent(/datum/reagent/dexalin))
-			for(var/organ_name in BP_ALL_LIMBS)
-				var/obj/item/organ/external/E = H.get_organ(organ_name)
-				E.take_damage(0, 5, 0)
+/datum/genetics/side_effect/genetic_burn/finish(mob/living/carbon/human/H)
+	if(!H.reagents.has_reagent(/datum/reagent/dexalin))
+		for(var/organ_name in BP_ALL_LIMBS)
+			var/obj/item/organ/external/E = H.get_organ(organ_name)
+			E.take_external_damage(0, 5, 0)
 
 /datum/genetics/side_effect/bone_snap
 	name = "Bone Snap"
@@ -36,15 +36,14 @@
 	effect = "Subject's bone breaks."
 	duration = 10*60
 
-	start(mob/living/carbon/human/H)
-		H.visible_message("<B>\The [H]</B>'s limbs start shivering uncontrollably.")
-
-	finish(mob/living/carbon/human/H)
-		if(!H.reagents.has_reagent(/datum/reagent/bicaridine))
-			var/organ_name = pick(BP_ALL_LIMBS)
-			var/obj/item/organ/external/E = H.get_organ(organ_name)
-			E.take_damage(20, 0, 0)
-			E.fracture()
+/datum/genetics/side_effect/bone_snap/start(mob/living/carbon/human/H)
+	H.visible_message("<B>\The [H]</B>'s limbs start shivering uncontrollably.")
+/datum/genetics/side_effect/bone_snap/finish(mob/living/carbon/human/H)
+	if(!H.reagents.has_reagent(/datum/reagent/bicaridine))
+		var/organ_name = pick(BP_ALL_LIMBS)
+		var/obj/item/organ/external/E = H.get_organ(organ_name)
+		E.take_external_damage(20, 0, 0)
+		E.fracture()
 
 /datum/genetics/side_effect/confuse
 	name = "Confuse"

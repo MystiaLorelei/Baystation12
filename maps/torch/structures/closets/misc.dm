@@ -1,5 +1,5 @@
 /obj/structure/closet/secure_closet/liaison
-	name = "\improper NanoTrasen liaison's locker"
+	name = "\improper corporate liaison's locker"
 	req_access = list(access_liaison)
 	icon_state = "nanottwo1"
 	icon_closed = "nanottwo"
@@ -10,18 +10,15 @@
 /obj/structure/closet/secure_closet/liaison/WillContain()
 	return list(
 		/obj/item/device/flash,
-		/obj/item/weapon/hand_labeler,
-		/obj/item/device/camera,
-		/obj/item/device/camera_film = 2,
 		/obj/item/weapon/clipboard,
 		/obj/item/weapon/folder,
-		/obj/item/device/taperecorder,
 		/obj/item/device/tape/random = 3,
 		/obj/item/weapon/storage/secure/briefcase,
 		/obj/item/clothing/shoes/laceup,
 		/obj/item/clothing/under/rank/internalaffairs/plain/nt,
 		/obj/item/clothing/suit/storage/toggle/suit/black,
 		/obj/item/clothing/glasses/sunglasses/big,
+		/obj/item/weapon/storage/belt/general,
 		new /datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack, /obj/item/weapon/storage/backpack/satchel)),
 		new /datum/atom_creator/simple(/obj/item/weapon/storage/backpack/messenger, 50),
 		/obj/item/weapon/storage/fakebook
@@ -39,12 +36,9 @@
 /obj/structure/closet/secure_closet/representative/WillContain()
 	return list(
 		/obj/item/device/flash,
-		/obj/item/weapon/hand_labeler,
-		/obj/item/device/camera,
 		/obj/item/device/camera_film = 2,
 		/obj/item/weapon/clipboard,
 		/obj/item/weapon/folder,
-		/obj/item/device/taperecorder,
 		/obj/item/device/tape/random = 3,
 		/obj/item/weapon/storage/secure/briefcase,
 		/obj/item/device/radio/headset/headset_com,
@@ -91,7 +85,7 @@
 
 /obj/structure/closet/secure_closet/guncabinet/sidearm/WillContain()
 	return list(
-			/obj/item/clothing/accessory/holster/thigh = 2,
+			/obj/item/clothing/accessory/storage/holster/thigh = 2,
 			/obj/item/weapon/gun/energy/gun/secure = 3,
 	)
 
@@ -107,7 +101,7 @@
 /obj/structure/closet/secure_closet/guncabinet/sidearm/combined/WillContain()
 	return list(
 		/obj/item/weapon/gun/energy/gun/small/secure = 2,
-		/obj/item/clothing/accessory/holster/thigh = 2,
+		/obj/item/weapon/storage/belt/holster/general = 2,
 		/obj/item/weapon/gun/energy/gun/secure = 2,
 		new /datum/atom_creator/weighted(list(/obj/item/weapon/gun/energy/gun/secure, /obj/item/weapon/gun/energy/gun/small/secure))
 	)

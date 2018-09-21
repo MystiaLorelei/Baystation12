@@ -38,6 +38,7 @@ var/list/flooring_types
 	var/descriptor = "tiles"
 	var/flags
 	var/can_paint
+	var/can_engrave = TRUE
 
 /decl/flooring/proc/on_remove()
 	return
@@ -51,6 +52,7 @@ var/list/flooring_types
 	damage_temperature = T0C+80
 	flags = TURF_HAS_EDGES | TURF_REMOVE_SHOVEL
 	build_type = /obj/item/stack/tile/grass
+	can_engrave = FALSE
 
 /decl/flooring/asteroid
 	name = "coarse sand"
@@ -59,6 +61,7 @@ var/list/flooring_types
 	icon_base = "asteroid"
 	flags = TURF_HAS_EDGES | TURF_REMOVE_SHOVEL
 	build_type = null
+	can_engrave = FALSE
 
 /decl/flooring/carpet
 	name = "brown carpet"
@@ -68,6 +71,7 @@ var/list/flooring_types
 	build_type = /obj/item/stack/tile/carpet
 	damage_temperature = T0C+200
 	flags = TURF_HAS_EDGES | TURF_HAS_CORNERS | TURF_REMOVE_CROWBAR | TURF_CAN_BURN
+	can_engrave = FALSE
 
 /decl/flooring/carpet/blue
 	name = "blue carpet"
@@ -113,7 +117,7 @@ var/list/flooring_types
 	desc = "Scuffed from the passage of countless greyshirts."
 	icon = 'icons/turf/flooring/tiles.dmi'
 	icon_base = "tiled"
-	color = COLOR_GUNMETAL
+	color = COLOR_DARK_GUNMETAL
 	has_damage_range = 4
 	damage_temperature = T0C+1400
 	flags = TURF_REMOVE_CROWBAR | TURF_CAN_BREAK | TURF_CAN_BURN
@@ -124,13 +128,20 @@ var/list/flooring_types
 	icon_base = "monotile"
 	build_type = /obj/item/stack/tile/mono
 
+/decl/flooring/tiling/mono/dark
+	color = COLOR_DARK_GRAY
+	build_type = /obj/item/stack/tile/mono/dark
+
+/decl/flooring/tiling/mono/white
+	icon_base = "monotile_light"
+	color = COLOR_OFF_WHITE
+	build_type = /obj/item/stack/tile/mono/white
+
 /decl/flooring/tiling/white
+	icon_base = "tiled_light"
 	desc = "How sterile."
 	color = COLOR_OFF_WHITE
 	build_type = /obj/item/stack/tile/floor_white
-
-/decl/flooring/tiling/white/mono
-	icon_base = "monotile"
 
 /decl/flooring/tiling/dark
 	desc = "How ominous."
@@ -217,6 +228,7 @@ var/list/flooring_types
 	build_type = null
 	flags = TURF_ACID_IMMUNE | TURF_CAN_BREAK | TURF_REMOVE_WRENCH
 	can_paint = 1
+	can_engrave = FALSE
 
 /decl/flooring/reinforced/circuit/green
 	icon_base = "gcircuit"
@@ -245,6 +257,7 @@ var/list/flooring_types
 	build_type = null
 	flags = TURF_ACID_IMMUNE | TURF_CAN_BREAK | TURF_REMOVE_WRENCH
 	can_paint = 1
+	can_engrave = FALSE
 
 /decl/flooring/reinforced/shuttle/blue
 	icon_base = "floor"
@@ -267,9 +280,9 @@ var/list/flooring_types
 /decl/flooring/reinforced/shuttle/black
 	icon_base = "floor7"
 
-/decl/flooring/diona
-	name = "biomass"
-	desc = "a mass of small intertwined aliens forming a floor... Creepy."
-	icon = 'icons/turf/floors.dmi'
-	icon_base = "diona"
-	flags = TURF_ACID_IMMUNE | TURF_REMOVE_SHOVEL
+/decl/flooring/crystal
+	name = "crystal floor"
+	icon = 'icons/turf/flooring/crystal.dmi'
+	build_type = null
+	flags = TURF_ACID_IMMUNE | TURF_CAN_BREAK | TURF_REMOVE_CROWBAR
+	color = "#00ffe1"

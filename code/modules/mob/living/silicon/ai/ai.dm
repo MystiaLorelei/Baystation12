@@ -131,7 +131,6 @@ var/list/ai_verbs_default = list(
 
 	fully_replace_character_name(pickedName)
 	anchored = 1
-	canmove = 0
 	set_density(1)
 
 	holo_icon = getHologramIcon(icon('icons/mob/hologram.dmi',"Face"))
@@ -153,7 +152,6 @@ var/list/ai_verbs_default = list(
 	add_language(LANGUAGE_EAL, 1)
 	add_language(LANGUAGE_SOL_COMMON, 1)
 	add_language(LANGUAGE_UNATHI, 1)
-	add_language(LANGUAGE_SIIK_MAAS, 1)
 	add_language(LANGUAGE_SKRELLIAN, 1)
 	add_language(LANGUAGE_LUNAR, 1)
 	add_language(LANGUAGE_RESOMI, 1)	
@@ -559,8 +557,8 @@ var/list/ai_verbs_default = list(
 		if(choice)
 			qdel(holo_icon)
 			qdel(holo_icon_longrange)
-			holo_icon = getHologramIcon(icon(choice.icon, choice.icon_state), noDecolor=choice.icon_colorize)
-			holo_icon_longrange = getHologramIcon(icon(choice.icon, choice.icon_state), noDecolor=choice.icon_colorize, hologram_color = HOLOPAD_LONG_RANGE)
+			holo_icon = getHologramIcon(icon(choice.icon, choice.icon_state), noDecolor=choice.bypass_colorize)
+			holo_icon_longrange = getHologramIcon(icon(choice.icon, choice.icon_state), noDecolor=choice.bypass_colorize, hologram_color = HOLOPAD_LONG_RANGE)
 			holo_icon_malf = choice.requires_malf
 	return
 

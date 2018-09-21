@@ -18,9 +18,9 @@
 	..()
 	update_icon()
 
-/obj/item/weapon/implantcase/health
-	name = "glass case - 'health'"
-	imp = /obj/item/weapon/implant/health
+///obj/item/weapon/implantcase/health
+//	name = "glass case - 'health'"
+//	imp = /obj/item/weapon/implant/health
 
 /obj/item/weapon/implantcase/proc/update_description()
 	if (imp)
@@ -67,9 +67,8 @@
 		update_description()
 		update_icon()
 		M.update_icon()
-	else if (istype(I, /obj/item/weapon/implant))
+	else if (istype(I, /obj/item/weapon/implant) && user.unEquip(I, src))
 		to_chat(usr, "<span class='notice'>You slide \the [I] into \the [src].</span>")
-		user.drop_from_inventory(I,src)
 		imp = I
 		update_description()
 		update_icon()

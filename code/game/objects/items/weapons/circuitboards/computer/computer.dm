@@ -20,7 +20,7 @@
 /obj/item/weapon/circuitboard/teleporter
 	name = T_BOARD("teleporter control console")
 	build_path = /obj/machinery/computer/teleporter
-	origin_tech = list(TECH_DATA = 2, TECH_BLUESPACE = 2)
+	origin_tech = list(TECH_DATA = 2, TECH_BLUESPACE = 4)
 
 /obj/item/weapon/circuitboard/atmos_alert
 	name = T_BOARD("atmospheric alert console")
@@ -107,15 +107,15 @@
 
 /obj/item/weapon/circuitboard/helm
 	name = T_BOARD("helm control console")
-	build_path = /obj/machinery/computer/helm
+	build_path = /obj/machinery/computer/ship/helm
 
 /obj/item/weapon/circuitboard/engine
 	name = T_BOARD("engine control console")
-	build_path = /obj/machinery/computer/engines
+	build_path = /obj/machinery/computer/ship/engines
 
 /obj/item/weapon/circuitboard/nav
 	name = T_BOARD("navigation console")
-	build_path = /obj/machinery/computer/navigation
+	build_path = /obj/machinery/computer/ship/navigation
 
 /obj/item/weapon/circuitboard/mining_shuttle
 	name = T_BOARD("mining shuttle console")
@@ -147,12 +147,12 @@
 	build_path = /obj/machinery/computer/account_database
 
 //Genetics.
-/obj/item/weapon/circuitboard/scan_consolenew
-	name = T_BOARD("DNA machine")
-	build_path = /obj/machinery/computer/scan_consolenew
-	origin_tech = list(TECH_DATA = 2, TECH_BIO = 2)
+///obj/item/weapon/circuitboard/scan_consolenew
+//	name = T_BOARD("DNA machine")
+//	build_path = /obj/machinery/computer/scan_consolenew
+//	origin_tech = list(TECH_DATA = 2, TECH_BIO = 2)
 
-/obj/item/weapon/circuitboard/cloning
-	name = T_BOARD("cloning control console")
-	build_path = /obj/machinery/computer/cloning
-	origin_tech = list(TECH_DATA = 3, TECH_BIO = 3)
+///obj/item/weapon/circuitboard/cloning
+//	name = T_BOARD("cloning control console")
+//	build_path = /obj/machinery/computer/cloning
+//	origin_tech = list(TECH_DATA = 3, TECH_BIO = 3)

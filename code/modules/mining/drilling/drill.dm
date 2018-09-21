@@ -19,16 +19,16 @@
 	var/list/resource_field = list()
 
 	var/ore_types = list(
-		"iron" = /obj/item/weapon/ore/iron,
-		"uranium" = /obj/item/weapon/ore/uranium,
-		"gold" = /obj/item/weapon/ore/gold,
-		"silver" = /obj/item/weapon/ore/silver,
-		"diamond" = /obj/item/weapon/ore/diamond,
-		"phoron" = /obj/item/weapon/ore/phoron,
-		"osmium" = /obj/item/weapon/ore/osmium,
-		"hydrogen" = /obj/item/weapon/ore/hydrogen,
-		"silicates" = /obj/item/weapon/ore/glass,
-		"carbonaceous rock" = /obj/item/weapon/ore/coal
+		MATERIAL_IRON     = /obj/item/weapon/ore/iron,
+		MATERIAL_URANIUM =  /obj/item/weapon/ore/uranium,
+		MATERIAL_GOLD =     /obj/item/weapon/ore/gold,
+		MATERIAL_SILVER =   /obj/item/weapon/ore/silver,
+		MATERIAL_DIAMOND =  /obj/item/weapon/ore/diamond,
+		MATERIAL_PHORON =   /obj/item/weapon/ore/phoron,
+		MATERIAL_OSMIUM =   /obj/item/weapon/ore/osmium,
+		MATERIAL_HYDROGEN = /obj/item/weapon/ore/hydrogen,
+		MATERIAL_SAND =     /obj/item/weapon/ore/glass,
+		MATERIAL_GRAPHENE = /obj/item/weapon/ore/coal
 		)
 
 	//Upgrades
@@ -162,8 +162,8 @@
 		if(cell)
 			to_chat(user, "The drill already has a cell installed.")
 		else
-			user.drop_item()
-			O.loc = src
+			if(!user.unEquip(O, src))
+				return
 			cell = O
 			component_parts += O
 			to_chat(user, "You install \the [O].")
@@ -376,3 +376,8 @@
 
 	src.set_dir(turn(src.dir, 90))
 	return 1
+
+/obj/machinery/mining/brace/default_deconstruction_crowbar(var/mob/user, var/obj/item/weapon/crowbar/C)
+	if(connected)
+		disconnect()
+	..()

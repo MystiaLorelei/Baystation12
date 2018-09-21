@@ -1,5 +1,6 @@
 DON'T MIND THIS, NOTHING TO SEE HERE JUST DUMB BIRD JOKES AND WEIRD PERSONAL PROJECTS
 
+[Website](http://baystation12.net/) - [Code](http://github.com/Baystation12/Baystation12/) - [Discord](https://discord.gg/DrtRFxs) - [IRC](irc://irc.sorcery.net/#codershuttle)
 
 leaving the license here though because licenses are cool and good.
 ---

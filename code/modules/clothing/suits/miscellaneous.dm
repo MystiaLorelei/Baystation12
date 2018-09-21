@@ -384,13 +384,13 @@
 	icon_open = "brown_jacket_nt_open"
 	icon_closed = "brown_jacket_nt"
 
-/obj/item/clothing/suit/storage/toggle/marshal_jacket
-	name = "colonial marshal jacket"
-	desc = "A black leather jacket belonging to an agent of the Colonial Marshal Bureau."
-	icon_state = "marshal_jacket"
-	item_state = "marshal_jacket"
-	icon_open = "marshal_jacket_open"
-	icon_closed = "marshal_jacket"
+/obj/item/clothing/suit/storage/toggle/agent_jacket
+	name = "agent jacket"
+	desc = "A black leather jacket belonging to an agent of the Office of Civil Investigation and Enforcement."
+	icon_state = "agent_jacket"
+	item_state = "agent_jacket"
+	icon_open = "agent_jacket_open"
+	icon_closed = "agent_jacket"
 	valid_accessory_slots = list(ACCESSORY_SLOT_INSIGNIA)
 	body_parts_covered = UPPER_TORSO|ARMS
 
@@ -419,14 +419,14 @@
 	icon_closed = "mu_hoodie"
 
 /obj/item/clothing/suit/storage/toggle/hoodie/nt
-	name = "NanoTrasen hoodie"
-	desc = "A warm, blue sweatshirt.  It proudly bears the silver NanoTrasen insignia lettering on the back.  The edges are trimmed with silver."
+	name = "corporate hoodie"
+	desc = "A warm, blue sweatshirt. It proudly bears a corporate logo on the back. The edges are trimmed with silver."
 	icon_state = "nt_hoodie"
 	icon_open = "nt_hoodie_open"
 	icon_closed = "nt_hoodie"
 
 /obj/item/clothing/suit/storage/toggle/hoodie/smw
-	name = "Space Mountain Wind hoodie"
+	name = "\improper Space Mountain Wind hoodie"
 	desc = "A warm, black sweatshirt.  It has the logo for the popular softdrink Space Mountain Wind on both the front and the back."
 	icon_state = "smw_hoodie"
 	icon_open = "smw_hoodie_open"
@@ -466,7 +466,7 @@
 
 /obj/item/clothing/suit/poncho/roles/science
 	name = "science poncho"
-	desc = "A simple, comfortable cloak without sleeves. This one is white with a few red stripes, which are standard NanoTrasen colors."
+	desc = "A simple, comfortable cloak without sleeves. This one is white with a few red stripes, which are standard corporate colors."
 	species_restricted = null
 	icon_state = "sciponcho"
 	item_state = "sciponcho"
@@ -528,9 +528,9 @@
 	desc = "A Human suit made out of rubber."
 	icon_state = "mansuit"
 
-/obj/item/clothing/suit/rubber/tajaran
-	name = "tajara suit"
-	desc = "A Tajara suit made out of rubber."
+/obj/item/clothing/suit/rubber/cat
+	name = "cat suit"
+	desc = "A cat suit made out of rubber."
 	icon_state = "catsuit"
 
 /obj/item/clothing/suit/rubber/skrell

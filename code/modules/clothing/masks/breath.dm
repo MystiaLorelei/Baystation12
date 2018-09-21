@@ -14,7 +14,6 @@
 	down_icon_state = "breathdown"
 	pull_mask = 1
 	sprite_sheets = list(
-		SPECIES_TAJARA = 'icons/mob/species/tajaran/mask.dmi',
 		SPECIES_VOX = 'icons/mob/species/vox/masks.dmi',
 		SPECIES_UNATHI = 'icons/mob/onmob/Unathi/mask.dmi',
 		SPECIES_RESOMI = 'icons/mob/species/resomi/masks.dmi',
@@ -50,18 +49,3 @@
 		SPECIES_RESOMI = 'icons/mob/species/resomi/masks.dmi',
 		)
 
-/obj/item/clothing/mask/breath/bogani
-	name = "large alien mask"
-	desc = "Some form of alien breathing apparatus."
-	icon_state = "bmask_large"
-	item_state = "bmask_large"
-	pull_mask = 0
-	species_restricted = list(SPECIES_BOGANI)
-	sprite_sheets = list()
-
-/obj/item/clothing/mask/breath/bogani/egyno
-	name = "alien mask"
-	icon_state = "bmask"
-	item_state = "bmask"
-	species_restricted = list(SPECIES_EGYNO)
-	sprite_sheets = list()

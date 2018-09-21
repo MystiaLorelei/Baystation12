@@ -14,6 +14,17 @@
 	idle_power_usage = 60
 	active_power_usage = 10000	//10 kW. It's a big all-body scanner.
 
+/obj/machinery/bodyscanner/Initialize()
+	. = ..()
+	component_parts = list(
+		new /obj/item/weapon/circuitboard/bodyscanner(src),
+		new /obj/item/weapon/stock_parts/scanning_module(src),
+		new /obj/item/weapon/stock_parts/scanning_module(src),
+		new /obj/item/weapon/stock_parts/manipulator(src),
+		new /obj/item/weapon/stock_parts/manipulator(src),
+		new /obj/item/weapon/stock_parts/console_screen(src))
+	RefreshParts()
+
 /obj/machinery/bodyscanner/relaymove(mob/user as mob)
 	if (user.stat)
 		return
@@ -35,7 +46,6 @@
 	set src in oview(1)
 	set category = "Object"
 	set name = "Enter Body Scanner"
-
 	if (usr.stat != 0)
 		return
 	if (src.occupant)
@@ -51,7 +61,7 @@
 	src.occupant = usr
 	update_use_power(2)
 	src.icon_state = "body_scanner_1"
-	for(var/obj/O in src)
+	for(var/obj/O in (contents - component_parts))
 		//O = null
 		qdel(O)
 		//Foreach goto(124)
@@ -61,7 +71,7 @@
 /obj/machinery/bodyscanner/proc/go_out()
 	if ((!( src.occupant ) || src.locked))
 		return
-	for(var/obj/O in src)
+	for(var/obj/O in (src.contents - component_parts))
 		O.dropInto(loc)
 		//Foreach goto(30)
 	if (src.occupant.client)
@@ -75,49 +85,58 @@
 
 /obj/machinery/bodyscanner/attackby(obj/item/grab/normal/G, user as mob)
 	if(!istype(G))
-		return ..()
-	if (!ismob(G.affecting))
-		return
-	if (src.occupant)
-		to_chat(user, "<span class='warning'>The scanner is already occupied!</span>")
-		return
-	if (G.affecting.abiotic())
-		to_chat(user, "<span class='warning'>Subject cannot have abiotic items on.</span>")
-		return
+		if(default_deconstruction_screwdriver(user, G))
+			updateUsrDialog()
+			return
+		if(default_deconstruction_crowbar(user, G))
+			return
+		if(default_part_replacement(user, G))
+			return
 	var/mob/M = G.affecting
+	if(!user_can_move_target_inside(M, user))
+		return
 	M.forceMove(src)
 	src.occupant = M
+
 	update_use_power(2)
 	src.icon_state = "body_scanner_1"
-	for(var/obj/O in src)
+	for(var/obj/O in (contents - component_parts))
 		O.forceMove(loc)
+
 	src.add_fingerprint(user)
 	qdel(G)
 
+/obj/machinery/bodyscanner/proc/user_can_move_target_inside(var/mob/target, var/mob/user)
+	if(!istype(user) || !istype(target))
+		return FALSE
+	if(!CanMouseDrop(target, user))
+		return FALSE
+	if(occupant)
+		to_chat(user, "<span class='warning'>The scanner is already occupied!</span>")
+		return FALSE
+	if(target.abiotic())
+		to_chat(user, "<span class='warning'>The subject cannot have abiotic items on.</span>")
+		return FALSE
+	if(target.buckled)
+		to_chat(user, "<span class='warning'>Unbuckle the subject before attempting to move them.</span>")
+		return FALSE
+	return TRUE
+
 //Like grap-put, but for mouse-drop.
 /obj/machinery/bodyscanner/MouseDrop_T(var/mob/target, var/mob/user)
-	if(!istype(target))
-		return
-	if (!CanMouseDrop(target, user))
-		return
-	if (src.occupant)
-		to_chat(user, "<span class='warning'>The scanner is already occupied!</span>")
-		return
-	if (target.abiotic())
-		to_chat(user, "<span class='warning'>The subject cannot have abiotic items on.</span>")
-		return
-	if (target.buckled)
-		to_chat(user, "<span class='warning'>Unbuckle the subject before attempting to move them.</span>")
+	if(!user_can_move_target_inside(target, user))
 		return
 	user.visible_message("<span class='notice'>\The [user] begins placing \the [target] into \the [src].</span>", "<span class='notice'>You start placing \the [target] into \the [src].</span>")
 	if(!do_after(user, 30, src))
+		return
+	if(!user_can_move_target_inside(target, user))
 		return
 	var/mob/M = target
 	M.forceMove(src)
 	src.occupant = M
 	update_use_power(2)
 	src.icon_state = "body_scanner_1"
-	for(var/obj/O in src)
+	for(var/obj/O in (contents - component_parts))
 		O.forceMove(loc)
 	src.add_fingerprint(user)
 
@@ -167,6 +186,8 @@
 		else
 	return
 
+
+
 /obj/machinery/body_scanconsole/update_icon()
 	if(stat & BROKEN)
 		icon_state = "body_scannerconsole-p"
@@ -186,13 +207,19 @@
 	density = 0
 	anchored = 1
 
-
 /obj/machinery/body_scanconsole/Initialize()
+	. = ..()
+	component_parts = list(
+		new /obj/item/weapon/circuitboard/body_scanconsole(src),
+		new /obj/item/weapon/stock_parts/console_screen(src))
+	RefreshParts()
+	FindScanner()
+
+/obj/machinery/body_scanconsole/proc/FindScanner()
 	for(var/D in GLOB.cardinal)
 		src.connected = locate(/obj/machinery/bodyscanner, get_step(src, D))
 		if(src.connected)
 			break
-	return ..()
 
 /obj/machinery/body_scanconsole/attack_ai(user as mob)
 	return src.attack_hand(user)
@@ -268,6 +295,15 @@
 	dat += "<BR><HR><A href='?src=\ref[];mach_close=scanconsole'>Close</A>"
 	show_browser(user, jointext(dat, null), "window=scanconsole;size=430x600")
 
+/obj/machinery/body_scanconsole/attackby(var/obj/item/O, user as mob)
+	if(default_deconstruction_screwdriver(user, O))
+		updateUsrDialog()
+		return
+	if(default_deconstruction_crowbar(user, O))
+		return
+	if(default_part_replacement(user, O))
+		return
+
 /mob/living/carbon/human/proc/get_medical_data(skill_level = SKILL_DEFAULT)
 	var/mob/living/carbon/human/H = src
 	var/dat = list()
@@ -290,6 +326,7 @@
 	dat += "<b>Brain activity:</b> [brain_result]"
 
 	var/pulse_result = "normal"
+	var/pulse_suffix = "bpm"
 	if(H.should_have_organ(BP_HEART))
 		if(H.status_flags & FAKEDEATH)
 			pulse_result = 0
@@ -297,7 +334,8 @@
 			pulse_result = H.get_pulse(1)
 	else
 		pulse_result = "ERROR - Nonstandard biology"
-	dat += "<b>Pulse rate:</b> [pulse_result]bpm."
+		pulse_suffix = ""
+	dat += "<b>Pulse rate:</b> [pulse_result][pulse_suffix]"
 
 	// Blood pressure. Based on the idea of a normal blood pressure being 120 over 80.
 	if(H.get_blood_volume() <= 70)
@@ -356,16 +394,16 @@
 		else
 			row += "<td>"
 			if(E.brute_dam)
-				table += "[capitalize(get_wound_severity(E.brute_ratio, E.can_heal_overkill))] physical trauma"
+				row += "[capitalize(get_wound_severity(E.brute_ratio, (E.limb_flags & ORGAN_FLAG_HEALS_OVERKILL)))] physical trauma"
 			if(E.burn_dam)
-				table += " [capitalize(get_wound_severity(E.burn_ratio, E.can_heal_overkill))] burns"
+				row += " [capitalize(get_wound_severity(E.burn_ratio, (E.limb_flags & ORGAN_FLAG_HEALS_OVERKILL)))] burns"
 			if(E.brute_dam + E.burn_dam == 0)
 				row += "None"
 			row += "</td><td>[english_list(E.get_scan_results(), nothing_text = "", and_text = ", ")]</td></tr>"
 		subdat += jointext(row, null)
 	if(skill_level < SKILL_BASIC)
 		pick_n_take(subdat)
-	else 
+	else
 		if(skill_level <= SKILL_ADEPT)
 			table += shuffle(subdat)
 		else table += subdat

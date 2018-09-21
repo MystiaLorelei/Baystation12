@@ -11,7 +11,7 @@
 	throw_range = 5
 	w_class = ITEM_SIZE_LARGE
 	origin_tech = list(TECH_COMBAT = 1)
-	matter = list(DEFAULT_WALL_MATERIAL = 500)
+	matter = list(MATERIAL_STEEL = 500)
 	var/status = 0
 	var/throw_amount = 100
 	var/lit = 0	//on or off
@@ -93,8 +93,8 @@
 		var/obj/item/device/assembly/igniter/I = W
 		if(I.secured)	return
 		if(igniter)		return
-		user.drop_item()
-		I.loc = src
+		if(!user.unEquip(I, src))
+			return
 		igniter = I
 		update_icon()
 		return
@@ -103,9 +103,9 @@
 		if(ptank)
 			to_chat(user, "<span class='notice'>There appears to already be a hydrogen tank loaded in [src]!</span>")
 			return
-		user.drop_item()
+		if(!user.unEquip(W, src))
+			return
 		ptank = W
-		W.loc = src
 		update_icon()
 		return
 

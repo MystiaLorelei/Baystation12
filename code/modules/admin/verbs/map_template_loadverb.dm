@@ -15,15 +15,12 @@
 	if(!T)
 		return
 
-	var/clear_contents = (alert(usr, "Do you want to delete everything in the way of the template? \
-		May take a few seconds, particularly on  larger templates!", "Clear Contents", "No", "Yes") == "Yes")
-
 	var/list/preview = list()
 	for(var/S in template.get_affected_turfs(T,centered = TRUE))
 		preview += image('icons/turf/overlays.dmi',S,"greenOverlay")
 	usr.client.images += preview
 	if(alert(usr,"Confirm location.","Template Confirm","Yes","No") == "Yes")
-		if(template.load(T, centered = TRUE, clear_contents=clear_contents))
+		if(template.load(T, centered = TRUE))
 			log_and_message_admins("has placed a map template ([template.name]).")
 		else
 			to_chat(usr, "Failed to place map")
@@ -42,7 +39,7 @@
 
 	var/datum/map_template/template = SSmapping.map_templates[map]
 
-	if (template.loaded && !template.allow_duplicates)
+	if (template.loaded && !(template.template_flags & TEMPLATE_FLAG_ALLOW_DUPLICATES))
 		var/jesus_take_the_wheel = alert(usr, "That template has already been loaded and doesn't want to be loaded again. \
 			Proceeding may unpredictably break things and cause runtimes.", "Confirm load", "Cancel load", "Do you see any cops around?") == "Do you see any cops around?"
 		if (!jesus_take_the_wheel)

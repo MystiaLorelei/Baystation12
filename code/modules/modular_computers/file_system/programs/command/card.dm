@@ -87,7 +87,7 @@
 					"accesses" = accesses)))
 			data["regions"] = regions
 
-	ui = GLOB.nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
+	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if (!ui)
 		ui = new(user, src, ui_key, "identification_computer.tmpl", name, 600, 700, state = state)
 		ui.auto_update_layout = 1
@@ -184,6 +184,8 @@
 					var/temp_name = sanitizeName(input("Enter name.", "Name", id_card.registered_name),allow_numbers=TRUE)
 					if(temp_name)
 						id_card.registered_name = temp_name
+						id_card.formal_name_suffix = initial(id_card.formal_name_suffix)
+						id_card.formal_name_prefix = initial(id_card.formal_name_prefix)
 					else
 						computer.visible_message("<span class='notice'>[computer] buzzes rudely.</span>")
 				else if(href_list["account"])
@@ -237,7 +239,7 @@
 	if(id_card)
 		id_card.SetName(text("[id_card.registered_name]'s ID Card ([id_card.assignment])"))
 
-	GLOB.nanomanager.update_uis(NM)
+	SSnano.update_uis(NM)
 	return 1
 
 /datum/computer_file/program/card_mod/proc/remove_nt_access(var/obj/item/weapon/card/id/id_card)

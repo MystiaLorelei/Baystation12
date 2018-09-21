@@ -4,7 +4,7 @@
 	program_icon_state = "generic"
 	program_key_state = "generic_key"
 	program_menu_icon = "arrowthickstop-1-s"
-	extended_desc = "This program allows downloads of software from official NT repositories"
+	extended_desc = "This program allows downloads of software from official software repositories"
 	unsendable = 1
 	undeletable = 1
 	size = 4
@@ -194,7 +194,7 @@
 	if(prog.downloads_queue.len > 0)
 		data["downloads_queue"] = prog.downloads_queue
 
-	ui = GLOB.nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
+	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if (!ui)
 		ui = new(user, src, ui_key, "ntnet_downloader.tmpl", "NTNet Download Program", 575, 700, state = state)
 		ui.auto_update_layout = 1

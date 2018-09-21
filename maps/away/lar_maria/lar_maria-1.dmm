@@ -274,7 +274,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/vir_main)
 "aH" = (
-/obj/structure/sink{
+/obj/structure/hygiene/sink{
 	pixel_y = 20
 	},
 /turf/simulated/floor/tiled/white,
@@ -287,7 +287,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/vir_main)
 "aJ" = (
-/obj/effect/wingrille_spawn/reinforced/full,
+/obj/effect/wallframe_spawn/reinforced,
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/vir_main)
 "aK" = (
@@ -380,7 +380,7 @@
 /turf/simulated/floor/tiled,
 /area/lar_maria/cells)
 "aZ" = (
-/obj/effect/wingrille_spawn/reinforced/full,
+/obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/door/blast/regular/open{
 	dir = 4;
 	icon_state = "pdoor0";
@@ -477,7 +477,7 @@
 	dir = 1;
 	health = 1e+006
 	},
-/obj/machinery/shower{
+/obj/structure/hygiene/shower{
 	icon_state = "shower";
 	dir = 4
 	},
@@ -583,7 +583,7 @@
 /turf/simulated/floor/plating,
 /area/lar_maria/cells)
 "bD" = (
-/obj/effect/wingrille_spawn/reinforced/full,
+/obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/door/blast/regular/open{
 	dir = 4;
 	icon_state = "pdoor0";
@@ -610,7 +610,7 @@
 	dir = 1;
 	health = 1e+006
 	},
-/obj/machinery/shower{
+/obj/structure/hygiene/shower{
 	icon_state = "shower";
 	dir = 4
 	},
@@ -875,7 +875,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/vir_main)
 "cs" = (
-/obj/structure/sink{
+/obj/structure/hygiene/sink{
 	icon_state = "sink";
 	dir = 8;
 	pixel_x = -12;
@@ -887,13 +887,13 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/cells)
 "ct" = (
-/obj/structure/toilet{
+/obj/structure/hygiene/toilet{
 	dir = 8
 	},
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/cells)
 "cu" = (
-/obj/structure/toilet{
+/obj/structure/hygiene/toilet{
 	dir = 4
 	},
 /obj/effect/landmark/corpse/lar_maria/test_subject,
@@ -901,7 +901,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/cells)
 "cv" = (
-/obj/structure/sink{
+/obj/structure/hygiene/sink{
 	dir = 4;
 	icon_state = "sink";
 	pixel_x = 11;
@@ -1024,9 +1024,6 @@
 	dir = 4
 	},
 /obj/machinery/optable,
-/obj/machinery/oxygen_pump/anesthetic{
-	pixel_y = -25
-	},
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/vir_main)
 "cH" = (
@@ -1044,9 +1041,6 @@
 	},
 /obj/machinery/optable,
 /obj/effect/landmark/corpse/lar_maria/test_subject,
-/obj/machinery/oxygen_pump/anesthetic{
-	pixel_y = -25
-	},
 /obj/effect/decal/cleanable/blood,
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/vir_main)
@@ -1364,7 +1358,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/vir_aux)
 "du" = (
-/obj/effect/wingrille_spawn/reinforced/full,
+/obj/effect/wallframe_spawn/reinforced,
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/vir_aux)
 "dv" = (
@@ -1532,7 +1526,7 @@
 /turf/simulated/floor/tiled,
 /area/lar_maria/sec_wing)
 "dU" = (
-/obj/structure/toilet{
+/obj/structure/hygiene/toilet{
 	dir = 4
 	},
 /obj/machinery/light/small{
@@ -1542,7 +1536,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/sec_wing)
 "dW" = (
-/obj/effect/wingrille_spawn/reinforced/full,
+/obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/door/blast/regular/open{
 	dir = 2;
 	icon_state = "pdoor0";
@@ -2271,14 +2265,14 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/vir_aux)
 "fH" = (
-/obj/structure/toilet{
+/obj/structure/hygiene/toilet{
 	dir = 4
 	},
 /mob/living/simple_animal/hostile/lar_maria/test_subject,
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/cells)
 "fI" = (
-/obj/structure/sink{
+/obj/structure/hygiene/sink{
 	dir = 4;
 	icon_state = "sink";
 	pixel_x = 11;
@@ -2303,15 +2297,16 @@
 /turf/simulated/floor/plating,
 /area/lar_maria/cells)
 "fK" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	dir = 4
-	},
 /obj/effect/landmark/corpse/lar_maria/test_subject,
 /obj/effect/decal/cleanable/blood,
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 4;
 	icon_state = "1-4"
+	},
+/obj/machinery/atmospherics/pipe/manifold/hidden/supply,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	dir = 4
 	},
 /turf/simulated/floor/plating,
 /area/lar_maria/cells)
@@ -2637,7 +2632,7 @@
 /obj/structure/window/reinforced{
 	dir = 4
 	},
-/obj/machinery/shower{
+/obj/structure/hygiene/shower{
 	dir = 1
 	},
 /turf/simulated/floor/tiled/white,
@@ -3058,17 +3053,17 @@
 /turf/simulated/wall,
 /area/lar_maria/vir_access)
 "hk" = (
-/obj/machinery/shower,
+/obj/structure/hygiene/shower,
 /obj/effect/landmark/corpse/lar_maria/test_subject,
 /obj/effect/decal/cleanable/blood,
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/vir_access)
 "hl" = (
-/obj/machinery/shower,
+/obj/structure/hygiene/shower,
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/vir_access)
 "hm" = (
-/obj/machinery/shower,
+/obj/structure/hygiene/shower,
 /obj/effect/decal/cleanable/blood,
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/vir_access)
@@ -3166,7 +3161,7 @@
 /turf/simulated/floor/plating,
 /area/lar_maria/cells)
 "hB" = (
-/obj/effect/wingrille_spawn/reinforced/full,
+/obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/door/firedoor,
 /obj/machinery/door/blast/regular/open{
 	dir = 4;
@@ -3357,7 +3352,7 @@
 /turf/simulated/floor/tiled,
 /area/lar_maria/vir_access)
 "hV" = (
-/obj/machinery/shower{
+/obj/structure/hygiene/shower{
 	dir = 4;
 	icon_state = "shower";
 	pixel_x = 0;
@@ -3421,7 +3416,7 @@
 /turf/simulated/floor/tiled,
 /area/lar_maria/vir_access)
 "ic" = (
-/obj/machinery/shower{
+/obj/structure/hygiene/shower{
 	dir = 4;
 	icon_state = "shower";
 	pixel_x = 0;
@@ -3636,7 +3631,7 @@
 /turf/simulated/floor/tiled,
 /area/lar_maria/sec_wing)
 "iv" = (
-/obj/effect/wingrille_spawn/reinforced/full,
+/obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/door/firedoor,
 /obj/machinery/door/blast/regular/open{
 	dir = 2;
@@ -3654,7 +3649,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/vir_access)
 "iy" = (
-/obj/machinery/shower{
+/obj/structure/hygiene/shower{
 	dir = 4;
 	icon_state = "shower";
 	pixel_x = 0;
@@ -3732,13 +3727,13 @@
 /turf/simulated/floor/tiled,
 /area/lar_maria/vir_access)
 "iG" = (
-/obj/machinery/shower{
+/obj/structure/hygiene/shower{
 	dir = 1
 	},
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/vir_access)
 "iH" = (
-/obj/machinery/shower{
+/obj/structure/hygiene/shower{
 	dir = 1
 	},
 /obj/effect/landmark/corpse/lar_maria/virologist,
@@ -3832,7 +3827,7 @@
 /turf/simulated/floor/plating,
 /area/lar_maria/morgue)
 "lb" = (
-/obj/structure/sink{
+/obj/structure/hygiene/sink{
 	dir = 4;
 	icon_state = "sink";
 	pixel_x = 11;

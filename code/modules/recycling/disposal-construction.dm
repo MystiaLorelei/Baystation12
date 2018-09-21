@@ -9,7 +9,7 @@
 	icon_state = "conpipe-s"
 	anchored = 0
 	density = 0
-	matter = list(DEFAULT_WALL_MATERIAL = 1850)
+	matter = list(MATERIAL_STEEL = 1850)
 	level = 2
 	var/sortType = ""
 	var/ptype = 0
@@ -121,7 +121,7 @@
 	set name = "Rotate Pipe"
 	set src in view(1)
 
-	if(usr.incapacitated())
+	if(usr.stat || usr.restrained() || !Adjacent(usr) || usr.incapacitated())
 		return
 
 	if(anchored)
@@ -130,6 +130,9 @@
 
 	set_dir(turn(dir, -90))
 	update()
+
+/obj/structure/disposalconstruct/AltClick()
+	rotate()
 
 /obj/structure/disposalconstruct/proc/flip()
 	set category = "Object"

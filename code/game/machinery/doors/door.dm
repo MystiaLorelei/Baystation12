@@ -10,6 +10,7 @@
 	opacity = 1
 	density = 1
 	layer = CLOSED_DOOR_LAYER
+
 	var/open_layer = OPEN_DOOR_LAYER
 	var/closed_layer = CLOSED_DOOR_LAYER
 
@@ -29,9 +30,11 @@
 	var/obj/item/stack/material/repairing
 	var/block_air_zones = 1 //If set, air zones cannot merge across the door even when it is opened.
 	var/close_door_at = 0 //When to automatically close the door, if possible
+	var/list/connections = list("0", "0", "0", "0")
+	var/list/blend_objects = list(/obj/structure/wall_frame, /obj/structure/window, /obj/structure/grille) // Objects which to blend with
 
 	//Multi-tile doors
-	dir = EAST
+	dir = SOUTH
 	var/width = 1
 
 	// turf animation
@@ -39,9 +42,12 @@
 
 	atmos_canpass = CANPASS_PROC
 
-/obj/machinery/door/attack_generic(var/mob/user, var/damage)
+/obj/machinery/door/attack_generic(var/mob/user, var/damage, var/attack_verb, var/environment_smash)
+	if(environment_smash >= 1)
+		damage = max(damage, 10)
+
 	if(damage >= 10)
-		visible_message("<span class='danger'>\The [user] smashes into \the [src]!</span>")
+		visible_message("<span class='danger'>\The [user] [attack_verb] into \the [src]!</span>")
 		take_damage(damage)
 	else
 		visible_message("<span class='notice'>\The [user] bonks \the [src] harmlessly.</span>")
@@ -65,6 +71,7 @@
 			bound_height = width * world.icon_size
 
 	health = maxhealth
+	update_connections(1)
 	update_icon()
 
 	update_nearby_tiles(need_rebuild=1)
@@ -145,8 +152,10 @@
 		return
 	src.add_fingerprint(user)
 	if(density)
-		if(allowed(user))	open()
-		else				do_animate("deny")
+		if(allowed(user))
+			open()
+		else
+			do_animate("deny")
 	return
 
 /obj/machinery/door/bullet_act(var/obj/item/projectile/Proj)
@@ -272,11 +281,12 @@
 
 	if(src.density)
 		do_animate("deny")
+	update_icon()
 	return
 
 /obj/machinery/door/emag_act(var/remaining_charges)
 	if(density && operable())
-		do_animate("spark")
+		do_animate("emag")
 		sleep(6)
 		open()
 		operating = -1
@@ -350,11 +360,19 @@
 
 
 /obj/machinery/door/update_icon()
+	if(connections in list(NORTH, SOUTH, NORTH|SOUTH))
+		if(connections in list(WEST, EAST, EAST|WEST))
+			set_dir(SOUTH)
+		else
+			set_dir(EAST)
+	else
+		set_dir(SOUTH)
+
 	if(density)
 		icon_state = "door1"
 	else
 		icon_state = "door0"
-	radiation_repository.resistance_cache.Remove(get_turf(src))
+	SSradiation.resistance_cache.Remove(get_turf(src))
 	return
 
 
@@ -476,3 +494,37 @@
 
 /obj/machinery/door/morgue
 	icon = 'icons/obj/doors/doormorgue.dmi'
+
+/obj/machinery/door/proc/update_connections(var/propagate = 0)
+	var/dirs = 0
+
+	for(var/direction in GLOB.cardinal)
+		var/turf/T = get_step(src, direction)
+		var/success = 0
+
+		if( istype(T, /turf/simulated/wall))
+			success = 1
+			if(propagate)
+				var/turf/simulated/wall/W = T
+				W.update_connections(1)
+				W.update_icon()
+
+		else if( istype(T, /turf/simulated/shuttle/wall) ||  istype(T, /turf/unsimulated/wall))
+			success = 1
+		else
+			for(var/obj/O in T)
+				for(var/b_type in blend_objects)
+					if( istype(O, b_type))
+						success = 1
+
+					if(success)
+						break
+				if(success)
+					break
+
+		if(success)
+			dirs |= direction
+	connections = dirs
+
+/obj/machinery/door/CanFluidPass(var/coming_from)
+	return !density

@@ -1,6 +1,7 @@
 /datum/map/torch
 	// Unit test exemptions
 	apc_test_exempt_areas = list(
+		/area/aquila/maintenance = NO_SCRUBBER|NO_VENT,
 		/area/engineering/atmos/storage = NO_SCRUBBER|NO_VENT,
 		/area/engineering/auxpower = NO_SCRUBBER|NO_VENT,
 		/area/engineering/drone_fabrication = NO_SCRUBBER|NO_VENT,
@@ -19,7 +20,9 @@
 		/area/maintenance/incinerator = NO_SCRUBBER,
 		/area/maintenance/seconddeck/aftport = NO_SCRUBBER,
 		/area/maintenance/seconddeck/forestarboard = NO_SCRUBBER,
-		/area/maintenance/thirddeck/aftstarboard = NO_SCRUBBER,
+		/area/maintenance/seconddeck/hallway = NO_SCRUBBER|NO_VENT,
+		/area/maintenance/thirddeck/aftstarboard = NO_SCRUBBER|NO_VENT,
+		/area/maintenance/bluespace = NO_SCRUBBER,
 		/area/janitor = NO_SCRUBBER|NO_VENT,
 		/area/mine/explored = NO_SCRUBBER|NO_VENT|NO_APC,
 		/area/mine/unexplored = NO_SCRUBBER|NO_VENT|NO_APC,
@@ -54,6 +57,7 @@
 		/area/vacant/missile = NO_SCRUBBER|NO_VENT,
 		/area/vacant/monitoring = NO_SCRUBBER|NO_VENT,
 		/area/vacant/office = 0,
+		/area/vacant/mess        = NO_SCRUBBER|NO_VENT|NO_APC,
 		/area/exoplanet          = NO_SCRUBBER|NO_VENT|NO_APC,
 		/area/exoplanet/desert   = NO_SCRUBBER|NO_VENT|NO_APC,
 		/area/exoplanet/grass    = NO_SCRUBBER|NO_VENT|NO_APC,
@@ -68,9 +72,13 @@
 		/area/mobius_rift = NO_SCRUBBER|NO_VENT|NO_APC,
 		/area/icarus/vessel = NO_APC,
 		/area/icarus/open = NO_SCRUBBER|NO_VENT|NO_APC,
+		/area/map_template/hydrobase = NO_SCRUBBER|NO_VENT|NO_APC,
+		/area/map_template/hydrobase/station = NO_SCRUBBER,
+		/area/map_template/marooned = NO_SCRUBBER|NO_VENT|NO_APC
 	)
 
 	area_coherency_test_exempt_areas = list(
+		/area/aquila/airlock,
 		/area/space,
 		/area/mine/explored,
 		/area/mine/unexplored,
@@ -81,7 +89,6 @@
 		/area/exoplanet/grass,
 		/area/exoplanet/snow,
 		/area/exoplanet/garbage,
-		/area/marooned/marooned_snow,
 		/area/icarus/vessel,
 		/area/icarus/open,
 	)
@@ -107,14 +114,7 @@
 		/area/turbolift/seconddeck,
 		/area/turbolift/thirddeck,
 		/area/turbolift/fourthdeck,
-		/area/exoplanet,
-		/area/exoplanet/desert,
-		/area/exoplanet/grass,
-		/area/exoplanet/snow,
-		/area/exoplanet/garbage,
-		/area/template_noop,
-		/area/map_template,
-		/area/map_template/little_house,
+		/area/template_noop
 	)
 
 	// not an away site? you probably want to be using area_usage_test_exempted_areas
@@ -124,18 +124,19 @@
 		/area/derelict,
 		/area/lost_supply_base,
 		/area/magshield,
-		/area/marooned,
 		/area/mine,
 		/area/ship,
 		/area/smugglers,
 		/area/slavers_base,
-		/area/hydro,
 		/area/yacht,
 		/area/bluespaceriver,
 		/area/mobius_rift,
 		/area/icarus,
 		/area/errant_pisces,
 		/area/lar_maria,
+		/area/map_template,
+		/area/unishi,
+		/area/exoplanet
 	)
 
 /datum/unit_test/zas_area_test/ai_chamber
