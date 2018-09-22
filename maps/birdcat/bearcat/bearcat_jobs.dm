@@ -1,4 +1,4 @@
-/datum/map/overmap_example
+/datum/map/birdcat
 	allowed_jobs = list(/datum/job/captain, /datum/job/chief_engineer, /datum/job/doctor, /datum/job/hop, /datum/job/cyborg, /datum/job/assistant, /datum/job/engineer)
 	species_to_job_whitelist = list(
 		/datum/species/vox = list(/datum/job/assistant)
@@ -7,6 +7,7 @@
 /datum/job/captain
 	supervisors = "the Merchant Code and your conscience"
 	outfit_type = /decl/hierarchy/outfit/job/bearcat/captain
+	skill_points = 40
 
 /datum/job/captain/equip(var/mob/living/carbon/human/H)
 	. = ..()
@@ -51,6 +52,7 @@
 	title = "Chief Engineer"
 	supervisors = "the Captain"
 	department_flag = ENG
+	skill_points = 30
 	outfit_type = /decl/hierarchy/outfit/job/bearcat/chief_engineer
 
 /datum/job/doctor
@@ -61,12 +63,14 @@
 		"Surgeon")
 	total_positions = 1
 	spawn_positions = 1
+	skill_points = 30
 	hud_icon = "hudmedicaldoctor"
 
 /datum/job/hop
 	title = "First Mate"
 	supervisors = "the Captain and the Merchant Code"
 	outfit_type = /decl/hierarchy/outfit/job/bearcat/mate
+	skill_points = 30
 	hud_icon = "hudheadofpersonnel"
 
 /datum/job/assistant
@@ -77,6 +81,7 @@
 		"Cook" = /decl/hierarchy/outfit/job/bearcat/hand/cook,
 		"Cargo Hand",
 		"Passenger")
+	skill_points = 30
 	hud_icon = "hudcargotechnician"
 
 /datum/job/engineer
@@ -84,6 +89,7 @@
 	supervisors = "Chief Engineer"
 	total_positions = 2
 	spawn_positions = 2
+	skill_points = 30
 	hud_icon = "hudengineer"
 
 /datum/job/cyborg
