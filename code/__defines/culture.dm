@@ -166,7 +166,7 @@
 #define FACTION_XENOPHAGE      "Xenophage Hive"
 
 //Resomi Cultures
-#define CULTURE_RESOMI      "Resomii"
+#define CULTURE_RESOMI      "Resomii Spacer"
 
 // Other culture values.
 #define EDUCATION_TIER_NONE      0

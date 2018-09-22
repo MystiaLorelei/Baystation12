@@ -28,12 +28,6 @@
 	cost = 1
 
 // Alien clothing.
-/datum/gear/head/zhan_scarf
-	display_name = "Zhan headscarf (Tajara)"
-	path = /obj/item/clothing/head/tajaran/scarf
-	whitelisted = list(SPECIES_TAJARA)
-	sort_category = "Xenowear"
-
 /datum/gear/suit/unathi_mantle
 	display_name = "hide mantle (Unathi)"
 	path = /obj/item/clothing/suit/unathi/mantle
@@ -195,17 +189,3 @@
 	display_name = "small formal uniform (Resomi)"
 	path = /obj/item/clothing/under/resomi/formal
 	whitelisted = list(SPECIES_RESOMI)
-
-/datum/gear/eyes/tajblind/med
-	display_name = "medical veil (Tajara)"
-	path = /obj/item/clothing/glasses/hud/health/tajblind
-	whitelisted = list(SPECIES_TAJARA)
-	sort_category = "Xenowear"
-	cost = 1
-
-/datum/gear/eyes/tajblind/meson
-	display_name = "industrial veil (Tajara)"
-	path = /obj/item/clothing/glasses/meson/prescription/tajblind
-	whitelisted = list(SPECIES_TAJARA)
-	sort_category = "Xenowear"
-	cost = 1

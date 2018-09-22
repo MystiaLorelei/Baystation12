@@ -1,10 +1,10 @@
 /datum/map/birdcat
-	name = "Bearcat"
-	full_name = "Bearcat"
+	name = "Birdcat"
+	full_name = "Birdcat"
 	path = "birdcat"
 
-	station_name  = "FTV Bearcat"
-	station_short = "Bearcat"
+	station_name  = "FTV Birdcat"
+	station_short = "Birdcat"
 
 	dock_name     = "FTS Capitalist's Rest"
 	boss_name     = "FTU Merchant Navy"
@@ -23,7 +23,7 @@
 	default_spawn = "Cryogenic Storage"
 	use_overmap = 1
 	away_site_budget = 4
-	num_exoplanets = 1
+	num_exoplanets = 3
 	welcome_sound = 'sound/effects/cowboysting.ogg'
 
 	emergency_shuttle_leaving_dock = "Attention all hands: the escape pods have been launched, maintaining burn for %ETA%."
@@ -42,6 +42,6 @@
 
 /datum/map/birdcat/setup_map()
 	..()
-	GLOB.traders += new /datum/trader/xeno_shop
-	GLOB.traders += new /datum/trader/medical
-	GLOB.traders += new /datum/trader/mining
+	SStrade.traders += new /datum/trader/xeno_shop
+	SStrade.traders += new /datum/trader/medical
+	SStrade.traders += new /datum/trader/mining
