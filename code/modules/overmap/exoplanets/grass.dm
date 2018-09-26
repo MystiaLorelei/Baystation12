@@ -3,15 +3,14 @@
 	desc = "Planet with abundant flora and fauna."
 	color = "#538224"
 	possible_features = list(/datum/map_template/ruin/exoplanet/monolith,
-									  /datum/map_template/ruin/exoplanet/hydrobase,
-									  /datum/map_template/ruin/exoplanet/marooned)
-
-	possible_features = list(/datum/map_template/ruin/exoplanet/monolith,
+							 /datum/map_template/ruin/exoplanet/hydrobase,
+							 /datum/map_template/ruin/exoplanet/marooned,
 							 /datum/map_template/ruin/exoplanet/oasis,
 							 /datum/map_template/ruin/exoplanet/oasis/oasis2,
 							 /datum/map_template/ruin/exoplanet/oasis/oasis3,
 							 /datum/map_template/ruin/exoplanet/fountain,
-							 /datum/map_template/ruin/exoplanet/lodge)
+							 /datum/map_template/ruin/exoplanet/lodge,
+							 /datum/map_template/ruin/exoplanet/crashed_pod)
 
 /obj/effect/overmap/sector/exoplanet/grass/generate_map()
 	if(prob(40))
@@ -106,7 +105,7 @@
 	if(prob(2))
 		resources[MATERIAL_DIAMOND] = 1
 
-/turf/simulated/floor/exoplanet/grass/fire_act(datum/gas_mixture/air, temperature, volume)
+/turf/simulated/floor/exoplanet/grass/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	if((temperature > T0C + 200 && prob(5)) || temperature > T0C + 1000)
 		SetName("scorched ground")
 		icon_state = "scorched"

@@ -168,7 +168,7 @@ var/const/enterloopsanity = 100
 						thing.HasProximity(A, 1)
 	return
 
-/turf/proc/adjacent_fire_act(turf/simulated/floor/source, temperature, volume)
+/turf/proc/adjacent_fire_act(turf/simulated/floor/source, exposed_temperature, exposed_volume)
 	return
 
 /turf/proc/is_plating()
@@ -278,6 +278,10 @@ var/const/enterloopsanity = 100
 
 	if(!tool.sharp || !can_engrave() || vandal.a_intent != I_HELP)
 		return FALSE
+
+	if(jobban_isbanned(vandal, "Graffiti"))
+		to_chat(vandal, SPAN_WARNING("You are banned from leaving persistent information across rounds."))
+		return
 
 	var/too_much_graffiti = 0
 	for(var/obj/effect/decal/writing/W in src)
