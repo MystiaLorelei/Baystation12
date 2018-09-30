@@ -117,7 +117,11 @@ GLOBAL_LIST_INIT(music_tracks, list(
 	"Man in Gauze" = /music_track/man_in_gauze,
 	"Training" = /music_track/training,
 	"Point of Departure" = /music_track/pod,
-	"Desire" = /music_track/desire
+	"Desire" = /music_track/desire,
+	"Hellsing" = /music_track/hellsing,
+	"UNATCO" = /music_track/unatco,
+	"Subtune 1" = /music_track/title3
+
 ))
 
 /proc/setup_music_tracks(var/list/tracks)
