@@ -22,7 +22,7 @@
 	item_state = "wrench"
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	slot_flags = SLOT_BELT
-	force = 5.0
+	force = 7
 	throwforce = 7.0
 	w_class = ITEM_SIZE_SMALL
 	origin_tech = list(TECH_MATERIAL = 1, TECH_ENGINEERING = 1)
@@ -31,7 +31,7 @@
 	attack_verb = list("bashed", "battered", "bludgeoned", "whacked")
 
 /obj/item/weapon/wrench/Initialize()
-	icon_state = "wrench[pick("","_red","_black")]"
+	icon_state = "wrench[pick("","_red","_black","_green","_blue")]"
 	. = ..()
 
 /*
@@ -114,9 +114,22 @@
 	edge = 1
 
 /obj/item/weapon/wirecutters/Initialize()
-	if(prob(50))
-		icon_state = "cutters-y"
-		item_state = "cutters_yellow"
+	switch(pick("red","yellow","green","blue","black"))
+		if ("red")
+			icon_state = "cutters"
+			item_state = "cutters"
+		if ("yellow")
+			icon_state = "cutters_yellow"
+			item_state = "cutters_yellow"
+		if ("green")
+			icon_state = "cutters_green"
+			item_state = "cutters_green"
+		if ("blue")
+			icon_state = "cutters_blue"
+			item_state = "cutters_blue"
+		if ("black")
+			icon_state = "cutters_black"
+			item_state = "cutters_black"
 	. = ..()
 
 /obj/item/weapon/wirecutters/attack(mob/living/carbon/C as mob, mob/user as mob)
@@ -584,7 +597,9 @@
 	icon_state = "crowbar"
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	slot_flags = SLOT_BELT
-	force = 7.0
+	force = 14
+	attack_cooldown = 2*DEFAULT_WEAPON_COOLDOWN
+	melee_accuracy_bonus = -20
 	throwforce = 7.0
 	throw_range = 3
 	item_state = "crowbar"

@@ -335,6 +335,12 @@
 	icon_state = "coffeecup_NT"
 	base_name = "NT cup"
 
+/obj/item/weapon/reagent_containers/food/drinks/coffeecup/corp
+	name = "research coffee cup"
+	desc = "A tasteful bottle green coffee cup."
+	icon_state = "coffeecup_corp"
+	base_name = "green cup"
+
 /obj/item/weapon/reagent_containers/food/drinks/coffeecup/one
 	name = "#1 coffee cup"
 	desc = "A white coffee cup, prominently featuring a #1."
@@ -399,3 +405,9 @@
 	filling_states = "50;70;90;100"
 	base_name = "tall cup"
 	base_icon = "coffeecup_tall"
+
+/obj/item/weapon/reagent_containers/food/drinks/coffeecup/dais
+	name = "\improper DAIS coffee cup"
+	desc = "A coffee cup imprinted with the stylish logo of Deimos Advanced Information Systems."
+	icon_state = "coffeecup_dais"
+	base_name = "DAIS cup"

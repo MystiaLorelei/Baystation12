@@ -3810,11 +3810,6 @@
 	req_one_access = list(93,94,95)
 	},
 /obj/machinery/door/firedoor/border_only,
-/obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
 /turf/simulated/floor/tiled/steel_ridged,
 /area/quartermaster/exploration)
 "iU" = (
@@ -12934,18 +12929,17 @@
 /turf/simulated/wall/r_wall/prepainted,
 /area/quartermaster/storage)
 "HJ" = (
-/obj/structure/closet/secure_closet/guard,
 /obj/effect/floor_decal/corner/red/half{
 	icon_state = "bordercolorhalf";
 	dir = 8
 	},
-/obj/effect/floor_decal/industrial/outline/yellow,
 /obj/machinery/alarm{
 	alarm_id = "xenobio2_alarm";
 	dir = 4;
 	icon_state = "alarm0";
 	pixel_x = -24
 	},
+/obj/item/weapon/stool/padded,
 /turf/simulated/floor/tiled/dark/monotile,
 /area/shuttle/petrov/security)
 "HM" = (
@@ -15834,12 +15828,10 @@
 /turf/simulated/floor/tiled/white,
 /area/shuttle/petrov/isolation)
 "TG" = (
-/obj/structure/closet/secure_closet/guard,
 /obj/effect/floor_decal/corner/red/half{
 	icon_state = "bordercolorhalf";
 	dir = 8
 	},
-/obj/effect/floor_decal/industrial/outline/yellow,
 /obj/machinery/power/apc{
 	dir = 8;
 	name = "west bump";
@@ -15849,6 +15841,7 @@
 	d2 = 4;
 	icon_state = "0-4"
 	},
+/obj/structure/table/steel,
 /turf/simulated/floor/tiled/dark/monotile,
 /area/shuttle/petrov/security)
 "TH" = (
@@ -15954,10 +15947,6 @@
 /area/shuttle/petrov/maint)
 "Ub" = (
 /obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/airlock/security{
-	name = "Security Office";
-	req_one_access = list(207)
-	},
 /obj/structure/cable/cyan{
 	d1 = 1;
 	d2 = 2;
@@ -15965,6 +15954,10 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/machinery/door/airlock/security/research{
+	name = "Checkpoint";
+	req_access = list(207)
+	},
 /turf/simulated/floor/tiled/dark/monotile,
 /area/shuttle/petrov/security)
 "Um" = (
@@ -16042,10 +16035,6 @@
 /obj/effect/paint/silver,
 /turf/simulated/wall/titanium,
 /area/shuttle/petrov/cell3)
-"Ux" = (
-/obj/effect/paint/red,
-/turf/simulated/wall/titanium,
-/area/space)
 "Uy" = (
 /obj/effect/floor_decal/industrial/warning{
 	icon_state = "warning";
@@ -48375,7 +48364,7 @@ DQ
 DQ
 DQ
 DQ
-Ux
+DQ
 NZ
 Jj
 Qi
@@ -48577,7 +48566,7 @@ BT
 BT
 BT
 BT
-Ux
+DQ
 Oh
 PE
 yo
@@ -48779,7 +48768,7 @@ Kt
 Kt
 Kt
 Kt
-Ux
+DQ
 aa
 aa
 aa
