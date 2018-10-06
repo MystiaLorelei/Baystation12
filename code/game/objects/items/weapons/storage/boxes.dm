@@ -320,6 +320,11 @@
 	desc = "Drymate brand neaera cubes, shipped from Jargon 4. Just add water!"
 	startswith = list(/obj/item/weapon/reagent_containers/food/snacks/monkeycube/wrapped/neaeracube = 5)
 
+/obj/item/weapon/storage/box/monkeycubes/spidercubes
+	name = "spiderling cube box"
+	desc = "Drymate brand Instant spiders. WHY WOULD YOU ORDER THIS!?"
+	startswith = list(/obj/item/weapon/reagent_containers/food/snacks/monkeycube/wrapped/spidercube = 5)
+
 //cubed domestics
 
 /obj/item/weapon/storage/box/monkeycubes/catcubes

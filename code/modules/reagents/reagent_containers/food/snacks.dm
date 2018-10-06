@@ -1472,6 +1472,14 @@
 	name = "slime cube (grey)"
 	monkey_type = /mob/living/carbon/slime
 
+/obj/item/weapon/reagent_containers/food/snacks/monkeycube/spidercube
+	name = "spider cube"
+	monkey_type = /obj/effect/spider/spiderling
+
+/obj/item/weapon/reagent_containers/food/snacks/monkeycube/wrapped/spidercube
+	name = "spider cube"
+	monkey_type = /obj/effect/spider/spiderling
+
 /obj/item/weapon/reagent_containers/food/snacks/spellburger
 	name = "spell burger"
 	desc = "This is absolutely Ei Nath."
