@@ -342,7 +342,7 @@
 	item_state = "electronic"
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	slot_flags = SLOT_BELT
-	matter = list(DEFAULT_WALL_MATERIAL = 100, "glass" = 34)
+	matter = list(MATERIAL_STEEL = 100, MATERIAL_GLASS = 34)
 
 /obj/item/device/destTagger/proc/openwindow(mob/user as mob)
 	var/dat = "<tt><center><h1><b>TagMaster 2.3</b></h1></center>"
@@ -447,7 +447,7 @@
 
 			var/obj/item/organ/external/E = pick(crush)
 
-			E.take_damage(45, used_weapon = "Blunt Trauma")
+			E.take_external_damage(45, used_weapon = "Blunt Trauma")
 			to_chat(L, "\The [src]'s mechanisms crush your [E.name]!")
 
 	H.init(src)	// copy the contents of disposer to holder

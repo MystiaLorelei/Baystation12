@@ -607,15 +607,30 @@
 
 		jobs += "</tr></table>"
 
-		//Other races  (BLUE, because I have no idea what other color to make this)
+		var/list/misc_roles = list("Dionaea", "Graffiti")
+		//Other roles  (BLUE, because I have no idea what other color to make this)
 		jobs += "<table cellpadding='1' cellspacing='0' width='100%'>"
-		jobs += "<tr bgcolor='ccccff'><th colspan='1'>Other Races</th></tr><tr align='center'>"
-
-		if(jobban_isbanned(M, "Dionaea"))
-			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=Dionaea;jobban4=\ref[M]'><font color=red>Dionaea</font></a></td>"
-		else
-			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=Dionaea;jobban4=\ref[M]'>Dionaea</a></td>"
+		jobs += "<tr bgcolor='ccccff'><th colspan='[LAZYLEN(misc_roles)]'>Other Roles</th></tr><tr align='center'>"
+		for(var/entry in misc_roles)
+			if(jobban_isbanned(M, entry))
+				jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=[entry];jobban4=\ref[M]'><font color=red>[entry]</font></a></td>"
+			else
+				jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=[entry];jobban4=\ref[M]'>[entry]</a></td>"
 		jobs += "</tr></table>"
+
+	// Channels
+		jobs += "<table cellpadding='1' cellspacing='0' width='100%'>"
+		var/list/channels = decls_repository.get_decls_of_subtype(/decl/communication_channel)
+		jobs += "<tr bgcolor='ccccff'><th colspan='[LAZYLEN(channels)]'>Channel Bans</th></tr><tr align='center'>"
+		for(var/channel_type in channels)
+			var/decl/communication_channel/channel = channels[channel_type]
+			if(jobban_isbanned(M, channel.name))
+				jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=[channel.name];jobban4=\ref[M]'><font color=red>[channel.name]</font></a></td>"
+			else
+				jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=[channel.name];jobban4=\ref[M]'>[channel.name]</a></td>"
+		jobs += "</tr></table>"
+
+	// Finalize and display.
 		body = "<body>[jobs]</body>"
 		dat = "<tt>[header][body]</tt>"
 		usr << browse(dat, "window=jobban2;size=800x490")
@@ -736,7 +751,7 @@
 			switch(alert("Temporary Ban?",,"Yes","No", "Cancel"))
 				if("Yes")
 					if(!check_rights(R_MOD,0) && !check_rights(R_BAN, 0))
-						to_chat(usr, "<span class='warning'> You Cannot issue temporary job-bans!</span>")
+						to_chat(usr, "<span class='warning'> You cannot issue temporary job-bans!</span>")
 						return
 					if(config.ban_legacy_system)
 						to_chat(usr, "<span class='warning'>Your server is using the legacy banning system, which does not support temporary job bans. Consider upgrading. Aborting ban.</span>")
@@ -1400,9 +1415,8 @@
 		message_admins("[key_name(M)] has been hit by Bluespace Artillery fired by [src.owner]")
 
 		var/obj/effect/stop/S
-		S = new /obj/effect/stop
+		S = new /obj/effect/stop(M.loc)
 		S.victim = M
-		S.loc = M.loc
 		spawn(20)
 			qdel(S)
 
@@ -1552,6 +1566,17 @@
 			to_chat(usr, "This can only be used on instances of type /mob.")
 			return
 		show_traitor_panel(M)
+
+	else if(href_list["skillpanel"])
+		if(!check_rights(R_INVESTIGATE))
+			return
+
+		if(!ticker || !ticker.mode)
+			alert("The game hasn't started yet!")
+			return
+
+		var/mob/M = locate(href_list["skillpanel"])
+		show_skills(M)
 
 	else if(href_list["create_object"])
 		if(!check_rights(R_SPAWN))	return
@@ -2000,7 +2025,7 @@ mob/living/silicon/ai/can_centcom_reply()
 	return list("<A HREF='?[source];adminplayerobservefollow=\ref[src]'>[prefix][short_links ? "J" : "JMP"][sufix]</A>")
 
 /client/extra_admin_link(source, var/prefix, var/sufix, var/short_links)
-	return mob.extra_admin_link(source, prefix, sufix, short_links)
+	return mob ? mob.extra_admin_link(source, prefix, sufix, short_links) : list()
 
 /mob/extra_admin_link(var/source, var/prefix, var/sufix, var/short_links)
 	. = ..()
@@ -2012,8 +2037,9 @@ mob/living/silicon/ai/can_centcom_reply()
 	if(mind && (mind.current && !isghost(mind.current)))
 		. += "<A HREF='?[source];adminplayerobservefollow=\ref[mind.current]'>[prefix][short_links ? "B" : "BDY"][sufix]</A>"
 
-/proc/admin_jump_link(var/atom/target, var/source, var/delimiter = "|", var/prefix, var/sufix, var/short_links)
-	if(!target) return
+/proc/admin_jump_link(var/datum/target, var/source, var/delimiter = "|", var/prefix, var/sufix, var/short_links)
+	if(!istype(target))
+		CRASH("Invalid admin jump link target: [log_info_line(target)]")
 	// The way admin jump links handle their src is weirdly inconsistent...
 	if(istype(source, /datum/admins))
 		source = "src=\ref[source]"

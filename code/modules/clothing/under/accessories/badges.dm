@@ -10,14 +10,33 @@
 	icon_state = "detectivebadge"
 	slot_flags = SLOT_BELT | SLOT_TIE
 	slot = ACCESSORY_SLOT_INSIGNIA
+	high_visibility = 1
 	var/badge_string = "Detective"
 	var/stored_name
 
 /obj/item/clothing/accessory/badge/proc/set_name(var/new_name)
 	stored_name = new_name
-	name = "[initial(name)] ([stored_name])"
 
 /obj/item/clothing/accessory/badge/proc/set_desc(var/mob/living/carbon/human/H)
+
+/obj/item/clothing/accessory/badge/CanUseTopic(var/user)
+	if(user in view(get_turf(src)))
+		return STATUS_INTERACTIVE
+
+/obj/item/clothing/accessory/badge/OnTopic(var/mob/user, var/list/href_list)
+	if(href_list["look_at_me"])
+		if(istype(user))
+			user.examinate(src)
+			return TOPIC_HANDLED
+
+/obj/item/clothing/accessory/badge/get_examine_line()
+	. = ..()
+	. += "  <a href='?src=\ref[src];look_at_me=1'>\[View\]</a>"
+
+/obj/item/clothing/accessory/badge/examine(user)
+	..()
+	if(stored_name)
+		to_chat(user,"It reads: [stored_name], [badge_string].")
 
 /obj/item/clothing/accessory/badge/attack_self(mob/user as mob)
 
@@ -36,6 +55,8 @@
 /obj/item/clothing/accessory/badge/attack(mob/living/carbon/human/M, mob/living/user)
 	if(isliving(user))
 		user.visible_message("<span class='danger'>[user] invades [M]'s personal space, thrusting \the [src] into their face insistently.</span>","<span class='danger'>You invade [M]'s personal space, thrusting \the [src] into their face insistently.</span>")
+		if(stored_name)
+			to_chat(M, "<span class='warning'>It reads: [stored_name], [badge_string].</span>")
 
 /obj/item/clothing/accessory/badge/PI
 	name = "private investigator's badge"
@@ -52,14 +73,15 @@
 	item_state = "holobadge"
 	badge_string = "Security"
 	var/badge_access = access_security
+	var/badge_number
 	var/emagged //emag_act removes access requirements
 
 /obj/item/clothing/accessory/badge/holo/NT
-	name = "\improper NT holobadge"
-	desc = "This glowing red badge marks the holder as a member of NanoTrasen corporate security."
+	name = "corporate holobadge"
+	desc = "This glowing green badge marks the holder as a member of corporate security."
 	icon_state = "ntholobadge"
-	color = COLOR_WHITE
-	badge_string = "NanoTrasen Security"
+	color = null
+	badge_string = "Corporate Security"
 	badge_access = access_research
 
 /obj/item/clothing/accessory/badge/holo/cord
@@ -69,6 +91,16 @@
 /obj/item/clothing/accessory/badge/holo/NT/cord
 	icon_state = "holobadge-cord"
 	slot_flags = SLOT_MASK | SLOT_TIE
+
+/obj/item/clothing/accessory/badge/holo/set_name(var/new_name)
+	..()
+	badge_number = random_id(type,1000,9999)
+	name = "[name] ([badge_number])"
+
+/obj/item/clothing/accessory/badge/holo/examine(user)
+	..()
+	if(badge_number)
+		to_chat(user,"The badge number is [badge_number].")
 
 /obj/item/clothing/accessory/badge/holo/attack_self(mob/user as mob)
 	if(!stored_name)
@@ -95,7 +127,8 @@
 
 		if((badge_access in id_card.access) || emagged)
 			to_chat(user, "You imprint your ID details onto the badge.")
-			set_name(user.real_name)
+			set_name(id_card.registered_name)
+			set_desc(user)
 		else
 			to_chat(user, "[src] rejects your ID, and flashes 'Insufficient access!'")
 		return
@@ -108,8 +141,8 @@
 					  /obj/item/clothing/accessory/badge/holo/cord = 2)
 
 /obj/item/weapon/storage/box/holobadgeNT
-	name = "\improper NT holobadge box"
-	desc = "A box containing NanoTrasen security holobadges."
+	name = "corporate holobadge box"
+	desc = "A box containing corporate security holobadges."
 	startswith = list(/obj/item/clothing/accessory/badge/holo/NT = 4,
 					  /obj/item/clothing/accessory/badge/holo/NT/cord = 2)
 
@@ -132,18 +165,26 @@
 	badge_string = "Office of Interstellar Intelligence"
 
 /obj/item/clothing/accessory/badge/nanotrasen
-	name = "\improper NanoTrasen badge"
-	desc = "A leather-backed plastic badge with a variety of information printed on it. Belongs to a NanoTrasen corporate executive."
+	name = "corporate badge"
+	desc = "A leather-backed plastic badge with a variety of information printed on it. Belongs to a corporate executive."
 	icon_state = "ntbadge"
-	badge_string = "NanoTrasen Corporate"
+	badge_string = "Corporate Executive Body"
 
-/obj/item/clothing/accessory/badge/marshal
-	name = "colonial marshal's badge"
-	desc = "A leather-backed gold badge displaying the crest of the Colonial Marshals."
-	icon_state = "marshalbadge"
+/obj/item/clothing/accessory/badge/ocieagent
+	name = "\improper OCIE Agent's badge"
+	desc = "A leather-backed gold badge displaying the crest of the Office of Civil Investigation and Enforcement."
+	icon_state = "agentbadge"
 	slot_flags = SLOT_BELT | SLOT_TIE
 	slot = ACCESSORY_SLOT_INSIGNIA
-	badge_string = "Colonial Marshal Bureau"
+	badge_string = "Office of Civil Investigation and Enforcement"
+
+/obj/item/clothing/accessory/badge/tracker
+	name = "\improper Tracker's badge"
+	desc = "A blue leather-backed gold badge displaying the crest of the Office of Civil Investigation and Enforcement."
+	icon_state = "trackerbadge"
+	slot_flags = SLOT_BELT | SLOT_TIE
+	slot = ACCESSORY_SLOT_INSIGNIA
+	badge_string = "Office of Civil Investigation and Enforcement"
 
 /obj/item/clothing/accessory/badge/press
 	name = "press badge"

@@ -52,7 +52,7 @@
 
 	var/has_been_rev = 0//Tracks if this mind has been a rev or not
 
-	var/datum/faction/faction 			//associated faction
+	var/faction 			//associated faction
 	var/datum/changeling/changeling		//changeling holder
 
 	var/rev_cooldown = 0
@@ -82,7 +82,7 @@
 			current.verbs -= /datum/changeling/proc/EvolutionMenu
 		current.mind = null
 
-		GLOB.nanomanager.user_transferred(current, new_character) // transfer active NanoUI instances to new user
+		SSnano.user_transferred(current, new_character) // transfer active NanoUI instances to new user
 	if(new_character.mind)		//remove any mind currently in our new body's mind variable
 		new_character.mind.current = null
 
@@ -182,9 +182,14 @@
 		if(antag) antag.place_mob(src.current)
 
 	else if (href_list["role_edit"])
-		var/new_role = input("Select new role", "Assigned role", assigned_role) as null|anything in joblist
+		var/new_role = input("Select new role", "Assigned role", assigned_role) as null|anything in job_master.occupations_by_title
 		if (!new_role) return
-		assigned_role = new_role
+		var/datum/job/job = job_master.occupations_by_title[new_role]
+		if(job)
+			assigned_role = job.title
+			role_alt_title = new_role
+			if(current)
+				current.skillset.obtain_from_client(job, current.client)
 
 	else if (href_list["memory_edit"])
 		var/new_memo = sanitize(input("Write new memory", "Memory", memory) as null|message)

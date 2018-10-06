@@ -21,6 +21,17 @@
 
 /obj/machinery/sleeper/Initialize()
 	. = ..()
+	component_parts = list(
+		new /obj/item/weapon/circuitboard/sleeper(src),
+		new /obj/item/weapon/stock_parts/scanning_module(src),
+		new /obj/item/weapon/stock_parts/manipulator(src),
+		new /obj/item/weapon/stock_parts/manipulator(src),
+		new /obj/item/weapon/stock_parts/console_screen(src),
+		new /obj/item/weapon/reagent_containers/syringe(src),
+		new /obj/item/weapon/reagent_containers/syringe(src),
+		new /obj/item/weapon/reagent_containers/glass/beaker/large(src))
+	RefreshParts()
+
 	beaker = new /obj/item/weapon/reagent_containers/glass/beaker/large(src)
 	update_icon()
 
@@ -74,10 +85,10 @@
 	data["reagents"] = reagents.Copy()
 
 	if(occupant)
-		var/scan = medical_scan_results(occupant)
-		scan = replacetext(scan,"'notice'","'white'")
-		scan = replacetext(scan,"'warning'","'average'")
-		scan = replacetext(scan,"'danger'","'bad'")
+		var/scan = user.skill_check(SKILL_MEDICAL, SKILL_ADEPT) ? medical_scan_results(occupant) : "<span class='white'><b>Contains: \the [occupant]</b></span>"
+		scan = replacetext(scan,"'scan_notice'","'white'")
+		scan = replacetext(scan,"'scan_warning'","'average'")
+		scan = replacetext(scan,"'scan_danger'","'bad'")
 		data["occupant"] =scan
 	else
 		data["occupant"] = 0
@@ -88,8 +99,9 @@
 	data["filtering"] = filtering
 	data["pump"] = pump
 	data["stasis"] = stasis
+	data["skill_check"] = user.skill_check(SKILL_MEDICAL, SKILL_BASIC)
 
-	ui = GLOB.nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
+	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if(!ui)
 		ui = new(user, src, ui_key, "sleeper.tmpl", "Sleeper UI", 600, 600, state = state)
 		ui.set_initial_data(data)
@@ -100,8 +112,8 @@
 	if(user == occupant)
 		to_chat(usr, "<span class='warning'>You can't reach the controls from the inside.</span>")
 		return STATUS_CLOSE
-	return ..()
-	    
+	. = ..()
+
 /obj/machinery/sleeper/OnTopic(user, href_list)
 	if(href_list["eject"])
 		go_out()
@@ -132,12 +144,19 @@
 	return attack_hand(user)
 
 /obj/machinery/sleeper/attackby(var/obj/item/I, var/mob/user)
+	if(default_deconstruction_screwdriver(user, I))
+		updateUsrDialog()
+		return
+	if(default_deconstruction_crowbar(user, I))
+		return
+	if(default_part_replacement(user, I))
+		return
 	if(istype(I, /obj/item/weapon/reagent_containers/glass))
 		add_fingerprint(user)
 		if(!beaker)
+			if(!user.unEquip(I, src))
+				return
 			beaker = I
-			user.drop_item()
-			I.forceMove(src)
 			user.visible_message("<span class='notice'>\The [user] adds \a [I] to \the [src].</span>", "<span class='notice'>You add \a [I] to \the [src].</span>")
 		else
 			to_chat(user, "<span class='warning'>\The [src] has a beaker already.</span>")
@@ -220,10 +239,11 @@
 		occupant.client.perspective = MOB_PERSPECTIVE
 	occupant.dropInto(loc)
 	occupant = null
-	for(var/atom/movable/A in src) // In case an object was dropped inside or something
-		if(A == beaker)
+
+	for(var/obj/O in (contents - component_parts)) // In case an object was dropped inside or something. Excludes the beaker and component parts.
+		if(O == beaker)
 			continue
-		A.dropInto(loc)
+		O.dropInto(loc)
 	update_use_power(1)
 	update_icon()
 	toggle_filter()

@@ -64,6 +64,8 @@
 	install_default_hardware()
 	if(hard_drive)
 		install_default_programs()
+	if(scanner)
+		scanner.do_after_install(null, src)
 	update_icon()
 	update_verbs()
 	update_name()
@@ -71,6 +73,7 @@
 
 /obj/item/modular_computer/Destroy()
 	kill_program(1)
+	QDEL_NULL_LIST(terminals)
 	STOP_PROCESSING(SSobj, src)
 	if(istype(stored_pen))
 		QDEL_NULL(stored_pen)
@@ -157,6 +160,7 @@
 
 /obj/item/modular_computer/proc/shutdown_computer(var/loud = 1)
 	kill_program(1)
+	QDEL_NULL_LIST(terminals)
 	for(var/datum/computer_file/program/P in idle_threads)
 		P.kill_program(1)
 		idle_threads.Remove(P)
@@ -183,7 +187,7 @@
 
 	idle_threads.Add(active_program)
 	active_program.program_state = PROGRAM_STATE_BACKGROUND // Should close any existing UIs
-	GLOB.nanomanager.close_uis(active_program.NM ? active_program.NM : active_program)
+	SSnano.close_uis(active_program.NM ? active_program.NM : active_program)
 	active_program = null
 	update_icon()
 	if(istype(user))
@@ -228,11 +232,11 @@
 
 /obj/item/modular_computer/proc/update_uis()
 	if(active_program) //Should we update program ui or computer ui?
-		GLOB.nanomanager.update_uis(active_program)
+		SSnano.update_uis(active_program)
 		if(active_program.NM)
-			GLOB.nanomanager.update_uis(active_program.NM)
+			SSnano.update_uis(active_program.NM)
 	else
-		GLOB.nanomanager.update_uis(src)
+		SSnano.update_uis(src)
 
 /obj/item/modular_computer/proc/check_update_ui_need()
 	var/ui_update_needed = 0
@@ -290,3 +294,19 @@
 		return card_slot.stored_card
 
 /obj/item/modular_computer/proc/update_name()
+
+/obj/item/modular_computer/get_cell()
+	if(battery_module)
+		return battery_module.get_cell()
+
+/obj/item/modular_computer/proc/has_terminal(mob/user)
+	for(var/datum/terminal/terminal in terminals)
+		if(terminal.get_user() == user)
+			return terminal
+
+/obj/item/modular_computer/proc/open_terminal(mob/user)
+	if(!enabled)
+		return
+	if(has_terminal(user))
+		return
+	LAZYADD(terminals, new /datum/terminal/(user, src))

@@ -6,13 +6,14 @@
 	speed_mod = 5 SECONDS
 	start_x = 4
 	start_y = 5
+	base = TRUE
 
-	restricted_waypoints = list(
+	initial_restricted_waypoints = list(
 		"Charon" = list("nav_hangar_calypso"), 	//can't have random shuttles popping inside the ship
 		"Guppy" = list("nav_hangar_guppy")
 	)
 
-	generic_waypoints = list(
+	initial_generic_waypoints = list(
 		"nav_merc_deck1",
 		"nav_merc_deck2",
 		"nav_merc_deck3",
@@ -40,6 +41,11 @@
 		"nav_deck4_aquila",
 		"nav_bridge_aquila"
 	)
+
+/obj/effect/overmap/ship/landable/exploration_shuttle
+	name = "Charon"
+	shuttle = "Charon"
+	fore_dir = NORTH
 
 /obj/machinery/computer/shuttle_control/explore/aquila
 	name = "aquila control console"

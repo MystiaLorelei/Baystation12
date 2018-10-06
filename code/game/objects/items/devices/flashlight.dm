@@ -8,12 +8,12 @@
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	slot_flags = SLOT_BELT
 
-	matter = list(DEFAULT_WALL_MATERIAL = 50,"glass" = 20)
+	matter = list(MATERIAL_STEEL = 50,MATERIAL_GLASS = 20)
 
 	action_button_name = "Toggle Flashlight"
 	var/on = 0
 	var/activation_sound = 'sound/effects/flashlight.ogg'
-	var/flashlight_max_bright = 0.5 //brightness of light when on, can be negative
+	var/flashlight_max_bright = 0.5 //brightness of light when on, must be no greater than 1.
 	var/flashlight_inner_range = 1 //inner range of light when on, can be negative
 	var/flashlight_outer_range = 3 //outer range of light when on, can be negative
 
@@ -83,7 +83,7 @@
 	if(H == user)	//can't look into your own eyes buster
 		return
 
-	if(vision.robotic < ORGAN_ROBOT )
+	if(!BP_IS_ROBOTIC(vision))
 
 		if(vision.owner.stat == DEAD || H.blinded)	//mob is dead or fully blind
 			to_chat(user, "<span class='warning'>\The [H]'s pupils do not react to the light!</span>")
@@ -145,10 +145,33 @@
 	item_state = "maglight"
 	force = 10
 	attack_verb = list ("smacked", "thwacked", "thunked")
-	matter = list(DEFAULT_WALL_MATERIAL = 200,"glass" = 50)
+	matter = list(MATERIAL_STEEL = 200,MATERIAL_GLASS = 50)
 	hitsound = "swing_hit"
 	flashlight_max_bright = 0.5
 	flashlight_outer_range = 5
+/******************************Lantern*******************************/
+/obj/item/device/flashlight/lantern
+	name = "lantern"
+	desc = "A mining lantern."
+	icon = 'icons/obj/lighting.dmi'
+	icon_state = "lantern"
+	item_state = "lantern"
+	force = 10
+	attack_verb = list ("bludgeoned", "bashed", "whack")
+	w_class = ITEM_SIZE_NORMAL
+	obj_flags = OBJ_FLAG_CONDUCTIBLE
+	slot_flags = SLOT_BELT
+	matter = list(MATERIAL_STEEL = 200,MATERIAL_GLASS = 100)
+	flashlight_outer_range = 5
+
+/obj/item/device/flashlight/lantern/update_icon()
+	..()
+	if(on)
+		item_state = "lantern-on"
+	else
+		item_state = "lantern"
+
+/******************************Lantern*******************************/
 
 /obj/item/device/flashlight/drone
 	name = "low-power flashlight"
@@ -371,6 +394,7 @@
 	icon = 'icons/obj/machines/floodlight.dmi'
 	icon_state = "floodlamp"
 	item_state = "lamp"
+	on = 0
 	w_class = ITEM_SIZE_LARGE
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 
@@ -399,6 +423,9 @@
 
 /obj/item/device/flashlight/floodlamp/AltClick()
 	rotate()
+
+/obj/item/device/flashlight/lamp/floodlamp/green
+	icon_state = "greenfloodlamp"
 
 //Lava Lamps: Because we're already stuck in the 70ies with those fax machines.
 /obj/item/device/flashlight/lamp/lava

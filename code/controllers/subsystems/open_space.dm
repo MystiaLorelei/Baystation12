@@ -8,10 +8,10 @@ GLOBAL_DATUM_INIT(over_OS_darkness, /image, image('icons/turf/open_space.dmi', "
 
 SUBSYSTEM_DEF(open_space)
 	name = "Open Space"
-	init_order = INIT_OPEN_SPACE
+	init_order = SS_INIT_OPEN_SPACE
 	var/list/turfs_to_process = list()		// List of turfs queued for update.
 	var/list/turfs_to_process_old = list()  //List of previous turfs that is set to update
-	var counter = 1 //Can't use .len because we need to iterate in order
+	var/counter = 1 //Can't use .len because we need to iterate in order
 
 
 
@@ -21,15 +21,7 @@ SUBSYSTEM_DEF(open_space)
 	GLOB.over_OS_darkness.plane = OVER_OPENSPACE_PLANE
 	GLOB.over_OS_darkness.layer = MOB_LAYER
 	GLOB.open_space_initialised = TRUE
-	return INITIALIZE_HINT_LATELOAD
-
-
-//Add the turf
-turf/simulated/open/LateInitialize()
-	SSopen_space.add_turf(src)
-
-
-
+	disable() // Testing stability issues.
 
 /datum/controller/subsystem/open_space/fire(resumed = 0)
 	// We use a different list so any additions to the update lists during a delay from CHECK_TICK

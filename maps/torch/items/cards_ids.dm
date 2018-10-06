@@ -59,6 +59,9 @@
 /obj/item/weapon/card/id/torch/contractor/chemist
 	job_access_type = /datum/job/chemist
 
+/obj/item/weapon/card/id/torch/contractor/biomech
+	job_access_type = /datum/job/biomech
+
 /obj/item/weapon/card/id/torch/contractor/medical/counselor
 	job_access_type = /datum/job/psychiatrist
 
@@ -133,6 +136,12 @@
 /obj/item/weapon/card/id/torch/crew/explorer
 	job_access_type = /datum/job/explorer
 
+/obj/item/weapon/card/id/torch/crew/pilot
+	job_access_type = /datum/job/nt_pilot
+
+/obj/item/weapon/card/id/torch/crew/explorer/xenolifetechnician
+	job_access_type = /datum/job/xenolife_technician
+
 //NanoTrasen and Passengers
 
 /obj/item/weapon/card/id/torch/passenger
@@ -140,13 +149,8 @@
 	icon_state = "id"
 	job_access_type = /datum/job/assistant
 
-/obj/item/weapon/card/id/torch/offduty
-	desc = "A card issued to off-duty personnel aboard the SEV Torch."
-	icon_state = "id"
-	job_access_type = /datum/job/offduty
-
 /obj/item/weapon/card/id/torch/passenger/research
-	desc = "A card issued to NanoTrasen personnel aboard the SEV Torch."
+	desc = "A card issued to corporate personnel aboard the SEV Torch."
 	icon_state = "corporate"
 	job_access_type = /datum/job/scientist_assistant
 
@@ -188,13 +192,13 @@
 	..()
 	var/species = SPECIES_HUMAN
 	if(prob(10))
-		species = pick(SPECIES_SKRELL,SPECIES_TAJARA,SPECIES_IPC)
+		species = pick(SPECIES_SKRELL,SPECIES_IPC)
 	var/datum/species/S = all_species[species]
+	var/decl/cultural_info/culture/C = SSculture.get_culture(S.default_cultural_info[TAG_CULTURE])
 	var/gender = pick(MALE,FEMALE)
-	registered_name = S.get_random_name(gender)
+	registered_name = C.get_random_name(gender)
 	sex = capitalize(gender)
 	age = rand(19,25)
 	fingerprint_hash = md5(registered_name)
 	dna_hash = md5(fingerprint_hash)
 	blood_type = RANDOM_BLOOD_TYPE
-	update_name()

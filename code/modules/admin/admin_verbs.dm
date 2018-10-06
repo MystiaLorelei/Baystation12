@@ -71,7 +71,8 @@ var/list/admin_verbs_admin = list(
 	/datum/admins/proc/PlayerNotes,
 	/client/proc/cmd_mod_say,
 	/datum/admins/proc/show_player_info,
-	/client/proc/free_slot,			//frees slot for chosen job,
+	/client/proc/free_slot_submap,
+	/client/proc/free_slot_crew,			//frees slot for chosen job,
 	/client/proc/cmd_admin_change_custom_event,
 	/client/proc/cmd_admin_rejuvenate,
 	/client/proc/toggleghostwriters,
@@ -93,7 +94,6 @@ var/list/admin_verbs_admin = list(
 	/client/proc/change_security_level,
 	/client/proc/view_chemical_reaction_logs,
 	/client/proc/makePAI,
-	/datum/admins/proc/paralyze_mob,
 	/client/proc/fixatmos,
 	/client/proc/list_traders,
 	/client/proc/add_trader,
@@ -133,6 +133,7 @@ var/list/admin_verbs_fun = list(
 
 var/list/admin_verbs_spawn = list(
 	/datum/admins/proc/spawn_fruit,
+	/datum/admins/proc/spawn_fluid_verb,
 	/datum/admins/proc/spawn_custom_item,
 	/datum/admins/proc/check_custom_items,
 	/datum/admins/proc/spawn_plant,
@@ -165,7 +166,9 @@ var/list/admin_verbs_server = list(
 	/client/proc/nanomapgen_DumpImage
 	)
 var/list/admin_verbs_debug = list(
-	/client/proc/getruntimelog,                     // allows us to access runtime logs to somebody,
+	/client/proc/getruntimelog, // allows us to access runtime logs to somebody,
+	/datum/admins/proc/jump_to_fluid_source,
+	/datum/admins/proc/jump_to_fluid_active,
 	/client/proc/cmd_admin_list_open_jobs,
 	/client/proc/Debug2,
 	/client/proc/kill_air,
@@ -189,7 +192,6 @@ var/list/admin_verbs_debug = list(
 	/datum/admins/proc/map_template_load,
 	/datum/admins/proc/map_template_load_new_z,
 	/datum/admins/proc/map_template_upload,
-	/client/proc/show_plant_genes,
 	/client/proc/enable_debug_verbs,
 	/client/proc/callproc,
 	/client/proc/callproc_target,
@@ -314,8 +316,9 @@ var/list/admin_verbs_mod = list(
 	/client/proc/check_antagonists,
 	/client/proc/cmd_admin_subtle_message, // send an message to somebody as a 'voice in their head',
 	/client/proc/aooc,
-	/datum/admins/proc/sendFax
-
+	/datum/admins/proc/sendFax,
+	/datum/admins/proc/paralyze_mob,
+	/datum/admins/proc/view_persistent_data
 )
 
 var/list/admin_verbs_mentor = list(
@@ -671,7 +674,7 @@ var/list/admin_verbs_mentor = list(
 		deadmin_holder.reassociate()
 		log_admin("[src] re-admined themself.")
 		message_admins("[src] re-admined themself.", 1)
-		to_chat(src, "<span class='interface'>You now have the keys to control the planet, or atleast a small space station</span>")
+		to_chat(src, "<span class='interface'>You now have the keys to control the planet, or at least [GLOB.using_map.full_name].</span>")
 		verbs -= /client/proc/readmin_self
 
 /client/proc/deadmin_self()
@@ -809,7 +812,7 @@ var/list/admin_verbs_mentor = list(
 	if(!istype(M, /mob/living/carbon/human))
 		to_chat(usr, "<span class='warning'>You can only do this to humans!</span>")
 		return
-	switch(alert("Are you sure you wish to edit this mob's appearance? Skrell, Unathi, Vox and Tajaran can result in unintended consequences.",,"Yes","No"))
+	switch(alert("Are you sure you wish to edit this mob's appearance? Skrell, Unathi and Vox can result in unintended consequences.",,"Yes","No"))
 		if("No")
 			return
 	var/new_facial = input("Please select facial hair color.", "Character Generation") as color
@@ -831,7 +834,7 @@ var/list/admin_verbs_mentor = list(
 		M.b_eyes = hex2num(copytext(new_eyes, 6, 8))
 		M.update_eyes()
 
-	var/new_skin = input("Please select body color. This is for Tajaran, Unathi, and Skrell only!", "Character Generation") as color
+	var/new_skin = input("Please select body color. This is for Unathi, and Skrell only!", "Character Generation") as color
 	if(new_skin)
 		M.r_skin = hex2num(copytext(new_skin, 2, 4))
 		M.g_skin = hex2num(copytext(new_skin, 4, 6))
@@ -873,13 +876,37 @@ var/list/admin_verbs_mentor = list(
 		holder.PlayerNotes()
 	return
 
-/client/proc/free_slot()
-	set name = "Free Job Slot"
+/client/proc/free_slot_submap()
+	set name = "Free Job Slot (Submap)"
+	set category = "Admin"
+	if(!holder) return
+
+	var/list/jobs = list()
+	for(var/thing in SSmapping.submaps)
+		var/datum/submap/submap = thing
+		for(var/otherthing in submap.jobs)
+			var/datum/job/submap/job = submap.jobs[otherthing]
+			if(!job.is_position_available())
+				jobs["[job.title] - [submap.name]"] = job
+
+	if(!LAZYLEN(jobs))
+		to_chat(usr, "There are no fully staffed offsite jobs.")
+		return
+
+	var/job_name = input("Please select job slot to free", "Free job slot")  as null|anything in jobs
+	if(job_name)
+		var/datum/job/submap/job = jobs[job_name]
+		if(istype(job) && !job.is_position_available())
+			job.make_position_available()
+			message_admins("An offsite job slot for [job_name] has been opened by [key_name_admin(usr)]")
+
+/client/proc/free_slot_crew()
+	set name = "Free Job Slot (Crew)"
 	set category = "Admin"
 	if(holder)
 		var/list/jobs = list()
 		for (var/datum/job/J in job_master.occupations)
-			if (J.current_positions >= J.total_positions && J.total_positions != -1)
+			if(!J.is_position_available())
 				jobs += J.title
 		if (!jobs.len)
 			to_chat(usr, "There are no fully staffed jobs.")

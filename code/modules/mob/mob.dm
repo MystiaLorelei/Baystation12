@@ -47,6 +47,7 @@
 /mob/Initialize()
 	. = ..()
 	skillset = new skillset(src)
+	move_intent = decls_repository.get_decl(move_intent)
 	START_PROCESSING(SSmobs, src)
 
 /mob/proc/show_message(msg, type, alt, alt_type)//Message, type of message (1 or 2), alternative message, alt message type (1 or 2)
@@ -89,12 +90,19 @@
 
 	for(var/m in mobs)
 		var/mob/M = m
+		var/mob_message = message
+
+		if(isghost(M))
+			if(ghost_skip_message(M))
+				continue
+			mob_message = add_ghost_track(mob_message, M)
+
 		if(self_message && M == src)
 			M.show_message(self_message, VISIBLE_MESSAGE, blind_message, AUDIBLE_MESSAGE)
 			continue
 
-		if(M.see_invisible >= invisibility || narrate)
-			M.show_message(message, VISIBLE_MESSAGE, blind_message, AUDIBLE_MESSAGE)
+		if(!is_invisible_to(M) || narrate)
+			M.show_message(mob_message, VISIBLE_MESSAGE, blind_message, AUDIBLE_MESSAGE)
 			continue
 
 		if(blind_message)
@@ -103,13 +111,6 @@
 	//Multiz, have shadow do same
 	if(shadow)
 		shadow.visible_message(message, self_message, blind_message)
-
-// Returns an amount of power drawn from the object (-1 if it's not viable).
-// If drain_check is set it will not actually drain power, just return a value.
-// If surge is set, it will destroy/damage the recipient and not return any power.
-// Not sure where to define this, so it can sit here for the rest of time.
-/atom/proc/drain_power(var/drain_check,var/surge, var/amount = 0)
-	return -1
 
 // Show a message to all mobs and objects in earshot of this one
 // This would be for audible actions by the src mob
@@ -125,16 +126,49 @@
 
 	for(var/m in mobs)
 		var/mob/M = m
+		var/mob_message = message
+
+		if(isghost(M))
+			if(ghost_skip_message(M))
+				continue
+			mob_message = add_ghost_track(mob_message, M)
+
 		if(self_message && M == src)
 			M.show_message(self_message, AUDIBLE_MESSAGE, deaf_message, VISIBLE_MESSAGE)
 		else if(M.see_invisible >= invisibility || narrate) // Cannot view the invisible
-			M.show_message(message, AUDIBLE_MESSAGE, deaf_message, VISIBLE_MESSAGE)
+			M.show_message(mob_message, AUDIBLE_MESSAGE, deaf_message, VISIBLE_MESSAGE)
 		else
-			M.show_message(message, AUDIBLE_MESSAGE)
+			M.show_message(mob_message, AUDIBLE_MESSAGE)
 
 	for(var/o in objs)
 		var/obj/O = o
 		O.show_message(message, AUDIBLE_MESSAGE, deaf_message, VISIBLE_MESSAGE)
+
+/mob/proc/add_ghost_track(var/message, var/mob/observer/ghost/M)
+	ASSERT(istype(M))
+
+	var/remote = ""
+	if(M.get_preference_value(/datum/client_preference/ghost_sight) == GLOB.PREF_ALL_EMOTES && !(src in view(M)))
+		remote = "\[R\]"
+
+	var/track = "([ghost_follow_link(src, M)])"
+
+	message = track + remote + " " + message
+	return message
+
+/mob/proc/ghost_skip_message(var/mob/observer/ghost/M)
+	ASSERT(istype(M))
+	if(M.get_preference_value(/datum/client_preference/ghost_sight) == GLOB.PREF_ALL_EMOTES && !(src in view(M)))
+		if(!client)
+			return TRUE
+	return FALSE
+
+// Returns an amount of power drawn from the object (-1 if it's not viable).
+// If drain_check is set it will not actually drain power, just return a value.
+// If surge is set, it will destroy/damage the recipient and not return any power.
+// Not sure where to define this, so it can sit here for the rest of time.
+/atom/proc/drain_power(var/drain_check,var/surge, var/amount = 0)
+	return -1
 
 /mob/proc/findname(msg)
 	for(var/mob/M in SSmobs.mob_list)
@@ -147,6 +181,17 @@
 	if(istype(loc, /turf))
 		var/turf/T = loc
 		. += T.movement_delay
+
+	if ((drowsyness > 0) && !MOVING_DELIBERATELY(src))
+		. += 6
+	if(lying) //Crawling, it's slower
+		. += 8 + (weakened * 2)
+	. += move_intent.move_delay
+	. += encumbrance() * (0.5 + 1.5 * (SKILL_MAX - get_skill_value(SKILL_HAULING))/(SKILL_MAX - SKILL_MIN)) //Varies between 0.5 and 2, depending on skill
+
+//How much the stuff the mob is pulling contributes to its movement delay.
+/mob/proc/encumbrance()
+	. = 0
 	if(pulling)
 		if(istype(pulling, /obj))
 			var/obj/O = pulling
@@ -156,6 +201,11 @@
 			. += max(0, M.mob_size) / MOB_MEDIUM
 		else
 			. += 1
+	. *= (0.8 ** size_strength_mod())
+
+//Determines mob size/strength effects for slowdown purposes. Standard is 0; can be pos/neg.
+/mob/proc/size_strength_mod()
+	return log(2, mob_size / MOB_MEDIUM)
 
 /mob/proc/Life()
 //	if(organStructure)
@@ -185,7 +235,6 @@
 	return incapacitated(INCAPACITATION_KNOCKDOWN)
 
 /mob/proc/incapacitated(var/incapacitation_flags = INCAPACITATION_DEFAULT)
-
 	if ((incapacitation_flags & INCAPACITATION_STUNNED) && stunned)
 		return 1
 
@@ -588,6 +637,11 @@
 		var/mob/living/carbon/human/H = AM
 		if(H.pull_damage())
 			to_chat(src, "<span class='danger'>Pulling \the [H] in their current condition would probably be a bad idea.</span>")
+
+		var/obj/item/clothing/C = H.get_covering_equipped_item_by_zone(BP_CHEST)
+		if(istype(C))
+			C.leave_evidence(src)
+
 	//Attempted fix for people flying away through space when cuffed and dragged.
 	if(ismob(AM))
 		var/mob/pulled = AM
@@ -675,24 +729,18 @@
 
 // facing verbs
 /mob/proc/canface()
-	if(!canmove)						return 0
-	if(anchored)						return 0
-	if(transforming)					return 0
-	return 1
+	return !incapacitated()
 
 // Not sure what to call this. Used to check if humans are wearing an AI-controlled exosuit and hence don't need to fall over yet.
 /mob/proc/can_stand_overridden()
 	return 0
 
-//Updates canmove, lying and icons. Could perhaps do with a rename but I can't think of anything to describe it.
-/mob/proc/update_canmove()
-
+//Updates lying and icons
+/mob/proc/UpdateLyingBuckledAndVerbStatus()
 	if(!resting && cannot_stand() && can_stand_overridden())
 		lying = 0
-		canmove = 1
 	else if(buckled)
 		anchored = 1
-		canmove = 0
 		if(istype(buckled))
 			if(buckled.buckle_lying == -1)
 				lying = incapacitated(INCAPACITATION_KNOCKDOWN)
@@ -700,10 +748,8 @@
 				lying = buckled.buckle_lying
 			if(buckled.buckle_movable)
 				anchored = 0
-				canmove = 1
 	else
 		lying = incapacitated(INCAPACITATION_KNOCKDOWN)
-		canmove = !incapacitated(INCAPACITATION_DISABLED)
 
 	if(lying)
 		set_density(0)
@@ -714,9 +760,6 @@
 	reset_layer()
 
 	for(var/obj/item/grab/G in grabbed_by)
-		if(G.stop_move())
-			canmove = 0
-
 		if(G.force_stand())
 			lying = 0
 
@@ -729,8 +772,6 @@
 	else if( lying != lying_prev )
 		update_icons()
 
-	return canmove
-
 /mob/proc/reset_layer()
 	if(lying)
 		plane = LYING_MOB_PLANE
@@ -739,12 +780,12 @@
 		reset_plane_and_layer()
 
 /mob/proc/facedir(var/ndir)
-	if(!canface() || client.moving || world.time < client.move_delay)
+	if(!canface() || moving)
 		return 0
 	set_dir(ndir)
 	if(buckled && buckled.buckle_movable)
 		buckled.set_dir(ndir)
-	client.move_delay += movement_delay()
+	SetMoveCooldown(movement_delay())
 	return 1
 
 
@@ -776,35 +817,38 @@
 	if(status_flags & CANSTUN)
 		facing_dir = null
 		stunned = max(max(stunned,amount),0) //can't go below 0, getting a low amount of stun doesn't lower your current stun
+		UpdateLyingBuckledAndVerbStatus()
 	return
 
 /mob/proc/SetStunned(amount) //if you REALLY need to set stun to a set amount without the whole "can't go below current stunned"
 	if(status_flags & CANSTUN)
 		stunned = max(amount,0)
+		UpdateLyingBuckledAndVerbStatus()
 	return
 
 /mob/proc/AdjustStunned(amount)
 	if(status_flags & CANSTUN)
 		stunned = max(stunned + amount,0)
+		UpdateLyingBuckledAndVerbStatus()
 	return
 
 /mob/proc/Weaken(amount)
 	if(status_flags & CANWEAKEN)
 		facing_dir = null
 		weakened = max(max(weakened,amount),0)
-		update_canmove()	//updates lying, canmove and icons
+		UpdateLyingBuckledAndVerbStatus()
 	return
 
 /mob/proc/SetWeakened(amount)
 	if(status_flags & CANWEAKEN)
 		weakened = max(amount,0)
-		update_canmove()	//updates lying, canmove and icons
+		UpdateLyingBuckledAndVerbStatus()
 	return
 
 /mob/proc/AdjustWeakened(amount)
 	if(status_flags & CANWEAKEN)
 		weakened = max(weakened + amount,0)
-		update_canmove()	//updates lying, canmove and icons
+		UpdateLyingBuckledAndVerbStatus()
 	return
 
 /mob/proc/Paralyse(amount)
@@ -929,7 +973,7 @@
 			wound.embedded_objects -= selection
 
 		H.shock_stage+=20
-		affected.take_damage((selection.w_class * 3), 0, DAM_EDGE, "Embedded object extraction")
+		affected.take_external_damage((selection.w_class * 3), 0, DAM_EDGE, "Embedded object extraction")
 
 		if(prob(selection.w_class * 5) && affected.sever_artery()) //I'M SO ANEMIC I COULD JUST -DIE-.
 			H.custom_pain("Something tears wetly in your [affected] as [selection] is pulled free!", 50, affecting = affected)
@@ -964,8 +1008,10 @@
 
 	return 0
 
+// A mob should either use update_icon(), overriding this definition, or use update_icons(), not touching update_icon().
+// It should not use both.
 /mob/update_icon()
-	return
+	return update_icons()
 
 /mob/verb/face_direction()
 
@@ -979,6 +1025,7 @@
 		to_chat(usr, "You are now not facing anything.")
 	else
 		to_chat(usr, "You are now facing [dir2text(facing_dir)].")
+
 /mob/proc/set_face_dir(var/newdir)
 	if(!isnull(facing_dir) && newdir == facing_dir)
 		facing_dir = null
@@ -1106,3 +1153,27 @@
 		return
 	var/obj/screen/zone_sel/selector = mob.zone_sel
 	selector.set_selected_zone(next_in_list(mob.zone_sel.selecting,zones))
+
+/mob/proc/has_chem_effect(chem, threshold)
+	return FALSE
+
+/mob/proc/has_admin_rights()
+	return check_rights(R_ADMIN, 0, src)
+
+/mob/proc/handle_drowning()
+	return FALSE
+
+/mob/proc/can_drown()
+	return 0
+
+/mob/proc/get_sex()
+	return gender
+
+/mob/is_fluid_pushable(var/amt)
+	if(..() && !buckled && (lying || !Check_Shoegrip()) && (amt >= mob_size * (lying ? 5 : 10)))
+		if(!lying)
+			Weaken(1)
+			if(lying && prob(10))
+				to_chat(src, "<span class='danger'>You are pushed down by the flood!</span>")
+		return TRUE
+	return FALSE

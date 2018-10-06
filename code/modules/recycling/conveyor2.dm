@@ -8,6 +8,7 @@
 	desc = "A conveyor belt."
 	layer = BELOW_OBJ_LAYER	// so they appear under stuff
 	anchored = 1
+
 	var/operating = 0	// 1 if running forward, -1 if backwards, 0 if off
 	var/operable = 1	// true if can operate (no broken segments in this belt run)
 	var/forwards		// this is the default (forward) direction, set by the map dir
@@ -88,15 +89,11 @@
 		to_chat(user, "<span class='notice'>You remove the conveyor belt.</span>")
 		qdel(src)
 		return
-	if(isrobot(user))	return //Carn: fix for borgs dropping their modules on conveyor belts
-	if(I.loc != user)	return // This should stop mounted modules ending up outside the module.
-
-	user.drop_item(get_turf(src))
-	return
+	user.unequip_item(get_turf(src))
 
 // attack with hand, move pulled object onto conveyor
 /obj/machinery/conveyor/attack_hand(mob/user as mob)
-	if ((!( user.canmove ) || user.restrained() || !( user.pulling )))
+	if ((user.incapacitated() || !( user.pulling )))
 		return
 	if (user.pulling.anchored)
 		return

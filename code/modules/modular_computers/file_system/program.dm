@@ -24,6 +24,7 @@
 	var/computer_emagged = 0						// Set to 1 if computer that's running us was emagged. Computer updates this every Process() tick
 	var/ui_header = null							// Example: "something.gif" - a header image that will be rendered in computer's UI when this program is running at background. Images are taken from /nano/images/status_icons. Be careful not to use too large images!
 	var/ntnet_speed = 0								// GQ/s - current network connectivity transfer rate
+	var/operator_skill = SKILL_MIN                  // Holder for skill value of current/recent operator for programs that tick.
 
 /datum/computer_file/program/New(var/obj/item/modular_computer/comp = null)
 	..()
@@ -47,6 +48,31 @@
 	temp.requires_ntnet_feature = requires_ntnet_feature
 	temp.usage_flags = usage_flags
 	return temp
+
+// Used by programs that manipulate files.
+/datum/computer_file/program/proc/get_file(var/filename)
+	var/obj/item/weapon/computer_hardware/hard_drive/HDD = computer.hard_drive
+	if(!HDD)
+		return
+	var/datum/computer_file/data/F = HDD.find_file_by_name(filename)
+	if(!istype(F))
+		return
+	return F
+
+/datum/computer_file/program/proc/create_file(var/newname, var/data = "", var/file_type = /datum/computer_file/data)
+	if(!newname)
+		return
+	var/obj/item/weapon/computer_hardware/hard_drive/HDD = computer.hard_drive
+	if(!HDD)
+		return
+	if(get_file(newname))
+		return
+	var/datum/computer_file/data/F = new file_type
+	F.filename = newname
+	F.stored_data = data
+	F.calculate_size()
+	if(HDD.store_file(F))
+		return F
 
 // Relays icon update to the computer.
 /datum/computer_file/program/proc/update_computer_icon()

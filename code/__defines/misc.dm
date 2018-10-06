@@ -56,8 +56,8 @@
 
 // Setting this much higher than 1024 could allow spammers to DOS the server easily.
 #define MAX_MESSAGE_LEN       1024
-#define MAX_PAPER_MESSAGE_LEN 3072
-#define MAX_BOOK_MESSAGE_LEN  9216
+#define MAX_PAPER_MESSAGE_LEN 6144
+#define MAX_BOOK_MESSAGE_LEN  18432
 #define MAX_LNAME_LEN         64
 #define MAX_NAME_LEN          26
 #define MAX_DESC_LEN          128
@@ -74,8 +74,16 @@
 #define DEFAULT_JOB_TYPE /datum/job/assistant
 
 //Area flags, possibly more to come
-#define AREA_FLAG_RAD_SHIELDED 1 // shielded from radiation, clearly
-#define AREA_FLAG_EXTERNAL     2 // External as in exposed to space, not outside in a nice, green, forest
+#define AREA_FLAG_RAD_SHIELDED      1 // shielded from radiation, clearly
+#define AREA_FLAG_EXTERNAL          2 // External as in exposed to space, not outside in a nice, green, forest
+#define AREA_FLAG_ION_SHIELDED      4 // shielded from ionospheric anomalies as an FBP / IPC
+#define AREA_FLAG_IS_NOT_PERSISTENT 8 // SSpersistence will not track values from this area.
+
+//Map template flags
+#define TEMPLATE_FLAG_ALLOW_DUPLICATES 1 // Lets multiple copies of the template to be spawned
+#define TEMPLATE_FLAG_SPAWN_GUARANTEED 2 // Makes it ignore away site budget and just spawn (only for away sites)
+#define TEMPLATE_FLAG_CLEAR_CONTENTS   4 // if it should destroy objects it spawns on top of
+#define TEMPLATE_FLAG_NO_RUINS         8 // if it should forbid ruins from spawning on top of it
 
 // Convoluted setup so defines can be supplied by Bay12 main server compile script.
 // Should still work fine for people jamming the icons into their repo.
@@ -91,21 +99,6 @@
 
 #define WALL_CAN_OPEN 1
 #define WALL_OPENING 2
-
-#define DEFAULT_TABLE_MATERIAL "plastic"
-#define DEFAULT_WALL_MATERIAL "steel"
-
-#define SHARD_SHARD "shard"
-#define SHARD_SHRAPNEL "shrapnel"
-#define SHARD_STONE_PIECE "piece"
-#define SHARD_SPLINTER "splinters"
-#define SHARD_NONE ""
-
-#define MATERIAL_UNMELTABLE 0x1
-#define MATERIAL_BRITTLE    0x2
-#define MATERIAL_PADDING    0x4
-
-#define TABLE_BRITTLE_MATERIAL_MULTIPLIER 4 // Amount table damage is multiplied by if it is made of a brittle material (e.g. glass)
 
 #define BOMBCAP_DVSTN_RADIUS (GLOB.max_explosion_range/4)
 #define BOMBCAP_HEAVY_RADIUS (GLOB.max_explosion_range/2)
@@ -208,14 +201,7 @@
 
 #define RADIATION_THRESHOLD_CUTOFF 0.1	// Radiation will not affect a tile when below this value.
 
-#define LEGACY_RECORD_STRUCTURE(X, Y) GLOBAL_LIST_EMPTY(##X);/datum/computer_file/data/##Y/var/list/fields[0];/datum/computer_file/data/##Y/New(){..();GLOB.##X.Add(src);}/datum/computer_file/data/##Y/Destroy(){..();GLOB.##X.Remove(src);}
-
-#define EDIT_SHORTTEXT 1	// Short (single line) text input field
-#define EDIT_LONGTEXT 2		// Long (multi line, papercode tag formattable) text input field
-#define EDIT_NUMERIC 3		// Single-line number input field
-#define EDIT_LIST 4			// Option select dialog
-
-#define REC_FIELD(KEY) 		/record_field/##KEY
+#define LEGACY_RECORD_STRUCTURE(X, Y) GLOBAL_LIST_EMPTY(##X);/datum/computer_file/data/##Y/var/list/fields[0];/datum/computer_file/data/##Y/New(){..();GLOB.##X.Add(src);}/datum/computer_file/data/##Y/Destroy(){. = ..();GLOB.##X.Remove(src);}
 
 #define SUPPLY_SECURITY_ELEVATED 1
 #define SUPPLY_SECURITY_HIGH 2
@@ -229,3 +215,22 @@
 #define WRINKLES_DEFAULT	0
 #define WRINKLES_WRINKLY	1
 #define WRINKLES_NONE		2
+
+//detergent states for clothes
+#define SMELL_DEFAULT	0
+#define SMELL_CLEAN		1
+#define SMELL_STINKY	2
+
+//Shuttle mission stages
+#define SHUTTLE_MISSION_PLANNED  1
+#define SHUTTLE_MISSION_STARTED  2
+#define SHUTTLE_MISSION_FINISHED 3
+#define SHUTTLE_MISSION_QUEUED   4
+
+//Built-in email accounts
+#define EMAIL_DOCUMENTS "document.server@internal-services.net"
+#define EMAIL_SYSADMIN  "admin@internal-services.net"
+#define EMAIL_BROADCAST "broadcast@internal-services.net"
+
+//Lying animation
+#define ANIM_LYING_TIME 2

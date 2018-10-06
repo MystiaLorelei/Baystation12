@@ -31,15 +31,15 @@
 	id = "Service and Exploration Server"
 	freq_listening = list(SRV_FREQ, EXP_FREQ)
 	channel_tags = list(
-		list(SRV_FREQ, "Service", "#6eaa2c"),
-		list(EXP_FREQ, "Exploration", "#a3a332")
+		list(SRV_FREQ, "Service", COMMS_COLOR_SERVICE),
+		list(EXP_FREQ, "Exploration", COMMS_COLOR_EXPLORER)
 	)
 	autolinkers = list("service", "exploration")
 
 /obj/machinery/telecomms/server/presets/exploration
 	id = "Utility Server"
 	freq_listening = list(EXP_FREQ)
-	channel_tags = list(list(EXP_FREQ, "Exploration", "#a3a332"))
+	channel_tags = list(list(EXP_FREQ, "Exploration", COMMS_COLOR_EXPLORER))
 	autolinkers = list("Exploration")
 
 // Suit cyclers and storage
@@ -48,7 +48,7 @@
 	model_text = "Exploration"
 	req_access = list(access_explorer)
 	departments = list("Exploration")
-	species = list(SPECIES_HUMAN,SPECIES_TAJARA,SPECIES_SKRELL)
+	species = list(SPECIES_HUMAN,SPECIES_SKRELL,SPECIES_UNATHI)
 
 /obj/machinery/suit_storage_unit/explorer
 	name = "Exploration Voidsuit Storage Unit"
@@ -58,6 +58,16 @@
 	tank_type = /obj/item/weapon/tank/oxygen
 	mask_type = /obj/item/clothing/mask/breath
 	req_access = list(access_explorer)
+	islocked = 1
+
+/obj/machinery/suit_storage_unit/pilot
+	name = "Pilot Voidsuit Storage Unit"
+	suit_type = /obj/item/clothing/suit/space/void/pilot
+	helmet_type = /obj/item/clothing/head/helmet/space/void/pilot
+	boots_type = /obj/item/clothing/shoes/magboots
+	tank_type = /obj/item/weapon/tank/oxygen
+	mask_type = /obj/item/clothing/mask/breath
+	req_access = list(access_pilot)
 	islocked = 1
 
 /obj/machinery/vending/security

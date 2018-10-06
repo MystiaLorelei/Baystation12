@@ -42,13 +42,13 @@
 	if(organ_mult)
 		if(prob(10) && H.nutrition >= 150 && !H.getBruteLoss() && !H.getFireLoss())
 			var/obj/item/organ/external/head/D = H.organs_by_name["head"]
-			if (D.disfigured)
-				D.disfigured = 0
+			if (D.status & ORGAN_DISFIGURED)
+				D.status &= ~ORGAN_DISFIGURED
 				H.nutrition -= 20
 
 		for(var/bpart in shuffle(H.internal_organs_by_name - BP_BRAIN))
 			var/obj/item/organ/internal/regen_organ = H.internal_organs_by_name[bpart]
-			if(regen_organ.robotic >= ORGAN_ROBOT)
+			if(BP_IS_ROBOTIC(regen_organ))
 				continue
 			if(istype(regen_organ))
 				if(regen_organ.damage > 0 && !(regen_organ.status & ORGAN_DEAD))
@@ -80,7 +80,7 @@
 
 /obj/aura/regenerating/human/unathi
 	brute_mult = 2
-	organ_mult = 5
+	organ_mult = 4
 	regen_message = "<span class='warning'>You feel a soothing sensation as your ORGAN mends...</span>"
 	grow_chance = 2
 	grow_threshold = 150
@@ -102,7 +102,14 @@
 	nutrition_damage_mult = 2
 	organ_mult = 2
 	regen_message = "<span class='warning'>You sense your nymphs shifting internally to regenerate your ORGAN..</span>"
+	grow_chance = 5
+	grow_threshold = 100
 
 /obj/aura/regenerating/human/diona/external_regeneration_effect(var/obj/item/organ/external/O, var/mob/living/carbon/human/H)
 	to_chat(H, "<span class='warning'>Some of your nymphs split and hurry to reform your [O.name].</span>")
 	H.nutrition -= 60
+
+/obj/aura/regenerating/human/unathi/yeosa
+	brute_mult = 1.5
+	organ_mult = 3
+	tox_mult = 2

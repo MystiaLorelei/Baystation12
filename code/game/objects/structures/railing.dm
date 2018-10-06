@@ -16,14 +16,14 @@
 	var/neighbor_status = 0
 
 /obj/structure/railing/mapped
-	color = "#c96a00"
+	color = COLOR_GUNMETAL
 	anchored = TRUE
 
 /obj/structure/railing/mapped/Initialize()
 	. = ..()
-	color = "#c96a00" // They're painted!
+	color = COLOR_GUNMETAL // They're not painted!
 
-/obj/structure/railing/New(var/newloc, var/material_key = "steel")
+/obj/structure/railing/New(var/newloc, var/material_key = MATERIAL_STEEL)
 	material = material_key // Converted to datum in initialize().
 	..(newloc)
 
@@ -37,7 +37,7 @@
 	. = ..()
 
 	if(!isnull(material) && !istype(material))
-		material = get_material_by_name(material)
+		material = SSmaterials.get_material_by_name(material)
 	if(!istype(material))
 		return INITIALIZE_HINT_QDEL
 
@@ -245,8 +245,7 @@
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
 		if(do_after(user, 20, src))
 			user.visible_message("<span class='notice'>\The [user] dismantles \the [src].</span>", "<span class='notice'>You dismantle \the [src].</span>")
-			material.place_sheet(loc)
-			material.place_sheet(loc)
+			material.place_sheet(loc, 2)
 			qdel(src)
 		return
 
@@ -283,32 +282,16 @@
 /obj/structure/railing/ex_act(severity)
 	qdel(src)
 
+/obj/structure/railing/can_climb(var/mob/living/user, post_climb_check=0)
+	. = ..()
+	if(. && get_turf(user) == get_turf(src))
+		var/turf/T = get_step(src, src.dir)
+		if(T.turf_is_crowded(user))
+			to_chat(user, "<span class='warning'>You can't climb there, the way is blocked.</span>")
+			return 0
+
 /obj/structure/railing/do_climb(var/mob/living/user)
-	if(!can_climb(user))
-		return
-
-	user.visible_message("<span class='warning'>\The [user] starts climbing onto \the [src]!</span>")
-	climbers |= user
-
-	if(!do_after(user,(issmall(user) ? 20 : 34)))
-		climbers -= user
-		return
-
-	if(!can_climb(user, post_climb_check=1))
-		climbers -= user
-		return
-
-	if(!turf_is_crowded())
-		to_chat(user, "<span class='warning'>You can't climb there, the way is blocked.</span>")
-		climbers -= user
-		return
-
-	if(get_turf(user) == get_turf(src))
-		user.forceMove(get_step(src, src.dir))
-	else
-		user.forceMove(get_turf(src))
-
-	user.visible_message("<span class='danger'>\The [user] climbed over \the [src]!</span>")
-	if(!anchored || material.is_brittle())
-		take_damage(maxhealth) // Fatboy
-	climbers -= user
+	. = ..()
+	if(.)
+		if(!anchored || material.is_brittle())
+			take_damage(maxhealth) // Fatboy

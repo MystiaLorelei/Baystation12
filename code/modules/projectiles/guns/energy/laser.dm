@@ -9,7 +9,7 @@
 	one_hand_penalty = 2
 	accuracy = 2
 	origin_tech = list(TECH_COMBAT = 3, TECH_MAGNET = 2)
-	matter = list(DEFAULT_WALL_MATERIAL = 2000)
+	matter = list(MATERIAL_STEEL = 2000)
 	projectile_type = /obj/item/projectile/beam/midlaser
 	wielded_item_state = "laser-wielded"
 
@@ -17,6 +17,7 @@
 	self_recharge = 1
 	use_external_power = 1
 	one_hand_penalty = 0 //just in case
+	has_safety = FALSE
 
 /obj/item/weapon/gun/energy/laser/practice
 	name = "practice laser carbine"
@@ -94,6 +95,7 @@ obj/item/weapon/gun/energy/retro
 	recharge_time = 10
 	accuracy = 0 //mounted laser cannons don't need any help, thanks
 	one_hand_penalty = 0
+	has_safety = FALSE
 
 /obj/item/weapon/gun/energy/xray
 	name = "x-ray laser carbine"
@@ -158,7 +160,7 @@ obj/item/weapon/gun/energy/retro
 	desc = "Standard issue weapon of the Imperial Guard."
 	origin_tech = list(TECH_COMBAT = 1, TECH_MAGNET = 2)
 	self_recharge = 1
-	matter = list(DEFAULT_WALL_MATERIAL = 2000)
+	matter = list(MATERIAL_STEEL = 2000)
 	projectile_type = /obj/item/projectile/beam/lastertag/blue
 	var/required_vest
 

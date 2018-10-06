@@ -119,7 +119,7 @@
 				target = tray
 				return
 		if(!target && refills_water && tank && tank.reagents.total_volume < tank.reagents.maximum_volume)
-			for(var/obj/structure/sink/source in view(7, src))
+			for(var/obj/structure/hygiene/sink/source in view(7, src))
 				target = source
 				return
 
@@ -190,7 +190,7 @@
 		action = ""
 		update_icons()
 		T.update_icon()
-	else if(istype(A, /obj/structure/sink))
+	else if(istype(A, /obj/structure/hygiene/sink))
 		if(!tank || tank.reagents.total_volume >= tank.reagents.maximum_volume)
 			return
 		action = "water"
@@ -254,7 +254,7 @@
 			return 1
 		return 0
 
-	if(istype(targ, /obj/structure/sink))
+	if(istype(targ, /obj/structure/hygiene/sink))
 		if(!tank || tank.reagents.total_volume >= tank.reagents.maximum_volume)
 			return 0
 		return 1
@@ -307,7 +307,6 @@
 		return
 
 	to_chat(user, "You add the robot arm to [src].")
-	user.drop_from_inventory(S)
 	qdel(S)
 	new /obj/item/weapon/farmbot_arm_assembly(loc, src)
 
@@ -317,21 +316,18 @@
 		build_step++
 		to_chat(user, "You add the plant analyzer to [src].")
 		SetName("farmbot assembly")
-		user.remove_from_mob(W)
 		qdel(W)
 
 	else if((istype(W, /obj/item/weapon/reagent_containers/glass/bucket)) && (build_step == 1))
 		build_step++
 		to_chat(user, "You add a bucket to [src].")
 		SetName("farmbot assembly with bucket")
-		user.remove_from_mob(W)
 		qdel(W)
 
 	else if((istype(W, /obj/item/weapon/material/minihoe)) && (build_step == 2))
 		build_step++
 		to_chat(user, "You add a minihoe to [src].")
 		SetName("farmbot assembly with bucket and minihoe")
-		user.remove_from_mob(W)
 		qdel(W)
 
 	else if((isprox(W)) && (build_step == 3))
@@ -339,7 +335,6 @@
 		to_chat(user, "You complete the Farmbot! Beep boop.")
 		var/mob/living/bot/farmbot/S = new /mob/living/bot/farmbot(get_turf(src), tank)
 		S.SetName(created_name)
-		user.remove_from_mob(W)
 		qdel(W)
 		qdel(src)
 

@@ -2,6 +2,15 @@
 	name = "lush exoplanet"
 	desc = "Planet with abundant flora and fauna."
 	color = "#538224"
+	possible_features = list(/datum/map_template/ruin/exoplanet/monolith,
+							 /datum/map_template/ruin/exoplanet/hydrobase,
+							 /datum/map_template/ruin/exoplanet/marooned,
+							 /datum/map_template/ruin/exoplanet/oasis,
+							 /datum/map_template/ruin/exoplanet/oasis/oasis2,
+							 /datum/map_template/ruin/exoplanet/oasis/oasis3,
+							 /datum/map_template/ruin/exoplanet/fountain,
+							 /datum/map_template/ruin/exoplanet/lodge,
+							 /datum/map_template/ruin/exoplanet/crashed_pod)
 
 /obj/effect/overmap/sector/exoplanet/grass/generate_map()
 	if(prob(40))
@@ -44,7 +53,7 @@
 	..()
 	if(!L.ear_deaf && L.client && !L.client.ambience_playing)
 		L.client.ambience_playing = 1
-		L.playsound_local(get_turf(L),sound('sound/ambience/jungle.ogg', repeat = 1, wait = 0, volume = 25, channel = 2))
+		L.playsound_local(get_turf(L),sound('sound/ambience/jungle.ogg', repeat = 1, wait = 0, volume = 25, channel = GLOB.ambience_sound_channel))
 
 /datum/random_map/noise/exoplanet/grass
 	descriptor = "grass exoplanet"
@@ -90,14 +99,14 @@
 	if(!resources)
 		resources = list()
 	if(prob(70))
-		resources["carbonaceous rock"] = rand(3,5)
+		resources[MATERIAL_GRAPHENE] = rand(3,5)
 	if(prob(5))
-		resources["uranium"] = rand(1,3)
+		resources[MATERIAL_URANIUM] = rand(1,3)
 	if(prob(2))
-		resources["diamond"] = 1
+		resources[MATERIAL_DIAMOND] = 1
 
-/turf/simulated/floor/exoplanet/grass/fire_act(datum/gas_mixture/air, temperature, volume)
-	if((temperature > T0C + 200 && prob(5)) || temperature > T0C + 1000) 
+/turf/simulated/floor/exoplanet/grass/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
+	if((temperature > T0C + 200 && prob(5)) || temperature > T0C + 1000)
 		SetName("scorched ground")
 		icon_state = "scorched"
 		color = null

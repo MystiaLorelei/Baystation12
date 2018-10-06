@@ -30,6 +30,8 @@
 	var/list/offset_y[0] //usage by the photocopier
 	var/rigged = 0
 	var/spam_flag = 0
+	var/last_modified_ckey
+	var/age = 0
 
 	var/const/deffont = "Verdana"
 	var/const/signfont = "Times New Roman"
@@ -250,10 +252,7 @@
 				user.visible_message("<span class='[class]'>[user] burns right through \the [src], turning it to ash. It flutters through the air before settling on the floor in a heap.</span>", \
 				"<span class='[class]'>You burn right through \the [src], turning it to ash. It flutters through the air before settling on the floor in a heap.</span>")
 
-				if(user.get_inactive_hand() == src)
-					user.drop_from_inventory(src)
-
-				new /obj/effect/decal/cleanable/ash(src.loc)
+				new /obj/effect/decal/cleanable/ash(get_turf(src))
 				qdel(src)
 
 			else
@@ -319,6 +318,8 @@
 			info += t // Oh, he wants to edit to the end of the file, let him.
 			updateinfolinks()
 
+		last_modified_ckey = usr.ckey
+
 		update_space(t)
 
 		usr << browse("<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY bgcolor='[color]'>[info_links][stamps]</BODY></HTML>", "window=[name]") // Update the window
@@ -351,11 +352,9 @@
 		else if (P.name != "paper" && P.name != "photo")
 			B.SetName(P.name)
 
-		user.drop_from_inventory(P)
-		user.drop_from_inventory(src)
+		if(!user.unEquip(P, B) || !user.unEquip(src, B))
+			return
 		user.put_in_hands(B)
-		src.forceMove(B)
-		P.forceMove(B)
 
 		to_chat(user, "<span class='notice'>You clip the [P.name] to [(src.name == "paper") ? "the paper" : src.name].</span>")
 
@@ -423,6 +422,10 @@
 	add_fingerprint(user)
 	return
 
+//For supply.
+/obj/item/weapon/paper/manifest
+	name = "supply manifest"
+	var/is_copy = 1
 /*
  * Premade paper
  */

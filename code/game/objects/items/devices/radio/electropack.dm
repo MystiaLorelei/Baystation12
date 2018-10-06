@@ -8,7 +8,7 @@
 	slot_flags = SLOT_BACK
 	w_class = ITEM_SIZE_HUGE
 
-	matter = list(DEFAULT_WALL_MATERIAL = 10000,"glass" = 2500)
+	matter = list(MATERIAL_STEEL = 10000,MATERIAL_GLASS = 2500)
 
 	var/code = 2
 
@@ -24,16 +24,16 @@
 		if(!b_stat)
 			to_chat(user, "<span class='notice'>[src] is not ready to be attached!</span>")
 			return
+		if(!user.unEquip(W) || !user.unEquip(src))
+			return
 		var/obj/item/assembly/shock_kit/A = new /obj/item/assembly/shock_kit( user )
 		A.icon = 'icons/obj/assemblies.dmi'
 
-		user.drop_from_inventory(W)
-		W.loc = A
+		W.forceMove(A)
 		W.master = A
 		A.part1 = W
 
-		user.drop_from_inventory(src)
-		loc = A
+		forceMove(A)
 		master = A
 		A.part2 = src
 

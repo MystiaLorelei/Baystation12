@@ -178,18 +178,21 @@ var/const/EXTRA_COST_FACTOR = 1.25
 	path = /obj/item/stack/material/steel
 	category = "General"
 	is_stack = 1
+	resources = list(MATERIAL_STEEL = SHEET_MATERIAL_AMOUNT * EXTRA_COST_FACTOR)
 
 /datum/autolathe/recipe/glass
 	name = "glass sheets"
 	path = /obj/item/stack/material/glass
 	category = "General"
 	is_stack = 1
+	resources = list(MATERIAL_GLASS = SHEET_MATERIAL_AMOUNT * EXTRA_COST_FACTOR)
 
 /datum/autolathe/recipe/rglass
 	name = "reinforced glass sheets"
 	path = /obj/item/stack/material/glass/reinforced
 	category = "General"
 	is_stack = 1
+	resources = list(MATERIAL_GLASS = (SHEET_MATERIAL_AMOUNT/2) * EXTRA_COST_FACTOR, MATERIAL_STEEL = (SHEET_MATERIAL_AMOUNT/2) * EXTRA_COST_FACTOR)
 
 /datum/autolathe/recipe/rods
 	name = "metal rods"
@@ -324,6 +327,12 @@ var/const/EXTRA_COST_FACTOR = 1.25
 	hidden = 1
 	category = "Arms and Ammunition"
 
+/datum/autolathe/recipe/magazine_rubber_45ds
+	name = "ammunition (.45, rubber) double-stack"
+	path = /obj/item/ammo_magazine/c45mds/rubber
+	hidden = 1
+	category = "Arms and Ammunition"
+
 /datum/autolathe/recipe/speedloader_44_rubber
 	name = "speed loader (.44 magnum, rubber)"
 	path = /obj/item/ammo_magazine/c44/rubber
@@ -336,9 +345,21 @@ var/const/EXTRA_COST_FACTOR = 1.25
 	hidden = 1
 	category = "Arms and Ammunition"
 
+/datum/autolathe/recipe/magazine_flash_45ds
+	name = "ammunition (.45, flash) double-stack"
+	path = /obj/item/ammo_magazine/c45mds/flash
+	hidden = 1
+	category = "Arms and Ammunition"
+
 /datum/autolathe/recipe/magazine_smg_rubber
-	name = "ammunition (9mm rubber top mounted)"
+	name = "ammunition (9mm rubber) top mounted"
 	path = /obj/item/ammo_magazine/mc9mmt/rubber
+	hidden = 1
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/magazine_smg_flash
+	name = "ammunition (9mm, flash) top mounted"
+	path = /obj/item/ammo_magazine/mc9mmt/flash
 	hidden = 1
 	category = "Arms and Ammunition"
 
@@ -461,6 +482,12 @@ var/const/EXTRA_COST_FACTOR = 1.25
 	hidden = 1
 	category = "Arms and Ammunition"
 
+/datum/autolathe/recipe/magazine_45ds
+	name = "ammunition (.45) double-stack"
+	path = /obj/item/ammo_magazine/c45mds
+	hidden = 1
+	category = "Arms and Ammunition"
+
 /datum/autolathe/recipe/speedloader_44
 	name = "speed loader (.44 magnum)"
 	path = /obj/item/ammo_magazine/c44
@@ -491,6 +518,18 @@ var/const/EXTRA_COST_FACTOR = 1.25
 	hidden = 1
 	category = "Arms and Ammunition"
 
+/datum/autolathe/recipe/magazine_9mmds
+	name = "ammunition (9mm) double-stack"
+	path = /obj/item/ammo_magazine/mc9mmds
+	hidden = 1
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/magazine_9mmds_flash
+	name = "ammunition (9mm, flash) double-stack"
+	path = /obj/item/ammo_magazine/mc9mmds/flash
+	hidden = 1
+	category = "Arms and Ammunition"
+
 /datum/autolathe/recipe/magazine_c20r
 	name = "ammunition (10mm)"
 	path = /obj/item/ammo_magazine/a10mm
@@ -504,7 +543,7 @@ var/const/EXTRA_COST_FACTOR = 1.25
 	category = "Arms and Ammunition"
 
 /datum/autolathe/recipe/magazine_smg
-	name = "ammunition (9mm top mounted)"
+	name = "ammunition (9mm) top mounted"
 	path = /obj/item/ammo_magazine/mc9mmt
 	hidden = 1
 	category = "Arms and Ammunition"
@@ -590,3 +629,8 @@ var/const/EXTRA_COST_FACTOR = 1.25
 	name = "ecigarette cartridge"
 	path = /obj/item/weapon/reagent_containers/ecig_cartridge/blank
 	category = "Devices and Components"
+
+/datum/autolathe/recipe/plunger
+	name = "plunger"
+	path = /obj/item/clothing/mask/plunger
+	category = "General"

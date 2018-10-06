@@ -11,7 +11,7 @@ LEGACY_RECORD_STRUCTURE(virus_records, virus_record)
 	var/list/datum/disease2/effect/effects = list()
 	var/antigen = list() // 16 bits describing the antigens, when one bit is set, a cure with that bit can dock here
 	var/max_stage = 4
-	var/list/affected_species = list(SPECIES_HUMAN,SPECIES_UNATHI,SPECIES_SKRELL,SPECIES_TAJARA)
+	var/list/affected_species = list(SPECIES_HUMAN,SPECIES_UNATHI,SPECIES_SKRELL)
 
 /datum/disease2/disease/New()
 	uniqueID = rand(0,10000)
@@ -118,7 +118,14 @@ LEGACY_RECORD_STRUCTURE(virus_records, virus_record)
 /datum/disease2/disease/proc/cure(var/mob/living/carbon/mob, antigen)
 	for(var/datum/disease2/effect/e in effects)
 		e.deactivate(mob)
+
 	mob.virus2.Remove("[uniqueID]")
+
+	//Tries to remove the virus also from the bloodstream (only for human-like lifeforms).
+	if(istype(mob, /mob/living/carbon/human))
+		var/mob/living/carbon/human/H = mob
+		H.cure_virus(uniqueID)
+
 	if(antigen)
 		mob.antibodies |= antigen
 
@@ -143,9 +150,8 @@ LEGACY_RECORD_STRUCTURE(virus_records, virus_record)
 
 	effects += get_random_virus2_effect(effect_stage, badness, exclude)
 
-	if (prob(5))
-		antigen = list(pick(ALL_ANTIGENS))
-		antigen |= pick(ALL_ANTIGENS)
+	antigen = list(pick(ALL_ANTIGENS))
+	antigen |= pick(ALL_ANTIGENS)
 
 	if (prob(5) && all_species.len)
 		affected_species = get_infectable_species()
@@ -197,29 +203,34 @@ var/global/list/virusDB = list()
 		var/datum/computer_file/data/virus_record/V = virusDB["[uniqueID]"]
 		.= V.fields["name"]
 
-/datum/disease2/disease/proc/get_basic_info()
-	var/t = ""
-	for(var/datum/disease2/effect/E in effects)
-		t += ", [E.name]"
-	return "[name()] ([copytext(t,3)])"
+/datum/disease2/disease/proc/get_info(skill = SKILL_MAX, verbose = 1, given_effects)
+	if(!given_effects)
+		given_effects = effects
+	var/r = list()
+	if(verbose)
+		r += "<small>Analysis determined the existence of a GNAv2-based viral lifeform.</small><br>"
+		r += "<u>Designation:</u> [name()]<br>"
+		r += "<u>Antigen:</u> [antigens2string(antigen)]<br>"
+		r += "<u>Transmitted By:</u> [spreadtype]<br>"
+	else
+		r = "[name()]"
 
-/datum/disease2/disease/proc/get_info()
-	var/r = {"
-	<small>Analysis determined the existence of a GNAv2-based viral lifeform.</small><br>
-	<u>Designation:</u> [name()]<br>
-	<u>Antigen:</u> [antigens2string(antigen)]<br>
-	<u>Transmitted By:</u> [spreadtype]<br>
-	<u>Rate of Progression:</u> [speed * 100]%<br>
-	<u>Species Affected:</u> [jointext(affected_species, ", ")]<br>
-"}
+	var/list/dat = list()
+	if(skill >= SKILL_BASIC)
+		if(verbose)
+			r += "<u>Rate of Progression:</u> [speed * 100]%<br>"
+			var/species = affected_species.Copy()
+			for(var/i = 1, i <= (SKILL_MAX - skill), i++)
+				if(prob(30))
+					pick_n_take(species)
+			r += "<u>Species Affected:</u> [jointext(species, ", ")]<br>"
+			r += "<u>Symptoms:</u><br>"
 
-	r += "<u>Symptoms:</u><br>"
-	for(var/datum/disease2/effect/E in effects)
-		r += "([E.stage]) [E.name]    "
-		r += "<small><u>Strength:</u> [E.multiplier >= 3 ? "Severe" : E.multiplier > 1 ? "Above Average" : "Average"]    "
-		r += "<u>Verosity:</u> [E.chance * 15]</small><br>"
+		for(var/datum/disease2/effect/E in given_effects)
+			dat += E.get_effect_info(verbose)
 
-	return r
+	. = verbose ? JOINTEXT(r + dat) : "[r] ([jointext(dat, ", ")])"
+
 
 /datum/disease2/disease/proc/addToDB()
 	if ("[uniqueID]" in virusDB)

@@ -2,7 +2,6 @@
 //This is for procs to replace all the goddamn 'in world's that are chilling around the code
 
 var/global/list/cable_list = list()					//Index for all cables, so that powernets don't have to look through the entire world all the time
-var/global/list/chemical_reactions_list				//list of all /datum/chemical_reaction datums. Used during chemical reactions
 var/global/list/landmarks_list = list()				//list of all landmarks created
 var/global/list/surgery_steps = list()				//list of all surgery steps  |BS12
 var/global/list/side_effects = list()				//list of all medical sideeffects types by thier names |BS12
@@ -20,9 +19,6 @@ var/global/list/whitelisted_species = list(SPECIES_HUMAN) // Species that requir
 var/global/list/playable_species = list(SPECIES_HUMAN)    // A list of ALL playable species, whitelisted, latejoin or otherwise.
 
 var/list/mannequins_
-
-// Posters
-var/global/list/poster_designs = list()
 
 // Grabs
 var/global/list/all_grabstates[0]
@@ -88,19 +84,6 @@ var/global/list/string_slot_flags = list(
 /////Initial Building/////
 //////////////////////////
 
-/hook/global_init/proc/populateGlobalLists()
-	possible_cable_coil_colours = sortAssoc(list(
-		"Yellow" = COLOR_YELLOW,
-		"Green" = COLOR_LIME,
-		"Pink" = COLOR_PINK,
-		"Blue" = COLOR_BLUE,
-		"Orange" = COLOR_ORANGE,
-		"Cyan" = COLOR_CYAN,
-		"Red" = COLOR_RED,
-		"White" = COLOR_WHITE
-	))
-	return 1
-
 /proc/get_mannequin(var/ckey)
 	if(!mannequins_)
 		mannequins_ = new()
@@ -138,11 +121,11 @@ var/global/list/string_slot_flags = list(
 	sort_surgeries()
 
 	//List of job. I can't believe this was calculated multiple times per tick!
-	paths = typesof(/datum/job)-/datum/job
-	paths -= exclude_jobs
-	for(var/T in paths)
-		var/datum/job/J = new T
-		joblist[J.title] = J
+	for(var/jtype in subtypesof(/datum/job))
+		var/datum/job/job = jtype
+		if(initial(job.available_by_default))
+			job = new jtype
+			joblist[job.title] = job
 
 	//Languages and species.
 	paths = typesof(/datum/language)-/datum/language
@@ -174,12 +157,6 @@ var/global/list/string_slot_flags = list(
 		if(S.spawn_flags & SPECIES_IS_WHITELISTED)
 			whitelisted_species += S.name
 
-	//Posters
-	paths = typesof(/datum/poster) - /datum/poster
-	for(var/T in paths)
-		var/datum/poster/P = new T
-		poster_designs += P
-
 	//Grabs
 	paths = typesof(/datum/grab) - /datum/grab
 	for(var/T in paths)
@@ -198,21 +175,7 @@ var/global/list/string_slot_flags = list(
 
 	return 1
 
-/* // Uncomment to debug chemical reaction list.
-/client/verb/debug_chemical_list()
-
-	for (var/reaction in chemical_reactions_list)
-		. += "chemical_reactions_list\[\"[reaction]\"\] = \"[chemical_reactions_list[reaction]]\"\n"
-		if(islist(chemical_reactions_list[reaction]))
-			var/list/L = chemical_reactions_list[reaction]
-			for(var/t in L)
-				. += "    has: [t]\n"
-	log_debug(.)
-
-*/
-
 //*** params cache
-
 var/global/list/paramslist_cache = list()
 
 #define cached_key_number_decode(key_number_data) cached_params_decode(key_number_data, /proc/key_number_decode)

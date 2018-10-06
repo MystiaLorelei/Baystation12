@@ -7,7 +7,7 @@
 	icon_state = "object"
 	known = 0
 
-	generic_waypoints = list(
+	initial_generic_waypoints = list(
 		"nav_slavers_base_1",
 		"nav_slavers_base_2",
 		"nav_slavers_base_3",
@@ -151,15 +151,14 @@
 	maxHealth = 100
 	health = 100
 	harm_intent_damage = 5
-	melee_damage_lower = 30
+	melee_damage_lower = 10
 	melee_damage_upper = 30
 	can_escape = 1
-	unsuitable_atoms_damage = 15
+	unsuitable_atmos_damage = 15
 	var/corpse = /obj/effect/landmark/corpse/abolitionist
 	var/weapon = /obj/item/weapon/gun/energy/laser
 	projectilesound = 'sound/weapons/laser.ogg'
 	ranged = 1
-	rapid = 1
 	projectiletype = /obj/item/projectile/beam
 	faction = "extremist abolitionists"
 

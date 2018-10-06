@@ -76,12 +76,10 @@
 	..()
 	if (istype(W, /obj/item/weapon/flamethrower))
 		var/obj/item/weapon/flamethrower/F = W
-		if (!F.status||F.ptank)	return
+		if (!F.status || F.ptank || user.unEquip(src, F))
+			return
 		master = F
 		F.ptank = src
-		user.remove_from_mob(src)
-		forceMove(F)
-
 /*
  * Emergency Oxygen
  */
@@ -93,7 +91,9 @@
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	slot_flags = SLOT_BELT
 	w_class = ITEM_SIZE_SMALL
-	force = 4
+	force = 5
+	attack_cooldown = DEFAULT_WEAPON_COOLDOWN
+	melee_accuracy_bonus = -10
 	distribute_pressure = ONE_ATMOSPHERE*O2STANDARD
 	volume = 40 //Tiny. Real life equivalents only have 21 breaths of oxygen in them. They're EMERGENCY tanks anyway -errorage (dangercon 2011)
 

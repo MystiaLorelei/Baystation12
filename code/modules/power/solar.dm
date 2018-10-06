@@ -241,7 +241,7 @@ var/list/solars_list = list()
 			playsound(src.loc, 'sound/items/Ratchet.ogg', 75, 1)
 			return 1
 
-		if(istype(W, /obj/item/stack/material) && (W.get_material_name() == "glass" || W.get_material_name() == "rglass"))
+		if(istype(W, /obj/item/stack/material) && (W.get_material_name() == MATERIAL_GLASS || W.get_material_name() == MATERIAL_REINFORCED_GLASS))
 			var/obj/item/stack/material/S = W
 			if(S.use(2))
 				glass_type = W.type
@@ -259,7 +259,6 @@ var/list/solars_list = list()
 	if(!tracker)
 		if(istype(W, /obj/item/weapon/tracker_electronics))
 			tracker = 1
-			user.drop_item()
 			qdel(W)
 			user.visible_message("<span class='notice'>[user] inserts the electronics into the solar assembly.</span>")
 			return 1

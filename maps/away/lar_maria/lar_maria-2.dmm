@@ -1093,7 +1093,9 @@
 /turf/simulated/floor/wood,
 /area/lar_maria/dorms)
 "cI" = (
-/obj/item/modular_computer/console,
+/obj/item/modular_computer/console{
+	dir = 8
+	},
 /turf/simulated/floor/wood,
 /area/lar_maria/dorms)
 "cJ" = (
@@ -1161,7 +1163,9 @@
 /obj/structure/window/basic{
 	dir = 1
 	},
-/obj/item/modular_computer/console,
+/obj/item/modular_computer/console{
+	dir = 8
+	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
 "cQ" = (
@@ -1219,7 +1223,7 @@
 /turf/simulated/floor/plating,
 /area/lar_maria/atmos)
 "cY" = (
-/obj/structure/bed/chair/comfy/purp{
+/obj/structure/bed/chair/comfy/purple{
 	dir = 1
 	},
 /turf/simulated/floor/wood,
@@ -1267,8 +1271,10 @@
 /turf/simulated/floor/wood,
 /area/lar_maria/dorms)
 "dh" = (
-/obj/item/modular_computer/console,
 /obj/structure/window/basic,
+/obj/item/modular_computer/console{
+	dir = 4
+	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
 "di" = (
@@ -1289,7 +1295,9 @@
 	icon_state = "tube1";
 	dir = 4
 	},
-/obj/item/modular_computer/console,
+/obj/item/modular_computer/console{
+	dir = 8
+	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
 "dl" = (
@@ -1435,8 +1443,9 @@
 /obj/structure/window/basic{
 	dir = 1
 	},
-/obj/structure/table/standard,
-/obj/item/modular_computer/console,
+/obj/item/modular_computer/console{
+	dir = 4
+	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
 "dK" = (
@@ -1748,7 +1757,7 @@
 /turf/simulated/floor/wood,
 /area/lar_maria/dorms)
 "eI" = (
-/obj/structure/toilet,
+/obj/structure/hygiene/toilet,
 /obj/machinery/light/small{
 	dir = 1
 	},
@@ -1757,7 +1766,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_m)
 "eJ" = (
-/obj/structure/toilet,
+/obj/structure/hygiene/toilet,
 /obj/machinery/light/small{
 	dir = 1
 	},
@@ -1765,7 +1774,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_m)
 "eK" = (
-/obj/structure/urinal{
+/obj/structure/hygiene/urinal{
 	pixel_x = -30
 	},
 /turf/simulated/floor/tiled/white,
@@ -1842,7 +1851,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_m)
 "eY" = (
-/obj/structure/urinal{
+/obj/structure/hygiene/urinal{
 	pixel_x = -30
 	},
 /obj/random/trash,
@@ -2179,7 +2188,7 @@
 /turf/simulated/floor/wood,
 /area/lar_maria/dorms)
 "fZ" = (
-/obj/machinery/shower{
+/obj/structure/hygiene/shower{
 	dir = 4;
 	icon_state = "shower";
 	pixel_x = 0;
@@ -2204,7 +2213,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_f)
 "gd" = (
-/obj/structure/toilet{
+/obj/structure/hygiene/toilet{
 	dir = 8
 	},
 /obj/machinery/light/small{
@@ -2494,7 +2503,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/mess_hall)
 "gW" = (
-/obj/structure/sink/kitchen{
+/obj/structure/hygiene/sink/kitchen{
 	pixel_y = 25
 	},
 /turf/simulated/floor/tiled/white,
@@ -2830,7 +2839,7 @@
 /turf/simulated/floor/tiled/freezer,
 /area/lar_maria/mess_hall)
 "hN" = (
-/obj/machinery/shower{
+/obj/structure/hygiene/shower{
 	dir = 4;
 	icon_state = "shower";
 	pixel_x = 0;
@@ -2959,7 +2968,7 @@
 /turf/simulated/floor/tiled/freezer,
 /area/lar_maria/mess_hall)
 "ij" = (
-/obj/machinery/shower{
+/obj/structure/hygiene/shower{
 	dir = 4;
 	icon_state = "shower";
 	pixel_x = 0;
@@ -3550,7 +3559,7 @@
 /turf/simulated/floor/plating,
 /area/lar_maria/atmos)
 "vb" = (
-/obj/structure/sink{
+/obj/structure/hygiene/sink{
 	dir = 4;
 	icon_state = "sink";
 	pixel_x = 11;
@@ -3567,7 +3576,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_m)
 "wb" = (
-/obj/structure/sink{
+/obj/structure/hygiene/sink{
 	dir = 4;
 	icon_state = "sink";
 	pixel_x = 11;
@@ -3580,7 +3589,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_m)
 "xb" = (
-/obj/structure/sink{
+/obj/structure/hygiene/sink{
 	icon_state = "sink";
 	dir = 8;
 	pixel_x = -12;
@@ -3591,6 +3600,12 @@
 	},
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_f)
+"DG" = (
+/obj/item/modular_computer/console{
+	dir = 1
+	},
+/turf/simulated/floor/tiled,
+/area/lar_maria/office)
 
 (1,1,1) = {"
 aa
@@ -20652,7 +20667,7 @@ ct
 cL
 dh
 cd
-cP
+dJ
 ec
 er
 eJ
@@ -21056,7 +21071,7 @@ cv
 cN
 dh
 cd
-cP
+dJ
 ed
 er
 eK
@@ -24496,7 +24511,7 @@ eC
 eU
 ff
 ex
-eW
+DG
 eW
 ex
 gu

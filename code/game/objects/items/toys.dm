@@ -95,7 +95,7 @@
 
 /obj/item/toy/balloon
 	name = "\improper 'criminal' balloon"
-	desc = "FUK NT!11!"
+	desc = "FUK CAPITALISM!11!"
 	throwforce = 0
 	throw_speed = 4
 	throw_range = 20
@@ -111,7 +111,7 @@
 
 /obj/item/toy/balloon/nanotrasen
 	name = "\improper 'motivational' balloon"
-	desc = "Man, I love NanoTrasen soooo much. I use only NT products. You have NO idea."
+	desc = "Man, I love Profit soooo much. I use only Brand Name products. You have NO idea."
 	icon_state = "ntballoon"
 	item_state = "ntballoon"
 
@@ -159,7 +159,8 @@
 	attackby(obj/item/I as obj, mob/user as mob)
 		if(istype(I, /obj/item/toy/ammo/crossbow))
 			if(bullets <= 4)
-				user.drop_item()
+				if(!user.unEquip(I))
+					return
 				qdel(I)
 				bullets++
 				to_chat(user, "<span class='notice'>You load the foam dart into the crossbow.</span>")
@@ -322,7 +323,7 @@
 /obj/item/toy/snappop/Crossed(H as mob|obj)
 	if((ishuman(H))) //i guess carp and shit shouldn't set them off
 		var/mob/living/carbon/M = H
-		if(M.m_intent == "run")
+		if(!MOVING_DELIBERATELY(M))
 			to_chat(M, "<span class='warning'>You step on the snap pop!</span>")
 
 			var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
@@ -849,7 +850,6 @@
 		user.visible_message("<span class='warning'>[user] rings \the [src] repeatedly, signalling a disqualification!</span>")
 		playsound(user.loc, 'sound/items/manydings.ogg', 60)
 
-
 //Office Desk Toys
 
 /obj/item/toy/desk
@@ -891,3 +891,41 @@
 	name = "dipping bird toy"
 	desc = "A ancient human bird idol, worshipped by clerks and desk jockeys."
 	icon_state= "dippybird"
+
+// tg station ports
+
+/obj/item/toy/eightball
+	name = "magic eightball"
+	desc = "A black ball with a stencilled number eight in white on the side. It seems full of dark liquid.\nThe instructions state that you should ask your question aloud, and then shake."
+	icon_state = "eightball"
+	w_class = ITEM_SIZE_TINY
+
+	var/static/list/possible_answers = list(
+		"It is certain",
+		"It is decidedly so",
+		"Without a doubt",
+		"Yes, definitely",
+		"You may rely on it",
+		"As I see it, yes",
+		"Most likely",
+		"Outlook good",
+		"Yes",
+		"Signs point to yes",
+		"Reply hazy, try again",
+		"Ask again later",
+		"Better not tell you now",
+		"Cannot predict now",
+		"Concentrate and ask again",
+		"Don't count on it",
+		"My reply is no",
+		"My sources say no",
+		"Outlook not so good",
+		"Very doubtful")
+
+/obj/item/toy/eightball/attack_self(mob/user)
+	user.visible_message("<span class='notice'>\The [user] shakes \the [src] for a moment, and it says, \"[pick(possible_answers) ].\"</span>")
+
+/obj/item/toy/eightball/afterattack(obj/O, mob/user, var/proximity)
+	. = ..()
+	if (proximity)
+		visible_message("<span class='warning'>\The [src] says, \"[pick(possible_answers) ]\" as it hits \the [O]!</span>")

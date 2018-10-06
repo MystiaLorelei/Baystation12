@@ -3,7 +3,6 @@
 /obj/item/weapon/gripper
 	name = "magnetic gripper"
 	desc = "A simple grasping tool specialized in construction and engineering work."
-	description_info = "Click an item to pick it up with your gripper. Use it as you would normally use anything in your hand. The Drop Item verb will allow you to release the item."
 	icon = 'icons/obj/device.dmi'
 	icon_state = "gripper"
 
@@ -26,7 +25,8 @@
 		/obj/item/weapon/computer_hardware,
 		/obj/item/weapon/fuel_assembly,
 		/obj/item/stack/material/deuterium,
-		/obj/item/stack/material/tritium
+		/obj/item/stack/material/tritium,
+		/obj/item/stack/tile
 		)
 
 	var/obj/item/wrapped = null // Item currently being held.
@@ -194,11 +194,6 @@
 		addtimer(CALLBACK(src, .proc/finish_using, target, user, params, force_holder, resolved), 0)
 
 	else if(istype(target,/obj/item)) //Check that we're not pocketing a mob.
-
-		//...and that the item is not in a container.
-		if(!isturf(target.loc))
-			return
-
 		var/obj/item/I = target
 
 		//Check if the item is blacklisted.
@@ -210,8 +205,16 @@
 
 		//We can grab the item, finally.
 		if(grab)
+			if(I == user.s_active)
+				var/obj/item/weapon/storage/storage = I
+				storage.close(user) //Closes the ui.
+			if(istype(I.loc, /obj/item/weapon/storage))
+				var/obj/item/weapon/storage/storage = I.loc
+				if(!storage.remove_from_storage(I, src))
+					return
+			else
+				I.forceMove(src)
 			to_chat(user, "<span class='notice'>You collect \the [I].</span>")
-			I.loc = src
 			wrapped = I
 			return
 		else
@@ -341,7 +344,7 @@
 
 	for(var/obj/W in T)
 		//Different classes of items give different commodities.
-		if(istype(W,/obj/item/weapon/cigbutt))
+		if(istype(W,/obj/item/trash/cigbutt))
 			if(plastic)
 				plastic.add_charge(500)
 		else if(istype(W,/obj/effect/spider/spiderling))

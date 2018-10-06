@@ -12,7 +12,7 @@ var/list/floor_light_cache = list()
 	idle_power_usage = 2
 	active_power_usage = 20
 	power_channel = LIGHT
-	matter = list(DEFAULT_WALL_MATERIAL = 250, "glass" = 250)
+	matter = list(MATERIAL_STEEL = 250, MATERIAL_GLASS = 250)
 
 	var/on
 	var/damaged
@@ -95,7 +95,7 @@ var/list/floor_light_cache = list()
 /obj/machinery/floor_light/proc/update_brightness()
 	if(on && use_power == 2)
 		if(light_outer_range != default_light_outer_range || light_max_bright != default_light_max_bright || light_color != default_light_colour)
-			set_light(default_light_max_bright, default_light_outer_range, default_light_inner_range, 2, default_light_colour)
+			set_light(default_light_max_bright, default_light_inner_range, default_light_outer_range, l_color = default_light_colour)
 	else
 		use_power = 0
 		if(light_outer_range || light_max_bright)

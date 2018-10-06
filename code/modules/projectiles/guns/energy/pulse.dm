@@ -46,6 +46,7 @@
 /obj/item/weapon/gun/energy/pulse_rifle/mounted
 	self_recharge = 1
 	use_external_power = 1
+	has_safety = FALSE
 
 /obj/item/weapon/gun/energy/pulse_rifle/destroyer
 	name = "pulse destroyer"
@@ -57,13 +58,3 @@
 
 /obj/item/weapon/gun/energy/pulse_rifle/destroyer/attack_self(mob/living/user as mob)
 	to_chat(user, "<span class='warning'>[src.name] has three settings, and they are all DESTROY.</span>")
-
-/obj/item/weapon/gun/energy/pulse_rifle/bogani
-	name = "pulsar cannon"
-	desc = "An alien weapon never before seen by the likes of your species."
-	icon_state = "bog_rifle"
-	item_state = "bog_rifle"
-	wielded_item_state = "bog_rifle-wielded"
-	projectile_type = /obj/item/projectile/beam/pulse/bogani
-	max_shots = 100 //Don't want it to run out
-	icon_rounder = 20

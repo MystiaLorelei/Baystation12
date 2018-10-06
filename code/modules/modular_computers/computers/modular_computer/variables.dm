@@ -39,6 +39,7 @@
 	var/damage = 0				// Current damage level
 	var/broken_damage = 50		// Damage level at which the computer ceases to operate
 	var/max_damage = 100		// Damage level at which the computer breaks apart.
+	var/list/terminals          // List of open terminal datums.
 
 	// Important hardware (must be installed for computer to work)
 	var/obj/item/weapon/computer_hardware/processor_unit/processor_unit				// CPU. Without it the computer won't run. Better CPUs can run more programs at once.
@@ -52,6 +53,7 @@
 	var/obj/item/weapon/computer_hardware/hard_drive/portable/portable_drive		// Portable data storage
 	var/obj/item/weapon/computer_hardware/ai_slot/ai_slot							// AI slot, an intellicard housing that allows modifications of AIs.
 	var/obj/item/weapon/computer_hardware/tesla_link/tesla_link						// Tesla Link, Allows remote charging from nearest APC.
+	var/obj/item/weapon/computer_hardware/scanner/scanner							// One of several optional scanner attachments.
 
 	var/modifiable = TRUE	// can't be modified or damaged if false
 
