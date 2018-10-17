@@ -101,7 +101,7 @@
 			M.show_message(self_message, VISIBLE_MESSAGE, blind_message, AUDIBLE_MESSAGE)
 			continue
 
-		if(!is_invisible_to(M) || narrate)
+		if(!M.is_blind() || narrate)
 			M.show_message(mob_message, VISIBLE_MESSAGE, blind_message, AUDIBLE_MESSAGE)
 			continue
 
@@ -1010,7 +1010,7 @@
 
 // A mob should either use update_icon(), overriding this definition, or use update_icons(), not touching update_icon().
 // It should not use both.
-/mob/update_icon()
+/mob/on_update_icon()
 	return update_icons()
 
 /mob/verb/face_direction()

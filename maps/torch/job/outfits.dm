@@ -50,7 +50,7 @@ Keeping them simple for now, just spawning with basic EC uniforms, and pretty mu
 /decl/hierarchy/outfit/job/torch/crew/command/CO/New()
 	..()
 	backpack_overrides[/decl/backpack_outfit/backpack] = /obj/item/weapon/storage/backpack/captain
-	backpack_overrides[/decl/backpack_outfit/satchel] = /obj/item/weapon/storage/backpack/satchel_cap
+	backpack_overrides[/decl/backpack_outfit/satchel] = /obj/item/weapon/storage/backpack/satchel/cap
 	backpack_overrides[/decl/backpack_outfit/messenger_bag] = /obj/item/weapon/storage/backpack/messenger/com
 
 /decl/hierarchy/outfit/job/torch/crew/command/XO
@@ -70,7 +70,7 @@ Keeping them simple for now, just spawning with basic EC uniforms, and pretty mu
 	name = OUTFIT_JOB_NAME("Research Director - Torch")
 	l_ear = /obj/item/device/radio/headset/heads/torchntdirector
 	uniform = /obj/item/clothing/under/rank/research_director
-	suit = /obj/item/clothing/suit/storage/toggle/labcoat/science
+	suit = /obj/item/clothing/suit/storage/toggle/labcoat/science/corp
 	shoes = /obj/item/clothing/shoes/brown
 	id_type = /obj/item/weapon/card/id/torch/silver/research
 	pda_type = /obj/item/modular_computer/pda/heads/rd
@@ -519,7 +519,7 @@ decl/hierarchy/outfit/job/torch/passenger/research/cl/union
 /decl/hierarchy/outfit/job/torch/crew/exploration/New()
 	..()
 	backpack_overrides[/decl/backpack_outfit/backpack]      = /obj/item/weapon/storage/backpack/explorer
-	backpack_overrides[/decl/backpack_outfit/satchel]       = /obj/item/weapon/storage/backpack/satchel_explorer
+	backpack_overrides[/decl/backpack_outfit/satchel]       = /obj/item/weapon/storage/backpack/satchel/explorer
 	backpack_overrides[/decl/backpack_outfit/messenger_bag] = /obj/item/weapon/storage/backpack/messenger/explorer
 
 /decl/hierarchy/outfit/job/torch/crew/exploration/pathfinder
@@ -577,7 +577,7 @@ decl/hierarchy/outfit/job/torch/passenger/research/cl/union
 /decl/hierarchy/outfit/job/torch/passenger/research/senior_scientist
 	name = OUTFIT_JOB_NAME("Senior Researcher")
 	uniform = /obj/item/clothing/under/rank/scientist/executive
-	suit = /obj/item/clothing/suit/storage/toggle/labcoat/science
+	suit = /obj/item/clothing/suit/storage/toggle/labcoat/science/corp
 	shoes = /obj/item/clothing/shoes/white
 	pda_type = /obj/item/modular_computer/pda/heads/rd
 	id_type = /obj/item/weapon/card/id/torch/passenger/research/senior_scientist

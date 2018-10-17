@@ -32,15 +32,19 @@
 	var/spam_flag = 0
 	var/last_modified_ckey
 	var/age = 0
+	var/list/metadata
 
 	var/const/deffont = "Verdana"
 	var/const/signfont = "Times New Roman"
 	var/const/crayonfont = "Comic Sans MS"
 	var/const/fancyfont = "Segoe Script"
 
-/obj/item/weapon/paper/New(loc, text,title)
+	var/scan_file_type = /datum/computer_file/data/text
+
+/obj/item/weapon/paper/New(loc, text, title, list/md = null)
 	..(loc)
 	set_content(text ? text : info, title)
+	metadata = md
 
 /obj/item/weapon/paper/proc/set_content(text,title)
 	if(title)
@@ -51,7 +55,7 @@
 	update_space(info)
 	updateinfolinks()
 
-/obj/item/weapon/paper/update_icon()
+/obj/item/weapon/paper/on_update_icon()
 	if(icon_state == "paper_talisman")
 		return
 	else if(info)
@@ -422,6 +426,9 @@
 	add_fingerprint(user)
 	return
 
+/obj/item/weapon/paper/proc/show_info(var/mob/user)
+	return info
+
 //For supply.
 /obj/item/weapon/paper/manifest
 	name = "supply manifest"
@@ -437,7 +444,7 @@
 	name = "paper scrap"
 	icon_state = "scrap"
 
-/obj/item/weapon/paper/crumpled/update_icon()
+/obj/item/weapon/paper/crumpled/on_update_icon()
 	return
 
 /obj/item/weapon/paper/crumpled/bloody
