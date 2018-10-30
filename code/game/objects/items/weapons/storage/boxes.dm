@@ -144,6 +144,10 @@
 	icon_state = "beaker"
 	startswith = list(/obj/item/weapon/reagent_containers/glass/beaker = 7)
 
+/obj/item/weapon/storage/box/beakers/insulated
+	name = "box of insulated beakers"
+	startswith = list(/obj/item/weapon/reagent_containers/glass/beaker/insulated = 7)
+
 ///obj/item/weapon/storage/box/injectors
 //	name = "box of DNA injectors"
 //	desc = "This box contains injectors it seems."
@@ -411,16 +415,16 @@
 	can_hold = list(/obj/item/weapon/flame/match)
 	startswith = list(/obj/item/weapon/flame/match = 10)
 
-	attackby(obj/item/weapon/flame/match/W as obj, mob/user as mob)
-		if(istype(W) && !W.lit && !W.burnt)
-			W.lit = 1
-			W.damtype = "burn"
-			W.icon_state = "match_lit"
-			START_PROCESSING(SSobj, W)
-			playsound(src.loc, 'sound/items/match.ogg', 60, 1, -4)
-			user.visible_message("<span class='notice'>[user] strikes the match on the matchbox.</span>")
-		W.update_icon()
-		return
+/obj/item/weapon/storage/box/matches/attackby(obj/item/weapon/flame/match/W as obj, mob/user as mob)
+	if(istype(W) && !W.lit && !W.burnt)
+		W.lit = 1
+		W.damtype = "burn"
+		W.icon_state = "match_lit"
+		START_PROCESSING(SSobj, W)
+		playsound(src.loc, 'sound/items/match.ogg', 60, 1, -4)
+		user.visible_message("<span class='notice'>[user] strikes the match on the matchbox.</span>")
+	W.update_icon()
+	return
 
 /obj/item/weapon/storage/box/autoinjectors
 	name = "box of injectors"
@@ -496,6 +500,10 @@
 	can_hold = list(/obj/item/organ, /obj/item/weapon/reagent_containers/food, /obj/item/weapon/reagent_containers/glass)
 	max_storage_space = DEFAULT_BACKPACK_STORAGE
 	use_to_pickup = 1 // for picking up broken bulbs, not that most people will try
+	temperature = -16 CELCIUS
+
+/obj/item/weapon/storage/box/freezer/ProcessAtomTemperature()
+	return PROCESS_KILL
 
 /obj/item/weapon/storage/box/checkers
 	name = "checkers box"

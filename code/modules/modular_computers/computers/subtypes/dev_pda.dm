@@ -12,6 +12,7 @@
 	sprite_sheets = list(SPECIES_RESOMI = 'icons/mob/species/resomi/id.dmi')
 	stores_pen = TRUE
 	stored_pen = /obj/item/weapon/pen
+	receives_updates = FALSE
 
 /obj/item/modular_computer/pda/Initialize()
 	. = ..()

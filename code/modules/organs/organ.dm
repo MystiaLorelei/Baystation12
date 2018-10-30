@@ -29,11 +29,8 @@ var/list/organ_cache = list()
 	var/death_time
 
 /obj/item/organ/Destroy()
-
 	owner = null
 	dna = null
-	species = null
-
 	return ..()
 
 /obj/item/organ/proc/refresh_action_button()
@@ -252,11 +249,14 @@ var/list/organ_cache = list()
  *  Remove an organ
  *
  *  drop_organ - if true, organ will be dropped at the loc of its former owner
+ *
+ *  Also, Observer Pattern Implementation: Dismembered Handling occurs here.
  */
 /obj/item/organ/proc/removed(var/mob/living/user, var/drop_organ=1)
 
 	if(!istype(owner))
 		return
+	GLOB.dismembered_event.raise_event(owner, src)
 
 	action_button_name = null
 
@@ -321,47 +321,22 @@ var/list/organ_cache = list()
 /obj/item/organ/proc/get_scan_results(var/tag = FALSE)
 	. = list()
 	if(BP_IS_CRYSTAL(src))
-		if(tag)
-			. += "<span class='average'>Crystalline</span>"
-		else
-			. += "Crystalline"
+		. += tag ? "<span class='average'>Crystalline</span>" : "Crystalline"
 	else if(BP_IS_ASSISTED(src))
-		if(tag)
-			. += "<span class='average'>Assisted</span>"
-		else
-			. += "Assisted"
+		. += tag ? "<span class='average'>Assisted</span>" : "Assisted"
 	else if(BP_IS_ROBOTIC(src))
-		if(tag)
-			. += "<span class='average'>Mechanical</span>"
-		else
-			. += "Mechanical"
+		. += tag ? "<span class='average'>Mechanical</span>" : "Mechanical"
 	if(status & ORGAN_CUT_AWAY)
-		if(tag)
-			. += "<span class='bad'>Severed</span>"
-		else
-			. += "Severed"
+		. += tag ? "<span class='bad'>Severed</span>" : "Severed"
 	if(status & ORGAN_MUTATED)
-		if(tag)
-			. += "<span class='bad'>Genetic Deformation</span>"
-		else
-			. += "Genetic Deformation"
+		. += tag ? "<span class='bad'>Genetic Deformation</span>" : "Genetic Deformation"
 	if(status & ORGAN_DEAD)
 		if(can_recover())
-			if(tag)
-				. += "<span class='bad'>Decaying</span>"
-			else
-				. += "Decaying"
+			. += tag ? "<span class='bad'>Decaying</span>" : "Decaying"
 		else
-			if(tag)
-				. += "<span style='color:#999999'>Necrotic</span>"
-			else
-				. += "Necrotic"
-
+			. += tag ? "<span style='color:#999999'>Necrotic</span>" : "Necrotic"
 	if(BP_IS_BRITTLE(src))
-		if(tag)
-			. += "<span class='bad'>Brittle</span>"
-		else
-			. += "Brittle"
+		. += tag ? "<span class='bad'>Brittle</span>" : "Brittle"
 
 	switch (germ_level)
 		if (INFECTION_LEVEL_ONE to INFECTION_LEVEL_ONE + ((INFECTION_LEVEL_TWO - INFECTION_LEVEL_ONE) / 3))
