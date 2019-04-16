@@ -7,7 +7,7 @@
 /datum/job/captain
 	supervisors = "the Merchant Code and your conscience"
 	outfit_type = /decl/hierarchy/outfit/job/bearcat/captain
-	skill_points = 40
+	skill_points = 30
 
 /datum/job/captain/equip(var/mob/living/carbon/human/H)
 	. = ..()
@@ -24,7 +24,7 @@
 		return
 	GLOB.using_map.station_short = ship
 	GLOB.using_map.station_name = "FTV [ship]"
-	var/obj/effect/overmap/ship/bearcat/B = locate() in world
+	var/obj/effect/overmap/ship/birdcat/B = locate() in world
 	if(B)
 		B.SetName(GLOB.using_map.station_name)
 	command_announcement.Announce("Attention all hands on [GLOB.using_map.station_name]! Thank you for your attention.", "Ship re-christened")
@@ -52,8 +52,8 @@
 	title = "Chief Engineer"
 	supervisors = "the Captain"
 	department_flag = ENG
-	skill_points = 30
 	outfit_type = /decl/hierarchy/outfit/job/bearcat/chief_engineer
+	skill_points = 30
 
 /datum/job/doctor
 	title = "Doc"
@@ -63,15 +63,15 @@
 		"Surgeon")
 	total_positions = 1
 	spawn_positions = 1
-	skill_points = 30
 	hud_icon = "hudmedicaldoctor"
+	skill_points = 30
 
 /datum/job/hop
 	title = "First Mate"
 	supervisors = "the Captain and the Merchant Code"
 	outfit_type = /decl/hierarchy/outfit/job/bearcat/mate
-	skill_points = 30
 	hud_icon = "hudheadofpersonnel"
+	skill_points = 30
 
 /datum/job/assistant
 	title = "Deck Hand"
@@ -81,16 +81,16 @@
 		"Cook" = /decl/hierarchy/outfit/job/bearcat/hand/cook,
 		"Cargo Hand",
 		"Passenger")
-	skill_points = 30
 	hud_icon = "hudcargotechnician"
+	skill_points = 30
 
 /datum/job/engineer
 	title = "Junior Engineer"
 	supervisors = "Chief Engineer"
 	total_positions = 2
 	spawn_positions = 2
-	skill_points = 30
 	hud_icon = "hudengineer"
+	skill_points = 30
 
 /datum/job/cyborg
 	supervisors = "your laws and the Captain"
@@ -146,7 +146,7 @@
 	shoes = /obj/item/clothing/shoes/laceup
 	glasses = /obj/item/clothing/glasses/sunglasses/big
 	pda_type = /obj/item/modular_computer/pda/cargo
-	l_hand = /obj/item/weapon/clipboard
+	l_hand = /obj/item/weapon/material/clipboard
 
 /decl/hierarchy/outfit/job/bearcat/hand
 	name = BEARCAT_OUTFIT_JOB_NAME("Deck Hand")

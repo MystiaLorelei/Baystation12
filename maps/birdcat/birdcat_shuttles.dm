@@ -1,26 +1,4 @@
-#include "bearcat_areas.dm"
-#include "bearcat_jobs.dm"
-#include "bearcat_loadouts.dm"
-#include "bearcat-1.dmm"
-#include "bearcat-2.dmm"
-
-/obj/effect/overmap/ship/bearcat
-	name = "FTV Bearcat"
-	color = "#00ffff"
-	start_x = 4
-	start_y = 4
-	base = 1
-	vessel_mass = 5000
-	max_speed = 1/(10 SECONDS)
-					   
-	burn_delay = 10 SECONDS
-
-	initial_generic_waypoints = list("nav_bearcat_below_bow", "nav_bearcat_below_starboardastern", "nav_bearcat_port_dock_shuttle")
-	initial_restricted_waypoints = list(
-		"Exploration Pod" = list("nav_bearcat_starboard_dock_pod"), //pod can only dock starboard-side, b/c there's only one door.
-	)
-
-/obj/machinery/computer/shuttle_control/explore/bearcat
+/obj/machinery/computer/shuttle_control/explore/birdcat
 	name = "exploration shuttle console"
 	shuttle_tag = "Exploration Shuttle"
 
@@ -53,14 +31,14 @@
 //In case multiple shuttles can dock at a location,
 //subtypes can be used to hold the shuttle-specific data
 /obj/effect/shuttle_landmark/docking_arm_starboard
-	name = "Bearcat Starboard-side Docking Arm"
+	name = "Birdcat Starboard-side Docking Arm"
 	docking_controller = "bearcat_starboard_dock"
 
 /obj/effect/shuttle_landmark/docking_arm_starboard/pod
 	landmark_tag = "nav_bearcat_starboard_dock_pod"
 
 /obj/effect/shuttle_landmark/docking_arm_port
-	name = "Bearcat Port-side Docking Arm"
+	name = "Birdcat Port-side Docking Arm"
 	docking_controller = "bearcat_dock_port"
 
 /obj/effect/shuttle_landmark/docking_arm_port/shuttle
@@ -78,50 +56,9 @@
 	base_turf = /turf/simulated/floor
 
 /obj/effect/shuttle_landmark/below_deck_bow
-	name = "Near CSV Bearcat Bow"
+	name = "Near FTV Birdcat Bow"
 	landmark_tag = "nav_bearcat_below_bow"
 
 /obj/effect/shuttle_landmark/below_deck_starboardastern
-	name = "Near CSV Bearcat Starboard Astern"
+	name = "Near FTV Birdcat Starboard Astern"
 	landmark_tag = "nav_bearcat_below_starboardastern"
-
-/turf/simulated/wall //landlubbers go home
-	name = "bulkhead"
-
-/turf/simulated/floor
-	name = "bare deck"
-
-/turf/simulated/floor/tiled
-	name = "deck"
-
-/decl/flooring/tiling
-	name = "deck"
-
-/turf/simulated/wall/r_wall/hull
-	color = COLOR_DARK_BROWN
-
-/obj/machinery/door/airlock/hatch/autoname
-
-/obj/machinery/door/airlock/hatch/autoname/New()
-	var/area/A = get_area(src)
-	name = A.name
-	..()
-
-/obj/machinery/door/airlock/hatch/autoname/general
-	stripe_color = COLOR_CIVIE_GREEN
-
-/obj/machinery/door/airlock/hatch/autoname/maintenance
-	stripe_color = COLOR_AMBER
-
-/obj/machinery/door/airlock/hatch/autoname/command
-	req_access = list(access_heads)
-	stripe_color = COLOR_COMMAND_BLUE
-
-/obj/machinery/door/airlock/hatch/autoname/engineering
-	req_access = list(access_engine)
-	stripe_color = COLOR_AMBER
-
-
-//wild capitalism
-/datum/computer_file/program/merchant
-	required_access = null

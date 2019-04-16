@@ -15,32 +15,22 @@
 
 	default_law_type = /datum/ai_laws/corporate
 
+	evac_controller_type = /datum/evacuation_controller/lifepods
 	lobby_icon = 'maps/birdcat/birdcat_lobby.dmi'
 	lobby_screens = list("spess","aesthetic")
 
 	allowed_spawns = list("Cryogenic Storage")
 	default_spawn = "Cryogenic Storage"
 	use_overmap = 1
-	away_site_budget = 4
-	num_exoplanets = 1
+	num_exoplanets = 3
 	welcome_sound = 'sound/effects/cowboysting.ogg'
 
-//	evac_controller_type = /datum/evacuation_controller/lifepods
-//	emergency_shuttle_leaving_dock = "Attention all hands: the escape pods have been launched, maintaining burn for %ETA%."
-
-//	emergency_shuttle_called_message = "Attention all hands: emergency evacuation procedures are now in effect. Escape pods will launch in %ETA%"
-//	emergency_shuttle_called_sound = sound('sound/AI/torch/abandonship.ogg', volume = 45)
-
-//	emergency_shuttle_recall_message = "Attention all hands: emergency evacuation sequence aborted. Return to normal operating conditions."
-
-	//These should probably be moved into the evac controller...
 	shuttle_docked_message = "Attention all hands: Transfer burn preparation complete. The transit drive is now spooling up, secure all stations for departure. Time to burn: approximately %ETD%."
 	shuttle_leaving_dock = "Attention all hands: Transfer burn initiated, exiting system in %ETA%."
 	shuttle_called_message = "Attention all hands: Transfer burn sequence initiated. Transit procedures are now in effect. Burn in %ETA%."
 	shuttle_recall_message = "Attention all hands: Transfer burn sequence aborted, return to normal operating conditions."
 
 	evac_controller_type = /datum/evacuation_controller/birdcat
-
 
 	starting_money = 5000
 	department_money = 0
