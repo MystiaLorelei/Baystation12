@@ -9,7 +9,8 @@
 		/obj/item/weapon/wrench/finger,
 		/obj/item/weapon/weldingtool/finger,
 		/obj/item/weapon/crowbar/finger,
-		/obj/item/weapon/wirecutters/finger
+		/obj/item/weapon/wirecutters/finger,
+		/obj/item/device/multitool/finger
 	)
 
 /obj/item/weapon/weldingtool/finger
@@ -27,6 +28,7 @@
 	desc = "A small embedded cutter in your finger."
 	icon_state = "wirecutter_finger"
 	icon = 'icons/obj/augment_tools.dmi'
+	build_from_parts = FALSE
 
 /obj/item/weapon/wirecutters/finger/Initialize()
 	. = ..()
@@ -38,6 +40,7 @@
 	desc = "A nifty powertool at your literal fingertips."
 	icon_state = "screwdriver_finger"
 	icon = 'icons/obj/augment_tools.dmi'
+	build_from_parts = FALSE
 
 /obj/item/weapon/screwdriver/finger/Initialize()
 	. = ..()
@@ -65,3 +68,9 @@
 	. = ..()
 	icon_state = initial(icon_state)
 	item_state = initial(item_state)
+
+/obj/item/device/multitool/finger
+	name = "digital multitool"
+	desc = "A multitool inside of a multitool. Doubletool?"
+	icon_state = "multitool_finger"
+	icon = 'icons/obj/augment_tools.dmi'

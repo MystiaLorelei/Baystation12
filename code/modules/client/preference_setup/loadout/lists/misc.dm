@@ -61,9 +61,19 @@
 	path = /obj/item/weapon/reagent_containers/food/drinks/coffeecup
 	flags = GEAR_HAS_TYPE_SELECTION
 
-/datum/gear/boot_knife
-	display_name = "boot knife"
-	path = /obj/item/weapon/material/kitchen/utensil/knife/boot
+/datum/gear/knife
+	display_name = "folding knife"
+	path = /obj/item/weapon/material/knife/folding
+	cost = 3
+
+/datum/gear/knife_wood
+	display_name = "peasant knife"
+	path = /obj/item/weapon/material/knife/folding/wood
+	cost = 3
+
+/datum/gear/knife_tacticool
+	display_name = "tactical folding knife"
+	path = /obj/item/weapon/material/knife/folding/tacticool
 	cost = 3
 
 /datum/gear/lunchbox
@@ -154,9 +164,31 @@
 	display_name = "cheap lighter"
 	path = /obj/item/weapon/flame/lighter
 
+/datum/gear/lighter/New()
+	..()
+	var/colours = list()
+	colours["random"] = /obj/item/weapon/flame/lighter/random
+	colours["red"] = /obj/item/weapon/flame/lighter/red
+	colours["yellow"] = /obj/item/weapon/flame/lighter/yellow
+	colours["cyan"] = /obj/item/weapon/flame/lighter/cyan
+	colours["green"] = /obj/item/weapon/flame/lighter/green
+	colours["pink"] = /obj/item/weapon/flame/lighter/pink
+	gear_tweaks += new/datum/gear_tweak/path(colours)
+
 /datum/gear/zippo
 	display_name = "zippo"
 	path = /obj/item/weapon/flame/lighter/zippo
+
+/datum/gear/zippo/New()
+	..()
+	var/colours = list()
+	colours["random"] = /obj/item/weapon/flame/lighter/zippo/random
+	colours["silver"] = /obj/item/weapon/flame/lighter/zippo
+	colours["blackened"] = /obj/item/weapon/flame/lighter/zippo/black
+	colours["gunmetal"] = /obj/item/weapon/flame/lighter/zippo/gunmetal
+	colours["bronze"] = /obj/item/weapon/flame/lighter/zippo/bronze
+	colours["pink"] = /obj/item/weapon/flame/lighter/zippo/pink
+	gear_tweaks += new/datum/gear_tweak/path(colours)
 
 /datum/gear/ashtray
 	display_name = "ashtray, plastic"

@@ -144,7 +144,7 @@ var/global/photo_count = 0
 	w_class = ITEM_SIZE_SMALL
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	slot_flags = SLOT_BELT
-	matter = list(MATERIAL_STEEL = 2000)
+	matter = list(MATERIAL_ALUMINIUM = 1000, MATERIAL_PLASTIC = 750)
 	var/pictures_max = 10
 	var/pictures_left = 10
 	var/on = 1
@@ -268,9 +268,8 @@ var/global/photo_count = 0
 	return p
 
 /obj/item/device/camera/proc/printpicture(mob/user, obj/item/weapon/photo/p)
-	p.loc = user.loc
-	if(!user.get_inactive_hand())
-		user.put_in_inactive_hand(p)
+	if(!user.put_in_inactive_hand(p))
+		p.dropInto(loc)
 
 /obj/item/weapon/photo/proc/copy(var/copy_id = 0)
 	var/obj/item/weapon/photo/p = new/obj/item/weapon/photo()

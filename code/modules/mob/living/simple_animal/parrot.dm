@@ -105,7 +105,7 @@
 
 /mob/living/simple_animal/parrot/death(gibbed, deathmessage, show_dead_message)
 	if(held_item)
-		held_item.loc = src.loc
+		held_item.dropInto(loc)
 		held_item = null
 	walk(src,0)
 	..(gibbed, deathmessage, show_dead_message)
@@ -148,7 +148,7 @@
 							src.say("[pick(available_channels)] BAWWWWWK LEAVE THE HEADSET BAWKKKKK!")
 						else
 							src.say("BAWWWWWK LEAVE THE HEADSET BAWKKKKK!")
-						ears.loc = src.loc
+						ears.dropInto(loc)
 						ears = null
 						for(var/possible_phrase in speak)
 							if(copytext(possible_phrase,1,3) in department_radio_keys)
@@ -261,7 +261,9 @@
  * AI - Not really intelligent, but I'm calling it AI anyway.
  */
 /mob/living/simple_animal/parrot/Life()
-	..()
+	. = ..()
+	if(!.)
+		return FALSE
 
 	//Sprite and AI update for when a parrot gets pulled
 	if(pulledby && stat == CONSCIOUS)
@@ -401,7 +403,7 @@
 			if(isitem(parrot_interest) && can_pick_up(parrot_interest))//This should ensure that we only grab the item we want, and make sure it's not already collected on our perch, a correct size, and not bolted to the floor
 				if(!parrot_perch || parrot_interest.loc != parrot_perch.loc)
 					held_item = parrot_interest
-					parrot_interest.loc = src
+					parrot_interest.forceMove(src)
 					visible_message("[src] grabs the [held_item]!", "<span class='notice'>You grab the [held_item]!</span>", "You hear the sounds of wings flapping furiously.")
 
 			parrot_interest = null
@@ -420,7 +422,7 @@
 			return
 
 		if(in_range(src, parrot_perch))
-			src.loc = parrot_perch.loc
+			forceMove(parrot_perch.loc)
 			drop_held_item()
 			parrot_state = PARROT_PERCH
 			icon_state = "parrot_sit"
@@ -473,7 +475,7 @@
 				var/mob/living/carbon/human/H = parrot_interest
 				var/obj/item/organ/external/affecting = H.get_organ(ran_zone(pick(parrot_dam_zone)))
 
-				H.apply_damage(damage, BRUTE, affecting, H.run_armor_check(affecting, "melee"), DAM_SHARP|DAM_EDGE)
+				H.apply_damage(damage, BRUTE, affecting, DAM_SHARP|DAM_EDGE)
 				visible_emote(pick("pecks [H]'s [affecting].", "cuts [H]'s [affecting] with its talons."))
 
 			else
@@ -570,7 +572,7 @@
 				continue
 
 			held_item = I
-			I.loc = src
+			I.forceMove(src)
 			visible_message("[src] grabs the [held_item]!", "<span class='notice'>You grab the [held_item]!</span>", "You hear the sounds of wings flapping furiously.")
 			return held_item
 
@@ -633,7 +635,7 @@
 	if(!drop_gently)
 		if(istype(held_item, /obj/item/weapon/grenade))
 			var/obj/item/weapon/grenade/G = held_item
-			G.loc = src.loc
+			G.dropInto(loc)
 			G.detonate()
 			to_chat(src, "You let go of the [held_item]!")
 			held_item = null
@@ -641,7 +643,7 @@
 
 	to_chat(src, "You drop the [held_item].")
 
-	held_item.loc = src.loc
+	held_item.dropInto(loc)
 	held_item = null
 	return 1
 
@@ -657,7 +659,7 @@
 		for(var/atom/movable/AM in view(src,1))
 			for(var/perch_path in desired_perches)
 				if(istype(AM, perch_path))
-					src.loc = AM.loc
+					forceMove(AM.loc)
 					icon_state = "parrot_sit"
 					return
 	to_chat(src, "<span class='warning'>There is no perch nearby to sit on.</span>")
@@ -749,3 +751,42 @@
 /mob/living/simple_animal/parrot/proc/can_pick_up(obj/item/I)
 	if(I.w_class <= ITEM_SIZE_SMALL && !I.anchored)
 		return TRUE
+
+/mob/living/simple_animal/parrot/space
+	name = "space parrot"
+	desc = "It could be some all-knowing being that, for reasons we could never hope to understand, is assuming the shape and general mannerisms of a parrot - or just a rather large bird."
+	icon = 'icons/mob/parrot_grey.dmi'
+	gender = FEMALE
+	health = 750 //how sweet it is to be a god!
+	maxHealth = 750
+	mob_size = MOB_LARGE
+	speak_emote = list("professes","speaks unto you","elaborates","proclaims")
+	emote_hear = list("sings a song to herself", "preens herself")
+	melee_damage_lower = 20
+	melee_damage_upper = 40
+	attacktext = "pecked"
+	min_gas = null
+	max_gas = null
+	minbodytemp = 0
+	universal_understand = 1
+	see_invisible = SEE_INVISIBLE_NOLIGHTING
+	see_in_dark = 7
+	can_escape = 1
+	var/list/possible_names = list("Simurgh", "Ziz", "Phoenix", "Fenghuang", "Roc of Ages")
+
+/mob/living/simple_animal/parrot/space/Initialize()
+	. = ..()
+	if(LAZYLEN(possible_names))
+		name = pick(possible_names)
+	var/matrix/M = new
+	M.Scale(2)
+	transform = M
+	color = get_random_colour(lower = 190)
+
+/mob/living/simple_animal/parrot/space/lesser
+	name = "Avatar of the Howling Dark"
+	possible_names = null
+	melee_damage_lower = 15
+	melee_damage_upper = 20
+	health = 300
+	maxHealth = 300

@@ -206,7 +206,7 @@ function run_code_tests {
     run_test_fail "no invalid spans" "grep -En \"<\s*span\s+class\s*=\s*('[^'>]+|[^'>]+')\s*>\" **/*.dm"
     run_test "code quality checks" "test/check-paths.sh"
     run_test "indentation check" "awk -f tools/indentation.awk **/*.dm"
-    run_test "check changelog example unchanged" "md5sum -c - <<< '79e058ac02ed52aad99a489ab4c8f75b *html/changelogs/example.yml'"
+    run_test "check changelog example unchanged" "md5sum -c - <<< '683a3e0d21b90581ae6e4c95052d461e *html/changelogs/example.yml'"
     run_test "check tags" "python2 tools/TagMatcher/tag-matcher.py ."
     run_test "check color hex" "python3 tools/ColorHexChecker/color-hex-checker.py ."
     run_test "check punctuation" "python2 tools/PunctuationChecker/punctuation-checker.py ."
@@ -242,7 +242,7 @@ function run_byond_tests {
         source $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}/byond/bin/byondsetup
     fi
     run_test_ci "check globals build" "python3 tools/GenerateGlobalVarAccess/gen_globals.py baystation12.dme code/_helpers/global_access.dm"
-    run_test "check globals unchanged" "md5sum -c - <<< '63ccdddcf3f81dc1d7385bce01e1e973 *code/_helpers/global_access.dm'"
+    run_test "check globals unchanged" "md5sum -c - <<< '5cb136b2982239611648b9ee9cb7084d *code/_helpers/global_access.dm'"
     run_test "build map unit tests" "scripts/dm.sh -DUNIT_TEST -M$MAP_PATH baystation12.dme"
     run_test "check no warnings in build" "grep ', 0 warnings' build_log.txt"
     run_test "run unit tests" "DreamDaemon baystation12.dmb -invisible -trusted -core 2>&1 | tee log.txt"
@@ -251,7 +251,7 @@ function run_byond_tests {
     run_test_fail "check no runtimes 2" "grep 'runtime error:' log.txt"
     run_test_fail "check no scheduler failures" "grep 'Process scheduler caught exception processing' log.txt"
     run_test_fail "check no warnings" "grep 'WARNING:' log.txt"
-    run_test_fail "check no failures" "grep 'ERROR:' log.txt"
+    run_test_fail "check no errors" "grep 'ERROR:' log.txt"
 }
 
 function run_all_tests {

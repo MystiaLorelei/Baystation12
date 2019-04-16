@@ -1,12 +1,3 @@
-var/list/flooring_types
-
-/proc/get_flooring_data(var/flooring_path)
-	if(!flooring_types)
-		flooring_types = list()
-	if(!flooring_types["[flooring_path]"])
-		flooring_types["[flooring_path]"] = new flooring_path
-	return flooring_types["[flooring_path]"]
-
 // State values:
 // [icon_base]: initial base icon_state without edges or corners.
 // if has_base_range is set, append 0-has_base_range ie.
@@ -23,6 +14,7 @@ var/list/flooring_types
 	var/icon
 	var/icon_base
 	var/color
+	var/footstep_type = FOOTSTEP_BLANK
 
 	var/has_base_range
 	var/has_damage_range
@@ -72,6 +64,7 @@ var/list/flooring_types
 	damage_temperature = T0C+200
 	flags = TURF_HAS_EDGES | TURF_HAS_CORNERS | TURF_REMOVE_CROWBAR | TURF_CAN_BURN
 	can_engrave = FALSE
+	footstep_type = FOOTSTEP_CARPET
 
 /decl/flooring/carpet/blue
 	name = "blue carpet"
@@ -105,12 +98,13 @@ var/list/flooring_types
 
 /decl/flooring/linoleum
 	name = "linoleum"
-	desc = "It's like the 2390's all over again."
+	desc = "It's like the 2090's all over again."
 	icon = 'icons/turf/flooring/linoleum.dmi'
 	icon_base = "lino"
 	can_paint = 1
 	build_type = /obj/item/stack/tile/linoleum
 	flags = TURF_REMOVE_SCREWDRIVER
+	footstep_type = FOOTSTEP_TILES
 
 /decl/flooring/tiling
 	name = "floor"
@@ -123,6 +117,7 @@ var/list/flooring_types
 	flags = TURF_REMOVE_CROWBAR | TURF_CAN_BREAK | TURF_CAN_BURN
 	build_type = /obj/item/stack/tile/floor
 	can_paint = 1
+	footstep_type = FOOTSTEP_TILES
 
 /decl/flooring/tiling/mono
 	icon_base = "monotile"
@@ -150,7 +145,8 @@ var/list/flooring_types
 
 /decl/flooring/tiling/dark/mono
 	icon_base = "monotile"
-
+	build_type = null
+	
 /decl/flooring/tiling/freezer
 	desc = "Don't slip."
 	icon_base = "freezer"
@@ -172,12 +168,19 @@ var/list/flooring_types
 /decl/flooring/tiling/new_tile
 	icon_base = "tile_full"
 	color = null
-
+	build_type = null
+	
 /decl/flooring/tiling/new_tile/cargo_one
 	icon_base = "cargo_one_full"
-
+	build_type = null
+	
 /decl/flooring/tiling/new_tile/kafel
 	icon_base = "kafel_full"
+	build_type = null
+	
+/decl/flooring/tiling/stone
+	icon_base = "stone"
+	build_type = /obj/item/stack/tile/stone
 
 /decl/flooring/tiling/new_tile/techmaint
 	icon_base = "techmaint"
@@ -199,7 +202,7 @@ var/list/flooring_types
 
 /decl/flooring/wood
 	name = "wooden floor"
-	desc = "Polished redwood planks."
+	desc = "Polished wood planks."
 	icon = 'icons/turf/flooring/wood.dmi'
 	icon_base = "wood"
 	has_damage_range = 6
@@ -207,6 +210,27 @@ var/list/flooring_types
 	descriptor = "planks"
 	build_type = /obj/item/stack/tile/wood
 	flags = TURF_CAN_BREAK | TURF_IS_FRAGILE | TURF_REMOVE_SCREWDRIVER
+	footstep_type = FOOTSTEP_WOOD
+
+/decl/flooring/wood/mahogany
+	icon_base = "mahogany"
+	build_type = /obj/item/stack/tile/mahogany
+
+/decl/flooring/wood/maple
+	icon_base = "maple"
+	build_type = /obj/item/stack/tile/maple
+
+/decl/flooring/wood/ebony
+	icon_base = "ebony"
+	build_type = /obj/item/stack/tile/ebony
+
+/decl/flooring/wood/walnut
+	icon_base = "walnut"
+	build_type = /obj/item/stack/tile/walnut
+
+/decl/flooring/wood/bamboo
+	icon_base = "maple"
+	build_type = /obj/item/stack/tile/bamboo
 
 /decl/flooring/reinforced
 	name = "reinforced floor"
@@ -220,6 +244,7 @@ var/list/flooring_types
 	apply_thermal_conductivity = 0.025
 	apply_heat_capacity = 325000
 	can_paint = 1
+	footstep_type = FOOTSTEP_PLATING
 
 /decl/flooring/reinforced/circuit
 	name = "processing strata"
@@ -279,6 +304,25 @@ var/list/flooring_types
 
 /decl/flooring/reinforced/shuttle/black
 	icon_base = "floor7"
+	
+/decl/flooring/reinforced/shuttle/skrell
+	icon = 'icons/turf/skrellturf.dmi'
+	icon_base = "skrellblack"
+
+/decl/flooring/reinforced/shuttle/skrell/white
+	icon_base = "skrellwhite"
+
+/decl/flooring/reinforced/shuttle/skrell/red
+	icon_base = "skrellred"
+
+/decl/flooring/reinforced/shuttle/skrell/blue
+	icon_base = "skrellblue"
+
+/decl/flooring/reinforced/shuttle/skrell/orange
+	icon_base = "skrellorange"
+
+/decl/flooring/reinforced/shuttle/skrell/green
+	icon_base = "skrellgreen"
 
 /decl/flooring/crystal
 	name = "crystal floor"
@@ -286,3 +330,4 @@ var/list/flooring_types
 	build_type = null
 	flags = TURF_ACID_IMMUNE | TURF_CAN_BREAK | TURF_REMOVE_CROWBAR
 	color = "#00ffe1"
+	

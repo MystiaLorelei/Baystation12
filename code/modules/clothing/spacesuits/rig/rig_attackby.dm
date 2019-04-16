@@ -5,6 +5,9 @@
 	if(electrified != 0)
 		if(shock(user)) //Handles removing charge from the cell, as well. No need to do that here.
 			return
+	if(is_type_in_list(W,banned_modules))
+		to_chat(user, "<span class='danger'>\The [src] cannot mount this type of module.</span>")
+		return
 
 	// Pass repair items on to the chestpiece.
 	if(chest && (istype(W,/obj/item/stack/material) || isWelder(W)))
@@ -17,7 +20,7 @@
 			to_chat(user, "<span class='danger'>It looks like the locking system has been shorted out.</span>")
 			return
 
-		if((!req_access || !req_access.len) && (!req_one_access || !req_one_access.len))
+		if(!length(req_access))
 			locked = 0
 			to_chat(user, "<span class='danger'>\The [src] doesn't seem to have a locking mechanism.</span>")
 			return
@@ -163,7 +166,7 @@
 
 					var/obj/item/rig_module/removed = possible_removals[removal_choice]
 					to_chat(user, "You detach \the [removed] from \the [src].")
-					removed.forceMove(get_turf(src))
+					removed.dropInto(loc)
 					removed.removed()
 					installed_modules -= removed
 					update_icon()
@@ -200,7 +203,6 @@
 /obj/item/weapon/rig/emag_act(var/remaining_charges, var/mob/user)
 	if(!subverted)
 		req_access.Cut()
-		req_one_access.Cut()
 		locked = 0
 		subverted = 1
 		to_chat(user, "<span class='danger'>You short out the access protocol for the suit.</span>")

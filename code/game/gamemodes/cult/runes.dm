@@ -219,7 +219,7 @@
 /obj/effect/rune/teleport/proc/leaveRune(var/mob/living/user)
 	if(user.loc != src)
 		return
-	user.forceMove(get_turf(src))
+	user.dropInto(loc)
 	user.visible_message("<span class='warning'>\The [user] appears in a flash of red light!</span>", "<span class='warning'>You feel as your body gets thrown out of the dimension of Nar-Sie!</span>", "You hear a pop.")
 
 /obj/effect/rune/tome
@@ -376,10 +376,10 @@
 		user.equip_to_slot_or_del(new /obj/item/clothing/head/culthood/alt(user), slot_head)
 	O = user.get_equipped_item(slot_wear_suit)
 	if(O && !istype(O, /obj/item/clothing/suit/cultrobes) && user.unEquip(O))
-		user.equip_to_slot_or_del(new /obj/item/clothing/suit/cultrobes/alt(user), slot_wear_suit)	
+		user.equip_to_slot_or_del(new /obj/item/clothing/suit/cultrobes/alt(user), slot_wear_suit)
 	O = user.get_equipped_item(slot_shoes)
 	if(O && !istype(O, /obj/item/clothing/shoes/cult) && user.unEquip(O))
-		user.equip_to_slot_or_del(new /obj/item/clothing/shoes/cult(user), slot_shoes)	
+		user.equip_to_slot_or_del(new /obj/item/clothing/shoes/cult(user), slot_shoes)
 
 	O = user.get_equipped_item(slot_back)
 	if(istype(O, /obj/item/weapon/storage) && !istype(O, /obj/item/weapon/storage/backpack/cultpack) && user.unEquip(O)) // We don't want to make the vox drop their nitrogen tank, though
@@ -518,7 +518,7 @@
 			charges -= healburn
 			healbrute = min(healbrute, charges)
 			charges -= healbrute
-		user.heal_organ_damage(healbrute, healburn)
+		user.heal_organ_damage(healbrute, healburn, 1)
 		statuses += "your wounds mend"
 		if(!charges)
 			return statuses
@@ -572,7 +572,7 @@
 		M.add_chemical_effect(CE_PAINKILLER, 40)
 		M.add_chemical_effect(CE_SPEEDBOOST, 1)
 		M.adjustOxyLoss(-10 * removed)
-		M.heal_organ_damage(5 * removed, 5 * removed)
+		M.heal_organ_damage(5 * removed, 5 * removed, 1)
 		M.adjustToxLoss(-5 * removed)
 	else
 		M.fire_stacks = max(2, M.fire_stacks)

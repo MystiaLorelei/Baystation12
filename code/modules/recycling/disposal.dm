@@ -193,6 +193,7 @@
 	if(AM == user)
 		user.visible_message("<span class='danger'>[user] climbs into [src].</span>", \
 							 "<span class='notice'>You climb into [src].</span>")
+		log_and_message_admins("has stuffed themselves into [src].", AM)		 
 	else
 		user.visible_message("<span class='[is_dangerous ? "danger" : "notice"]'>[user] stuffs [AM] into [src][is_dangerous ? "!" : "."]</span>", \
 							 "<span class='notice'>You stuff [AM] into [src].</span>")
@@ -357,7 +358,7 @@
 // charge the gas reservoir and perform flush if ready
 /obj/machinery/disposal/Process()
 	if(!air_contents || (stat & BROKEN))			// nothing can happen if broken
-		update_use_power(0)
+		update_use_power(POWER_USE_OFF)
 		return
 
 	flush_count++
@@ -365,7 +366,7 @@
 		if( contents.len )
 			if(mode == 2)
 				spawn(0)
-					feedback_inc("disposal_auto_flush",1)
+					SSstatistics.add_field("disposal_auto_flush",1)
 					flush()
 		flush_count = 0
 
@@ -375,7 +376,7 @@
 		flush()
 
 	if(mode != 1) //if off or ready, no need to charge
-		update_use_power(1)
+		update_use_power(POWER_USE_IDLE)
 	else if(air_contents.return_pressure() >= SEND_PRESSURE)
 		mode = 2 //if full enough, switch to ready mode
 		update_icon()
@@ -384,7 +385,7 @@
 
 /obj/machinery/disposal/proc/pressurize()
 	if(stat & NOPOWER)			// won't charge if no power
-		update_use_power(0)
+		update_use_power(POWER_USE_OFF)
 		return
 
 	var/atom/L = loc						// recharging from loc turf
@@ -396,7 +397,7 @@
 		power_draw = pump_gas(src, env, air_contents, transfer_moles, active_power_usage)
 
 	if (power_draw > 0)
-		use_power(power_draw)
+		use_power_oneoff(power_draw)
 
 // perform a flush
 /obj/machinery/disposal/proc/flush()
@@ -417,6 +418,9 @@
 	if(wrapcheck == 1)
 		H.tomail = 1
 
+	for(var/mob/living/L in src)
+		if (L.ckey)
+			log_and_message_admins("has been flushed down [src].", L)
 
 	sleep(10)
 	if(last_sound < world.time + 1)
@@ -436,14 +440,6 @@
 		mode = 1	// switch to charging
 	update_icon()
 	return
-
-
-// called when area power changes
-/obj/machinery/disposal/power_change()
-	..()	// do default setting/reset of stat NOPOWER bit
-	update_icon()	// update icon
-	return
-
 
 // called when holder is expelled from a disposal
 // should usually only occur if the pipe network is modified
@@ -495,6 +491,7 @@
 	var/destinationTag = "" // changes if contains a delivery container
 	var/tomail = 0 //changes if contains wrapped package
 	var/hasmob = 0 //If it contains a mob
+	var/speed = 2
 
 	var/partialTag = "" //set by a partial tagger the first time round, then put in destinationTag if it goes through again.
 
@@ -528,7 +525,7 @@
 			var/obj/item/smallDelivery/T = AM
 			src.destinationTag = T.sortTag
 		//Drones can mail themselves through maint.
-		if(istype(AM, /mob/living/silicon/robot/drone))
+		if(is_drone(AM))
 			var/mob/living/silicon/robot/drone/drone = AM
 			src.destinationTag = drone.mail_destination
 
@@ -543,31 +540,32 @@
 	forceMove(D.trunk)
 	active = 1
 	set_dir(DOWN)
-	START_PROCESSING(SSfastprocess, src)
+	START_PROCESSING(SSdisposals, src)
 
 	// movement process, persists while holder is moving through pipes
 /obj/structure/disposalholder/Process()
-	if(!(count--))
-		active = 0
-	if(!active)
-		return PROCESS_KILL
-	
-	var/obj/structure/disposalpipe/last
+	for (var/i in 1 to speed)
+		if(!(count--))
+			active = 0
+		if(!active)
+			return PROCESS_KILL
+		
+		var/obj/structure/disposalpipe/last
 
-	if(hasmob && prob(3))
-		for(var/mob/living/H in src)
-			if(!istype(H,/mob/living/silicon/robot/drone)) //Drones use the mailing code to move through the disposal system,
-				H.take_overall_damage(20, 0, "Blunt Trauma")//horribly maim any living creature jumping down disposals.  c'est la vie
+		if(hasmob && prob(3))
+			for(var/mob/living/H in src)
+				if(!istype(H,/mob/living/silicon/robot/drone)) //Drones use the mailing code to move through the disposal system,
+					H.take_overall_damage(20, 0, "Blunt Trauma")//horribly maim any living creature jumping down disposals.  c'est la vie
 
-	var/obj/structure/disposalpipe/curr = loc
-	last = curr
-	curr = curr.transfer(src)
+		var/obj/structure/disposalpipe/curr = loc
+		last = curr
+		curr = curr.transfer(src)
 
-	if(QDELETED(src))
-		return PROCESS_KILL
+		if(QDELETED(src))
+			return PROCESS_KILL
 
-	if(!curr)
-		last.expel(src, loc, dir)
+		if(!curr)
+			last.expel(src, loc, dir)
 
 	// find the turf which should contain the next pipe
 /obj/structure/disposalholder/proc/nextloc()
@@ -626,12 +624,13 @@
 
 // called to vent all gas in holder to a location
 /obj/structure/disposalholder/proc/vent_gas(var/atom/location)
-	location.assume_air(gas)  // vent all gas to turf
+	if(location)
+		location.assume_air(gas)  // vent all gas to turf
 
 /obj/structure/disposalholder/Destroy()
-	qdel(gas)
+	QDEL_NULL(gas)
 	active = 0
-	STOP_PROCESSING(SSfastprocess, src)
+	STOP_PROCESSING(SSdisposals, src)
 	return ..()
 
 // Disposal pipes
@@ -746,7 +745,7 @@
 		// Leaving it intact and sitting in a wall is stupid.
 		if(T.density)
 			for(var/atom/movable/AM in H)
-				AM.loc = T
+				AM.forceMove(T)
 				AM.pipe_eject(0)
 			qdel(H)
 			return

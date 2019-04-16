@@ -29,7 +29,7 @@
 	src.air_contents.adjust_multi("oxygen", air_mix["oxygen"], "nitrogen", air_mix["nitrogen"])
 
 /obj/machinery/portable_atmospherics/powered/pump/on_update_icon()
-	src.overlays = 0
+	overlays.Cut()
 
 	if(on && cell && cell.charge)
 		icon_state = "psiphon:1"
@@ -101,7 +101,7 @@
 		if(!powered())
 			cell.use(power_draw * CELLRATE)
 		else
-			use_power(power_draw)
+			use_power_oneoff(power_draw)
 		last_power_draw = power_draw
 
 		update_connected_network()

@@ -66,7 +66,7 @@
 
 	if(!user.unequip_item())
 		return
-	cuffs.loc = src
+	cuffs.forceMove(src)
 	src.chained = cuffs
 	src.slowdown_per_slot[slot_shoes] += 15
 	src.icon_state = "orange1"
@@ -94,6 +94,10 @@
 	name = "flats"
 	desc = "Sleek flats."
 	icon_state = "flatswhite"
+
+/obj/item/clothing/shoes/flats/black
+	name = "black flats"
+	color = COLOR_GRAY15
 
 /obj/item/clothing/shoes/hightops
 	name = "white high tops"

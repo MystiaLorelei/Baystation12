@@ -69,7 +69,7 @@
 			playsound(src.loc, 'sound/machines/buzz-two.ogg', 50, 1)
 	if(response == "Eject")
 		if(loaded_item)
-			loaded_item.loc = get_turf(src)
+			loaded_item.dropInto(loc)
 			desc = initial(desc)
 			icon_state = initial(icon_state)
 			loaded_item = null
@@ -89,7 +89,7 @@
 			to_chat(user, "Your [src] already has something inside.  Analyze or eject it first.")
 			return
 		var/obj/item/I = target
-		I.loc = src
+		I.forceMove(src)
 		loaded_item = I
 		for(var/mob/M in viewers())
 			M.show_message(text("<span class='notice'>[user] adds the [I] to the [src].</span>"), 1)
@@ -163,7 +163,7 @@
 //This is used to unlock other borg covers.
 /obj/item/weapon/card/robot //This is not a child of id cards, as to avoid dumb typechecks on computers.
 	name = "access code transmission device"
-	icon_state = "id-robot"
+	icon_state = "robot_base"
 	desc = "A circuit grafted onto the bottom of an ID card.  It is used to transmit access codes into other robot chassis, \
 	allowing you to lock and unlock other robots' panels."
 
@@ -218,7 +218,7 @@
 				if(calc_carry() + add >= max_carry)
 					break
 
-				I.loc = src
+				I.forceMove(src)
 				carrying.Add(I)
 				overlays += image("icon" = I.icon, "icon_state" = I.icon_state, "layer" = 30 + I.layer)
 				addedSomething = 1
@@ -246,12 +246,12 @@
 			dropspot = target.loc
 
 
-		overlays = null
+		overlays.Cut()
 
 		var droppedSomething = 0
 
 		for(var/obj/item/I in carrying)
-			I.loc = dropspot
+			I.forceMove(dropspot)
 			carrying.Remove(I)
 			droppedSomething = 1
 			if(!foundtable && isturf(dropspot))
@@ -496,7 +496,7 @@
 		to_chat(user, "<span class='notice'>The rack is empty.</span>")
 		return
 	var/obj/item/R = held[length(held)]
-	R.forceMove(get_turf(src))
+	R.dropInto(loc)
 	held -= R
 	R.attack_self(user) // deploy it
 	to_chat(user, "<span class='notice'>You deploy [R].</span>")
@@ -515,3 +515,80 @@
 		O.attack_hand(user)
 		return
 	. = ..()
+
+/obj/item/bioreactor
+	name = "bioreactor"
+	desc = "An integrated power generator that runs on most kinds of biomass."
+	icon = 'icons/obj/power.dmi'
+	icon_state = "portgen0"
+
+	var/base_power_generation = 75 KILOWATTS
+	var/max_fuel_items = 5
+	var/list/fuel_types = list(
+		/obj/item/weapon/reagent_containers/food/snacks/meat = 2,
+		/obj/item/weapon/reagent_containers/food/snacks/fish = 1.5
+	)
+
+/obj/item/bioreactor/attack_self(var/mob/user)
+	if(contents.len >= 1)
+		var/obj/item/removing = contents[1]
+		user.put_in_hands(removing)
+		to_chat(user, SPAN_NOTICE("You remove \the [removing] from \the [src]."))
+	else
+		to_chat(user, SPAN_WARNING("There is nothing loaded into \the [src]."))
+
+/obj/item/bioreactor/afterattack(var/atom/movable/target, var/mob/user, var/proximity_flag, var/click_parameters)
+	if(!proximity_flag || !istype(target))
+		return
+
+	var/is_fuel = istype(target, /obj/item/weapon/reagent_containers/food/snacks/grown)
+	is_fuel = is_fuel || is_type_in_list(target, fuel_types)
+
+	if(!is_fuel)
+		to_chat(user, SPAN_WARNING("\The [target] cannot be used as fuel by \the [src]."))
+		return
+
+	if(contents.len >= max_fuel_items)
+		to_chat(user, SPAN_WARNING("\The [src] can fit no more fuel inside."))
+		return
+	target.forceMove(src)
+	to_chat(user, SPAN_NOTICE("You load \the [target] into \the [src]."))
+
+/obj/item/bioreactor/Initialize()
+	. = ..()
+	START_PROCESSING(SSobj, src)
+
+/obj/item/bioreactor/Destroy()
+	STOP_PROCESSING(SSobj, src)
+	. = ..()
+
+/obj/item/bioreactor/Process()
+	var/mob/living/silicon/robot/R = loc
+	if(!istype(R) || !R.cell || R.cell.fully_charged() || !contents.len)
+		return
+
+	var/generating_power
+	var/using_item
+
+	for(var/thing in contents)
+		var/atom/A = thing
+		if(istype(A, /obj/item/weapon/reagent_containers/food/snacks/grown))
+			generating_power = base_power_generation
+			using_item = A
+		else 
+			for(var/fuel_type in fuel_types)
+				if(istype(A, fuel_type))
+					generating_power = fuel_types[fuel_type] * base_power_generation
+					using_item = A
+					break
+		if(using_item)
+			break
+
+	if(istype(using_item, /obj/item/stack))
+		var/obj/item/stack/stack = using_item
+		stack.use(1)
+	else if(using_item)
+		qdel(using_item)
+
+	if(generating_power)
+		R.cell.give(generating_power * CELLRATE)

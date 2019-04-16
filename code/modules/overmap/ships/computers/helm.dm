@@ -12,7 +12,7 @@ LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
 	var/list/known_sectors = list()
 	var/dx		//desitnation
 	var/dy		//coordinates
-	var/speedlimit = 2 //top speed for autopilot
+	var/speedlimit = 1/(45 SECONDS) //top speed for autopilot
 
 /obj/machinery/computer/ship/helm/Initialize()
 	. = ..()
@@ -43,13 +43,22 @@ LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
 				autopilot = 0
 			else
 				linked.decelerate()
-
-		var/brake_path = linked.get_brake_path()
-
-		if((!speedlimit || linked.get_speed() < speedlimit) && get_dist(linked.loc, T) > brake_path)
-			linked.accelerate(get_dir(linked.loc, T))
 		else
-			linked.decelerate()
+			var/brake_path = linked.get_brake_path()
+			var/direction = get_dir(linked.loc, T)
+			var/acceleration = linked.get_acceleration()
+			var/speed = linked.get_speed()
+			var/heading = linked.get_heading()
+
+			// Destination is current grid or speedlimit is exceeded
+			if ((get_dist(linked.loc, T) <= brake_path) || ((speedlimit) && (speed > speedlimit)))
+				linked.decelerate()
+			// Heading does not match direction
+			else if (heading & ~direction)
+				linked.accelerate(turn(heading & ~direction, 180))
+			// All other cases, move toward direction
+			else if (speed + acceleration <= speedlimit)
+				linked.accelerate(direction)
 
 		return
 
@@ -92,13 +101,19 @@ LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
 		data["dest"] = dy && dx
 		data["d_x"] = dx
 		data["d_y"] = dy
-		data["speedlimit"] = speedlimit ? speedlimit : "None"
-		data["speed"] = linked.get_speed()
-		data["accel"] = linked.get_acceleration()
+		data["speedlimit"] = speedlimit ? speedlimit*1000 : "None"
+		data["accel"] = round(linked.get_acceleration()*1000, 0.01)
 		data["heading"] = linked.get_heading() ? dir2angle(linked.get_heading()) : 0
 		data["autopilot"] = autopilot
 		data["manual_control"] = manual_control
 		data["canburn"] = linked.can_burn()
+
+		var/speed = round(linked.get_speed()*1000, 0.01)
+		if(linked.get_speed() < SHIP_SPEED_SLOW)
+			speed = "<span class='good'>[speed]</span>"
+		if(linked.get_speed() > SHIP_SPEED_FAST)
+			speed = "<span class='average'>[speed]</span>"
+		data["speed"] = speed
 
 		if(linked.get_speed())
 			data["ETAnext"] = "[round(linked.ETA()/10)] seconds"
@@ -186,13 +201,13 @@ LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
 		dy = 0
 
 	if (href_list["speedlimit"])
-		var/newlimit = input("Input new speed limit for autopilot (0 to disable)", "Autopilot speed limit", speedlimit) as num|null
+		var/newlimit = input("Input new speed limit for autopilot (0 to disable)", "Autopilot speed limit", speedlimit*1000) as num|null
 		if(newlimit)
-			speedlimit = Clamp(newlimit, 0, 100)
+			speedlimit = Clamp(newlimit/1000, 0, 100)
 
 	if (href_list["move"])
 		var/ndir = text2num(href_list["move"])
-		if(prob(user.skill_fail_chance(SKILL_PILOT, 50, SKILL_ADEPT, factor = 1)))
+		if(prob(user.skill_fail_chance(SKILL_PILOT, 50, linked.skill_needed, factor = 1)))
 			ndir = turn(ndir,pick(90,-90))
 		linked.relaymove(user, ndir)
 
@@ -231,8 +246,8 @@ LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
 	data["sector_info"] = current_sector ? current_sector.desc : "Not Available"
 	data["s_x"] = linked.x
 	data["s_y"] = linked.y
-	data["speed"] = linked.get_speed()
-	data["accel"] = linked.get_acceleration()
+	data["speed"] = round(linked.get_speed()*1000, 0.01)
+	data["accel"] = round(linked.get_acceleration()*1000, 0.01)
 	data["heading"] = linked.get_heading() ? dir2angle(linked.get_heading()) : 0
 	data["viewing"] = viewing
 

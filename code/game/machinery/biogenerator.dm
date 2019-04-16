@@ -11,7 +11,6 @@
 	icon_state = "biogen-stand"
 	density = 1
 	anchored = 1
-	use_power = 1
 	idle_power_usage = 40
 	var/processing = 0
 	var/obj/item/weapon/reagent_containers/glass/beaker = null
@@ -26,7 +25,8 @@
 		"Food" = list(
 			/obj/item/weapon/reagent_containers/food/drinks/milk/smallcarton = 30,
 			/obj/item/weapon/reagent_containers/food/drinks/milk = 50,
-			/obj/item/weapon/reagent_containers/food/snacks/meat/syntiflesh = 50),
+			/obj/item/weapon/reagent_containers/food/snacks/meat/syntiflesh = 50,
+			/obj/item/weapon/storage/fancy/egg_box = 300),
 		"Nutrients" = list(
 			/obj/item/weapon/reagent_containers/glass/bottle/eznutrient = 60,
 			/obj/item/weapon/reagent_containers/glass/bottle/left4zed = 120,
@@ -199,7 +199,7 @@
 		SSnano.update_uis(src)
 		update_icon()
 		playsound(src.loc, 'sound/machines/blender.ogg', 50, 1)
-		use_power(S * 30)
+		use_power_oneoff(S * 30)
 		sleep((S + 15) / eat_eff)
 		state = BG_READY
 		update_icon()

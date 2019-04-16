@@ -6,6 +6,7 @@
 	var/surface_accessible = FALSE
 	var/relative_size = 25   // Relative size of the organ. Roughly % of space they take in the target projection :D
 	var/min_bruised_damage = 10       // Damage before considered bruised
+	var/damage_reduction = 0.5     //modifier for internal organ injury
 
 /obj/item/organ/internal/New(var/mob/living/carbon/holder)
 	if(max_damage)
@@ -20,7 +21,6 @@
 			if(!E)
 				CRASH("[src] spawned in [holder] without a parent organ: [parent_organ].")
 			E.internal_organs |= src
-			E.cavity_max_w_class = max(E.cavity_max_w_class, w_class)
 
 /obj/item/organ/internal/Destroy()
 	if(owner)
@@ -172,7 +172,7 @@ obj/item/organ/internal/take_general_damage(var/amount, var/silent = FALSE)
 /obj/item/organ/internal/proc/surgical_fix(mob/user)
 	if(damage > min_broken_damage)
 		var/scarring = damage/max_damage
-		scarring = 1 - max(0.2, scarring*scarring)
+		scarring = 1 - 0.3 * scarring ** 2 // Between ~15 and 30 percent loss
 		var/new_max_dam = Floor(scarring * max_damage)
 		if(new_max_dam < max_damage)
 			to_chat(user, "<span class='warning'>Not every part of [src] could be saved, some dead tissue had to be removed, making it more suspectable to damage in the future.</span>")

@@ -49,7 +49,7 @@
 	desc = "A simple grasping tool for clerical work."
 
 	can_hold = list(
-		/obj/item/weapon/clipboard,
+		/obj/item/weapon/material/clipboard,
 		/obj/item/weapon/paper,
 		/obj/item/weapon/paper_bundle,
 		/obj/item/weapon/card/id,
@@ -98,18 +98,29 @@
 		/obj/item/weapon/tank
 		)
 
+/obj/item/weapon/gripper/cultivator
+	name = "cultivator gripper"
+	icon_state = "gripper"
+	desc = "A simple grasping tool used to perform tasks in the xenobiology division, such as handling plant samples and disks."
+	can_hold = list(
+		/obj/item/weapon/reagent_containers/glass,
+		/obj/item/seeds,
+		/obj/item/weapon/grown,
+		/obj/item/slime_extract,
+		/obj/item/weapon/disk/botany
+	)
+
 /obj/item/weapon/gripper/service //Used to handle food, drinks, and seeds.
 	name = "service gripper"
 	icon_state = "gripper"
 	desc = "A simple grasping tool used to perform tasks in the service sector, such as handling food, drinks, and seeds."
-
 	can_hold = list(
 		/obj/item/weapon/reagent_containers/glass,
 		/obj/item/weapon/reagent_containers/food,
 		/obj/item/seeds,
 		/obj/item/weapon/grown,
 		/obj/item/weapon/glass_extra
-		)
+	)
 
 /obj/item/weapon/gripper/organ //Used to handle organs.
 	name = "organ gripper"
@@ -146,16 +157,15 @@
 		return wrapped.attack_self(user)
 	return ..()
 
-/obj/item/weapon/gripper/verb/drop_item()
+/obj/item/weapon/gripper/verb/drop_gripped_item()
 
-	set name = "Drop Item"
+	set name = "Drop Gripped Item"
 	set desc = "Release an item from your magnetic gripper."
 	set category = "Silicon Commands"
-
 	if(!wrapped)
 		//There's some weirdness with items being lost inside the arm. Trying to fix all cases. ~Z
 		for(var/obj/item/thing in src.contents)
-			thing.loc = get_turf(src)
+			thing.dropInto(loc)
 		return
 
 	if(wrapped.loc != src)
@@ -163,7 +173,7 @@
 		return
 
 	to_chat(src.loc, "<span class='warning'>You drop \the [wrapped].</span>")
-	wrapped.loc = get_turf(src)
+	wrapped.dropInto(loc)
 	wrapped = null
 	//on_update_icon()
 
@@ -229,7 +239,7 @@
 
 				A.cell.add_fingerprint(user)
 				A.cell.update_icon()
-				A.cell.loc = src
+				A.cell.forceMove(src)
 				A.cell = null
 
 				A.charging = 0
@@ -253,7 +263,7 @@
 /obj/item/weapon/gripper/proc/finish_using(var/atom/target, var/mob/living/user, params, force_holder, resolved)
 
 	if(QDELETED(wrapped))
-		wrapped.loc = null
+		wrapped.forceMove(null)
 		wrapped = null
 		return
 
@@ -426,7 +436,7 @@
 	var/tools = "<B>Tools and devices</B><BR>"
 	var/resources = "<BR><B>Resources</B><BR>"
 
-	for (var/O in module.modules)
+	for (var/O in module.equipment)
 
 		var/module_string = ""
 

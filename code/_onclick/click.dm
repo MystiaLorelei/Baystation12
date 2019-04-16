@@ -17,6 +17,11 @@
 */
 
 /atom/Click(var/location, var/control, var/params) // This is their reaction to being clicked on (standard proc)
+	var/list/L = params2list(params)
+	var/dragged = L["drag"]
+	if(dragged && !L[dragged])
+		return
+
 	var/datum/click_handler/click_handler = usr.GetClickHandler()
 	click_handler.OnClick(src, params)
 
@@ -67,7 +72,9 @@
 	if(stat || paralysis || stunned || weakened)
 		return
 
-	face_atom(A) // change direction to face what you clicked on
+	// Do not allow player facing change in fixed chairs
+	if(!istype(buckled) || buckled.buckle_movable)
+		face_atom(A) // change direction to face what you clicked on
 
 	if(!canClick()) // in the year 2000...
 		return
@@ -192,9 +199,9 @@
 */
 /mob/proc/RangedAttack(var/atom/A, var/params)
 	if(!mutations.len) return
-	if((LASER in mutations) && a_intent == I_HURT)
+	if((MUTATION_LASER in mutations) && a_intent == I_HURT)
 		LaserEyes(A) // moved into a proc below
-	else if(TK in mutations)
+	else if(MUTATION_TK in mutations)
 		setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
 		A.attack_tk(src)
 /*

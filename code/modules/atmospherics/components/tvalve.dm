@@ -100,8 +100,6 @@
 	return null
 
 /obj/machinery/atmospherics/tvalve/Destroy()
-	loc = null
-
 	if(node1)
 		node1.disconnect(src)
 		qdel(network_node1)
@@ -321,7 +319,7 @@
 		set_frequency(frequency)
 
 /obj/machinery/atmospherics/tvalve/digital/receive_signal(datum/signal/signal)
-	if(!signal.data["tag"] || (signal.data["tag"] != id))
+	if(!signal.data["tag"] || signal.data["tag"] != id)
 		return 0
 
 	switch(signal.data["command"])
@@ -454,7 +452,7 @@
 		set_frequency(frequency)
 
 /obj/machinery/atmospherics/tvalve/mirrored/digital/receive_signal(datum/signal/signal)
-	if(!signal.data["tag"] || (signal.data["tag"] != id))
+	if(!signal.data["tag"] || signal.data["tag"] != id)
 		return 0
 
 	switch(signal.data["command"])

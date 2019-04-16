@@ -57,7 +57,7 @@
 
 /decl/hierarchy/supply_pack/security/pistol
 	name = "Weapons - Ballistic sidearms"
-	contains = list(/obj/item/weapon/gun/projectile/military = 4)
+	contains = list(/obj/item/weapon/gun/projectile/pistol/military = 4)
 	cost = 40
 	containertype = /obj/structure/closet/crate/secure/weapon
 	containername = "ballistic sidearms crate"
@@ -102,7 +102,7 @@
 
 /decl/hierarchy/supply_pack/security/pdw
 	name = "Weapons - Ballistic PDWs"
-	contains = list(/obj/item/weapon/gun/projectile/automatic/wt550 = 2)
+	contains = list(/obj/item/weapon/gun/projectile/automatic/sec_smg = 2)
 	cost = 40
 	containertype = /obj/structure/closet/crate/secure/weapon
 	containername = "\improper Ballistic PDW crate"
@@ -111,7 +111,7 @@
 
 /decl/hierarchy/supply_pack/security/bullpup
 	name = "Weapons - Ballistic rifles"
-	contains = list(/obj/item/weapon/gun/projectile/automatic/z8 = 2)
+	contains = list(/obj/item/weapon/gun/projectile/automatic/bullpup_rifle = 2)
 	cost = 80 //Because 5.56 is OP as fuck right now.
 	containertype = /obj/structure/closet/crate/secure/weapon
 	containername = "bullpup automatic rifle crate"
@@ -119,28 +119,28 @@
 	security_level = SUPPLY_SECURITY_HIGH
 
 /decl/hierarchy/supply_pack/security/pistolammo
-	name = "Ammunition - .45 magazines"
-	contains = list(/obj/item/ammo_magazine/c45mds = 4)
+	name = "Ammunition - pistol magazines"
+	contains = list(/obj/item/ammo_magazine/pistol = 4)
 	cost = 30
 	containertype = /obj/structure/closet/crate/secure/weapon
-	containername = ".45 ammunition crate"
+	containername = "pistol ammunition crate"
 	access = access_security
 	security_level = SUPPLY_SECURITY_ELEVATED
 
 /decl/hierarchy/supply_pack/security/pistolammorubber
-	name = "Ammunition - .45 rubber"
-	contains = list(/obj/item/ammo_magazine/c45mds/rubber = 4)
+	name = "Ammunition - pistol rubber"
+	contains = list(/obj/item/ammo_magazine/pistol/double/rubber = 4)
 	cost = 20
 	containertype = /obj/structure/closet/crate/secure/weapon
-	containername = ".45 rubber ammunition crate"
+	containername = "pistol rubber ammunition crate"
 	access = access_security
 
 /decl/hierarchy/supply_pack/security/pistolammopractice
-	name = "Ammunition - .45 practice"
-	contains = list(/obj/item/ammo_magazine/c45mds/practice = 8)
+	name = "Ammunition - pistol practice ammo"
+	contains = list(/obj/item/ammo_magazine/pistol/double/practice = 8)
 	cost = 20
 	containertype = /obj/structure/closet/crate/secure/weapon
-	containername = ".45 practice ammunition crate"
+	containername = "pistol practice ammunition crate"
 	access = access_security
 
 /decl/hierarchy/supply_pack/security/holster
@@ -152,18 +152,27 @@
 	access = access_solgov_crew
 
 /decl/hierarchy/supply_pack/security/securityextragear
-	name = "Gear - Security equipment"
-	contains = list(/obj/item/weapon/storage/belt/holster/security = 2,
-					/obj/item/device/radio/headset/headset_sec = 2,
-					/obj/item/clothing/glasses/sunglasses/sechud/goggles = 2,
-					/obj/item/taperoll/police = 2,
-					/obj/item/device/hailer = 2,
-					/obj/item/clothing/gloves/thick = 2,
-					/obj/item/device/holowarrant = 2,
-					/obj/item/device/flashlight/maglight = 2)
+	name = "Gear - Master at Arms equipment"
+	contains = list(/obj/item/device/radio/headset/headset_sec,
+					/obj/item/device/radio/headset/headset_sec/alt,
+					/obj/item/weapon/storage/belt/holster/security,
+					/obj/item/device/flash,
+					/obj/item/weapon/reagent_containers/spray/pepper,
+					/obj/item/weapon/grenade/chem_grenade/teargas,
+					/obj/item/weapon/melee/baton/loaded,
+					/obj/item/clothing/glasses/sunglasses/sechud/goggles,
+					/obj/item/taperoll/police,
+					/obj/item/device/hailer,
+					/obj/item/clothing/accessory/storage/black_vest,
+					/obj/item/device/megaphone,
+					/obj/item/clothing/gloves/thick,
+					/obj/item/clothing/gloves/thick/duty/solgov/sec,
+					/obj/item/device/holowarrant,
+					/obj/item/device/flashlight/maglight,
+					/obj/item/weapon/storage/belt/security)
 	cost = 60
 	containertype = /obj/structure/closet/crate/secure
-	containername = "security equipment crate"
+	containername = "\improper Master at Arms equipment crate"
 	access = access_security
 
 /decl/hierarchy/supply_pack/security/cosextragear
@@ -188,12 +197,3 @@
 	containertype = /obj/structure/closet/crate/secure
 	containername = "practice laser carbine crate"
 	access = access_solgov_crew
-
-/decl/hierarchy/supply_pack/security/magnum_ammo
-	name = "Ammo - .44 Magnum"
-	contains = list(/obj/item/ammo_magazine/c44 = 4)
-	cost = 30
-	containertype = /obj/structure/closet/crate/secure/weapon
-	containername = ".44 magnum ammunition crate"
-	access = access_heads
-	security_level = SUPPLY_SECURITY_ELEVATED

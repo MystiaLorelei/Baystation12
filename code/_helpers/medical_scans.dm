@@ -18,19 +18,19 @@
 	var/pulse_result
 	if(H.should_have_organ(BP_HEART))
 		var/obj/item/organ/internal/heart/heart = H.internal_organs_by_name[BP_HEART]
-		if(BP_IS_ROBOTIC(heart))
+		if(!heart)
+			pulse_result = 0
+		else if(BP_IS_ROBOTIC(heart))
 			pulse_result = -2
 		else if(H.status_flags & FAKEDEATH)
 			pulse_result = 0
 		else
-			pulse_result = H.get_pulse(1)
+			pulse_result = H.get_pulse(GETPULSE_TOOL)
 	else
 		pulse_result = -1
 
 	if(pulse_result == ">250")
 		pulse_result = -3
-	scan["pulse_raw"] = H.get_pulse(1)
-	scan["pulse_processed"] = pulse_result
 	scan["pulse"] = text2num(pulse_result)
 
 	scan["blood_pressure"] = H.get_blood_pressure()

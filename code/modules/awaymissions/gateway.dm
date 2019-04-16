@@ -26,7 +26,6 @@
 /obj/machinery/gateway/centerstation
 	density = 1
 	icon_state = "offcenter"
-	use_power = 1
 
 	//warping vars
 	var/list/linked = list()
@@ -54,7 +53,7 @@ obj/machinery/gateway/centerstation/Process()
 		return
 
 	if(active)
-		use_power(5000)
+		use_power_oneoff(5000)
 
 
 /obj/machinery/gateway/centerstation/proc/detect()
@@ -119,17 +118,15 @@ obj/machinery/gateway/centerstation/Process()
 	if(!active)		return
 	if(!awaygate)	return
 	if(awaygate.calibrated)
-		M.loc = get_step(awaygate.loc, SOUTH)
+		M.forceMove(get_step(awaygate.loc, SOUTH))
 		M.set_dir(SOUTH)
 		return
 	else
 		var/obj/effect/landmark/dest = pick(GLOB.awaydestinations)
 		if(dest)
-			M.loc = dest.loc
+			M.forceMove(dest.loc)
 			M.set_dir(SOUTH)
-			use_power(5000)
-		return
-
+			use_power_oneoff(5000)
 
 /obj/machinery/gateway/centerstation/attackby(obj/item/device/W as obj, mob/user as mob)
 	if(isMultitool(W))
@@ -142,7 +139,7 @@ obj/machinery/gateway/centerstation/Process()
 /obj/machinery/gateway/centeraway
 	density = 1
 	icon_state = "offcenter"
-	use_power = 0
+	use_power = POWER_USE_OFF
 	var/calibrated = 1
 	var/list/linked = list()	//a list of the connected gateway chunks
 	var/ready = 0
@@ -212,7 +209,6 @@ obj/machinery/gateway/centerstation/Process()
 		return
 	toggleoff()
 
-
 /obj/machinery/gateway/centeraway/Bumped(atom/movable/M as mob|obj)
 	if(!ready)	return
 	if(!active)	return
@@ -221,9 +217,8 @@ obj/machinery/gateway/centerstation/Process()
 			if(E.imp_in == M)//Checking that it's actually implanted vs just in their pocket
 				to_chat(M, "The remote gate has detected your exile implant and is blocking your entry.")
 				return
-	M.loc = get_step(stationgate.loc, SOUTH)
+	M.forceMove(get_step(stationgate.loc, SOUTH))
 	M.set_dir(SOUTH)
-
 
 /obj/machinery/gateway/centeraway/attackby(obj/item/device/W as obj, mob/user as mob)
 	if(isMultitool(W))

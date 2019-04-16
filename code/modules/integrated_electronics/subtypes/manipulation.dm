@@ -61,7 +61,7 @@
 
 /obj/item/integrated_circuit/manipulation/weapon_firing/attack_self(var/mob/user)
 	if(installed_gun)
-		installed_gun.forceMove(get_turf(src))
+		installed_gun.dropInto(loc)
 		to_chat(user, "<span class='notice'>You slide \the [installed_gun] out of the firing mechanism.</span>")
 		size = initial(size)
 		playsound(src, 'sound/items/Crowbar.ogg', 50, 1)
@@ -82,7 +82,7 @@
 		if(1)
 			var/datum/integrated_io/xo = inputs[1]
 			var/datum/integrated_io/yo = inputs[2]
-			if(assembly && xo.data && yo.data)
+			if(assembly && !isnull(xo.data) && !isnull(yo.data))
 				if(isnum(xo.data))
 					xo.data = round(xo.data, 1)
 				if(isnum(yo.data))
@@ -97,6 +97,7 @@
 		if(2)
 			var/datum/firemode/next_firemode = installed_gun.switch_firemodes()
 			set_pin_data(IC_OUTPUT, 2, next_firemode ? next_firemode.name : null)
+			push_data()
 
 /obj/item/integrated_circuit/manipulation/weapon_firing/proc/shootAt(turf/target)
 	var/turf/T = get_turf(src)
@@ -219,7 +220,7 @@
 /obj/item/integrated_circuit/manipulation/grenade/proc/detach_grenade()
 	if(!attached_grenade)
 		return
-	attached_grenade.forceMove(get_turf(src))
+	attached_grenade.dropInto(loc)
 	attached_grenade = null
 	desc = initial(desc)
 
@@ -347,7 +348,6 @@
 	var/max_items = 10
 
 /obj/item/integrated_circuit/manipulation/grabber/do_work()
-	var/max_w_class = assembly.w_class
 	var/atom/movable/acting_object = get_object()
 	var/turf/T = get_turf(acting_object)
 	var/obj/item/AM = get_pin_data_as_type(IC_INPUT, 1, /obj/item)
@@ -355,7 +355,7 @@
 		var/mode = get_pin_data(IC_INPUT, 2)
 		if(mode == 1)
 			if(check_target(AM))
-				if((contents.len < max_items) && AM.w_class <= max_w_class)
+				if((contents.len < max_items) && AM.w_class <= assembly.w_class)
 					AM.forceMove(src)
 		if(mode == 0)
 			if(contents.len)
@@ -404,7 +404,6 @@
 	spawn_flags = IC_SPAWN_RESEARCH
 	power_draw_per_use = 50
 	ext_cooldown = 1
-	var/max_w_class = ITEM_SIZE_SMALL
 	var/obj/item/pulling
 
 /obj/item/integrated_circuit/manipulation/claw/Destroy()
@@ -442,7 +441,7 @@
 	activate_pin(2)
 
 /obj/item/integrated_circuit/manipulation/claw/proc/can_pull(var/obj/item/I)
-	return I && I.w_class <= max_w_class && !I.anchored
+	return assembly && I && I.w_class <= assembly.w_class && !I.anchored
 
 /obj/item/integrated_circuit/manipulation/claw/proc/pull()
 	var/obj/acting_object = get_object()
@@ -490,7 +489,6 @@
 	spawn_flags = IC_SPAWN_RESEARCH
 	action_flags = IC_ACTION_COMBAT
 	power_draw_per_use = 50
-	var/max_w_class = ITEM_SIZE_SMALL
 
 /obj/item/integrated_circuit/manipulation/thrower/do_work()
 	var/target_x_rel = round(get_pin_data(IC_INPUT, 1))
@@ -503,7 +501,7 @@
 	if (istype(assembly.loc, /obj/item/weapon/implant/compressed)) //Prevents the more abusive form of chestgun.
 		return
 
-	if(max_w_class && (A.w_class > max_w_class))
+	if(A.w_class > assembly.w_class)
 		return
 
 	if(!(IC_FLAG_CAN_FIRE & assembly.circuit_flags) && ishuman(assembly.loc))
@@ -532,7 +530,7 @@
 
 	assembly.visible_message("<span class='danger'>[assembly] has thrown [A]!</span>")
 	log_attack("[assembly] \ref[assembly] has thrown [A].")
-	A.forceMove(get_turf(src))
+	A.dropInto(loc)
 	A.throw_at(locate(x_abs, y_abs, T.z), range, 3)
 
 	// If the item came from a grabber now we can update the outputs since we've thrown it.
@@ -547,7 +545,7 @@
 					Rift direction is a cardinal value determening in which direction the rift will be opened, relative the local north. \
 					A direction value of 0 will open the rift on top of the assembly, and any other non-cardinal values will open the rift in the assembly's current facing."
 	icon_state = "bluespace"
-	complexity = 25
+	complexity = 100
 	size = 3
 	cooldown_per_use = 10 SECONDS
 	power_draw_per_use = 300
@@ -558,11 +556,13 @@
 	action_flags = IC_ACTION_LONG_RANGE
 
 	origin_tech = list(TECH_MAGNET = 1, TECH_BLUESPACE = 3)
-	matter = list(MATERIAL_STEEL = 10000)
+	matter = list(MATERIAL_STEEL = 10000, MATERIAL_SILVER = 2000, MATERIAL_GOLD = 200)
 
 /obj/item/integrated_circuit/manipulation/bluespace_rift/do_work()
 	var/obj/machinery/computer/teleporter/tporter = get_pin_data_as_type(IC_INPUT, 1, /obj/machinery/computer/teleporter)
 	var/step_dir = get_pin_data(IC_INPUT, 2)
+	if(!(get(z) in GetConnectedZlevels(get_z(tporter))))
+		tporter = null
 
 	var/turf/rift_location = get_turf(src)
 	if(!rift_location || !isPlayerLevel(rift_location.z))

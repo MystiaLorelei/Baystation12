@@ -12,8 +12,7 @@
 	min_age = 17
 	max_age = 100
 	hidden_from_codex = FALSE
-
-	gluttonous = GLUT_TINY
+	bandages_icon = 'icons/mob/bandage.dmi'
 
 	spawn_flags = SPECIES_CAN_JOIN
 	appearance_flags = HAS_HAIR_COLOR | HAS_SKIN_TONE_NORMAL | HAS_LIPS | HAS_UNDERWEAR | HAS_EYE_COLOR
@@ -24,8 +23,6 @@
 
 	available_cultural_info = list(
 		TAG_CULTURE = list(
-			CULTURE_HUMAN,
-			CULTURE_HUMAN_VATGROWN,
 			CULTURE_HUMAN_MARTIAN,
 			CULTURE_HUMAN_MARSTUN,
 			CULTURE_HUMAN_LUNAPOOR,
@@ -101,8 +98,9 @@
 	icobase = 'icons/mob/human_races/species/skrell/body.dmi'
 	deform = 'icons/mob/human_races/species/skrell/deformed_body.dmi'
 	preview_icon = 'icons/mob/human_races/species/skrell/preview.dmi'
+	bandages_icon = 'icons/mob/bandage.dmi'
 	primitive_form = "Neaera"
-	unarmed_types = list(/datum/unarmed_attack/punch)
+	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/punch, /datum/unarmed_attack/bite)
 	description = "An amphibious species, Skrell come from the star system known as Qerr'Vallis, which translates to 'Star of \
 	the royals' or 'Light of the Crown'.<br/><br/>Skrell are a highly advanced and logical race who live under the rule \
 	of the Qerr'Katish, a caste within their society which keeps the empire of the Skrell running smoothly. Skrell are \
@@ -154,7 +152,7 @@
 	override_limb_types = list(BP_HEAD = /obj/item/organ/external/head/skrell)
 
 	descriptors = list(
-		/datum/mob_descriptor/height = 1.2,
+		/datum/mob_descriptor/height = 1,
 		/datum/mob_descriptor/build = 0,
 		/datum/mob_descriptor/headtail_length = 0
 	)
@@ -176,6 +174,7 @@
 			FACTION_NANOTRASEN,
 			FACTION_PCRC,
 			FACTION_HEPHAESTUS,
+			FACTION_DAIS,
 			FACTION_OTHER
 		),
 		TAG_RELIGION = list(
@@ -183,18 +182,12 @@
 			RELIGION_ATHEISM,
 			RELIGION_DEISM,
 			RELIGION_AGNOSTICISM
-		),
-		TAG_EDUCATION = list(
-			EDUCATION_SKRELL_FAILURE,
-			EDUCATION_SKRELL_BASIC,
-			EDUCATION_SKRELL_FULL,
-			EDUCATION_SKRELL_FULL_SCIENCE,
-			EDUCATION_SKRELL_FULL_DOCTOR
 		)
 	)
 
 	has_organ = list(
 		BP_HEART =    /obj/item/organ/internal/heart,
+		BP_STOMACH =  /obj/item/organ/internal/stomach,
 		BP_LUNGS =    /obj/item/organ/internal/lungs/gills,
 		BP_LIVER =    /obj/item/organ/internal/liver,
 		BP_KIDNEYS =  /obj/item/organ/internal/kidneys,
@@ -204,6 +197,9 @@
 
 /datum/species/skrell/get_sex(var/mob/living/carbon/H)
 	return descriptors["headtail length"] == 1 ? MALE : FEMALE
+
+/datum/species/skrell/check_background()
+	return TRUE
 
 /datum/species/diona
 	name = SPECIES_DIONA

@@ -212,6 +212,8 @@ var/list/organ_cache = list()
 			mechassist()
 		else if(status == "mechanical")
 			robotize()
+	if(species)
+		species.post_organ_rejuvenate(src, owner)
 
 //Germs
 /obj/item/organ/proc/handle_antibiotics()
@@ -298,13 +300,9 @@ var/list/organ_cache = list()
 	var/obj/item/weapon/reagent_containers/food/snacks/organ/O = new(get_turf(src))
 	O.SetName(name)
 	O.appearance = src
-	reagents.trans_to(O, reagents.total_volume)
-	if(fingerprints)
-		O.fingerprints = fingerprints.Copy()
-	if(fingerprintshidden)
-		O.fingerprintshidden = fingerprintshidden.Copy()
-	if(fingerprintslast)
-		O.fingerprintslast = fingerprintslast
+	if(reagents && reagents.total_volume)
+		reagents.trans_to(O, reagents.total_volume)
+	transfer_fingerprints_to(O)
 	user.put_in_active_hand(O)
 	qdel(src)
 	target.attackby(O, user)
@@ -316,7 +314,7 @@ var/list/organ_cache = list()
 	return !(status & (ORGAN_CUT_AWAY|ORGAN_MUTATED|ORGAN_DEAD))
 
 /obj/item/organ/proc/can_recover()
-	return (!(status & ORGAN_DEAD) || death_time >= world.time - ORGAN_RECOVERY_THRESHOLD)
+	return (max_damage > 0) && !(status & ORGAN_DEAD) || death_time >= world.time - ORGAN_RECOVERY_THRESHOLD
 
 /obj/item/organ/proc/get_scan_results(var/tag = FALSE)
 	. = list()

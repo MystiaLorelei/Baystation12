@@ -6,7 +6,7 @@
 		if(player.current.faction != MOB_FACTION_NEUTRAL)
 			return 0
 
-	var/datum/job/J = job_master.GetJob(player.assigned_role)
+	var/datum/job/J = SSjobs.get_by_title(player.assigned_role)
 	if(is_type_in_list(J,blacklisted_jobs))
 		return 0
 
@@ -61,9 +61,6 @@
 	if(!SSticker.mode)
 		return 0
 	if(!(id in SSticker.mode.latejoin_antag_tags))
-		return 0
-	update_current_antag_max(SSticker.mode)
-	if(get_antag_count() >= cur_max)
 		return 0
 	return 1
 

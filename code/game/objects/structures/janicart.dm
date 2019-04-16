@@ -149,7 +149,7 @@
 
 
 /obj/structure/janitorialcart/on_update_icon()
-	overlays = null
+	overlays.Cut()
 	if(mybag)
 		overlays += "cart_garbage"
 	if(mymop)
@@ -176,9 +176,9 @@
 	var/callme = "pimpin' ride"	//how do people refer to it?
 
 
-/obj/structure/bed/chair/janicart/New()
+/obj/structure/bed/chair/janicart/Initialize()
+	. = ..()
 	create_reagents(100)
-
 
 /obj/structure/bed/chair/janicart/examine(mob/user)
 	if(!..(user, 1))
@@ -208,7 +208,6 @@
 
 /obj/structure/bed/chair/janicart/attack_hand(mob/user)
 	if(mybag)
-		mybag.loc = get_turf(user)
 		user.put_in_hands(mybag)
 		mybag = null
 	else
@@ -227,9 +226,8 @@
 
 /obj/structure/bed/chair/janicart/Move()
 	..()
-	if(buckled_mob)
-		if(buckled_mob.buckled == src)
-			buckled_mob.loc = loc
+	if(buckled_mob && (buckled_mob.buckled == src))
+		buckled_mob.dropInto(loc)
 
 
 /obj/structure/bed/chair/janicart/post_buckle_mob(mob/living/M)

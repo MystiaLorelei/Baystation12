@@ -53,8 +53,15 @@
 		turns_per_move = 2
 		MoveToTarget()
 
+/mob/living/simple_animal/hostile/vagrant/death(gibbed)
+	. = ..()
+	if(. && !gibbed)
+		gib()
+
 /mob/living/simple_animal/hostile/vagrant/Life()
 	. = ..()
+	if(!.)
+		return FALSE
 	if(gripping)
 		if(!(get_turf(src) == get_turf(gripping)))
 			gripping = null
@@ -79,9 +86,6 @@
 		new/mob/living/simple_animal/hostile/vagrant(src.loc)
 		new/mob/living/simple_animal/hostile/vagrant(src.loc)
 		gib()
-		return
-	if(health < 1)
-		gib() //Leave no identifiable evidence.
 		return
 
 /mob/living/simple_animal/hostile/vagrant/on_update_icon()
@@ -115,8 +119,7 @@
 			H.visible_message("<span class='danger'>\the [src] latches onto \the [H], pulsating!</span>")
 			if(carried && length(gripping.virus2) == 0)
 				infect_virus2(gripping, carried, 1)
-			src.loc = gripping.loc
-			return
+			src.forceMove(gripping.loc)
 
 /mob/living/simple_animal/hostile/vagrant/swarm/Initialize()
 	. = ..()

@@ -1,7 +1,8 @@
 /obj/item/clothing/accessory/solgov
 	name = "master solgov accessory"
-	icon = 'maps/torch/icons/obj/solgov-accessory.dmi'
-	accessory_icons = list(slot_w_uniform_str = 'maps/torch/icons/mob/solgov-accessory.dmi', slot_wear_suit_str = 'maps/torch/icons/mob/solgov-accessory.dmi')
+	icon = 'maps/torch/icons/obj/obj_accessories_solgov.dmi'
+	accessory_icons = list(slot_w_uniform_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi', slot_wear_suit_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi')
+	w_class = ITEM_SIZE_TINY
 
 /*****
 medals
@@ -9,8 +10,8 @@ medals
 /obj/item/clothing/accessory/medal/solgov
 	name = "master solgov medal"
 	desc = "You shouldn't be seeing this."
-	icon = 'maps/torch/icons/obj/solgov-accessory.dmi'
-	accessory_icons = list(slot_w_uniform_str = 'maps/torch/icons/mob/solgov-accessory.dmi', slot_wear_suit_str = 'maps/torch/icons/mob/solgov-accessory.dmi')
+	icon = 'maps/torch/icons/obj/obj_accessories_solgov.dmi'
+	accessory_icons = list(slot_w_uniform_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi', slot_wear_suit_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi')
 
 /obj/item/clothing/accessory/medal/solgov/iron/star
 	name = "iron star medal"
@@ -74,7 +75,7 @@ medals
 	on_rolled = list("down" = "none")
 	slot = ACCESSORY_SLOT_INSIGNIA
 	sprite_sheets = list(
-		SPECIES_UNATHI = 'icons/mob/species/unathi/solgov_accessory.dmi'
+		SPECIES_UNATHI = 'icons/mob/species/unathi/onmob_accessories_sol_unathi.dmi'
 		)
 
 /obj/item/clothing/accessory/solgov/ec_patch
@@ -88,6 +89,12 @@ medals
 	name = "\improper Field Operations patch"
 	desc = "A radiation-shielded shoulder patch, carrying the symbol of the Sol Central Government Expeditionary Corps Field Operations, or SCGECFO for short, the hands-on workers of every Expeditionary Corps mission."
 	icon_state = "ecpatch2"
+
+/obj/item/clothing/accessory/solgov/cultex_patch
+	name = "\improper Cultural Exchange patch"
+	desc = "A radiation-shielded shoulder patch, denoting service in the the Sol Central Government Expeditionary Corps Cultural Exchange program."
+	icon_state = "ecpatch3"
+	slot = ACCESSORY_SLOT_INSIGNIA
 
 /obj/item/clothing/accessory/solgov/fleet_patch
 	name = "\improper First Fleet patch"
@@ -125,8 +132,9 @@ ribbons
 	icon_state = "ribbon_marksman"
 	on_rolled = list("down" = "none")
 	slot = ACCESSORY_SLOT_MEDAL
-	icon = 'maps/torch/icons/obj/solgov-accessory.dmi'
-	accessory_icons = list(slot_w_uniform_str = 'maps/torch/icons/mob/solgov-accessory.dmi', slot_wear_suit_str = 'maps/torch/icons/mob/solgov-accessory.dmi')
+	icon = 'maps/torch/icons/obj/obj_accessories_solgov.dmi'
+	accessory_icons = list(slot_w_uniform_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi', slot_wear_suit_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi')
+	w_class = ITEM_SIZE_TINY
 
 /obj/item/clothing/accessory/ribbon/solgov/marksman
 	name = "marksmanship ribbon"
@@ -200,7 +208,7 @@ specialty pins
 	desc = "A golden pin denoting some special qualification."
 	icon_state = "fleetpin_officer"
 
-/obj/item/clothing/accessory/solgov/speciality/pilot
+/obj/item/clothing/accessory/solgov/specialty/pilot
 	name = "pilot's qualification pin"
 	desc = "An iron pin denoting the qualification to fly SCG spacecraft."
 	icon_state = "pin_pilot"
@@ -210,8 +218,8 @@ badges
 *****/
 /obj/item/clothing/accessory/badge/solgov
 	name = "master solgov badge"
-	icon = 'maps/torch/icons/obj/solgov-accessory.dmi'
-	accessory_icons = list(slot_w_uniform_str = 'maps/torch/icons/mob/solgov-accessory.dmi', slot_wear_suit_str = 'maps/torch/icons/mob/solgov-accessory.dmi')
+	icon = 'maps/torch/icons/obj/obj_accessories_solgov.dmi'
+	accessory_icons = list(slot_w_uniform_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi', slot_wear_suit_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi')
 
 /obj/item/clothing/accessory/badge/solgov/security
 	name = "security forces badge"
@@ -255,10 +263,10 @@ armbands
 *******/
 /obj/item/clothing/accessory/armband/solgov
 	name = "master solgov armband"
-	icon = 'maps/torch/icons/obj/solgov-accessory.dmi'
-	accessory_icons = list(slot_w_uniform_str = 'maps/torch/icons/mob/solgov-accessory.dmi', slot_wear_suit_str = 'maps/torch/icons/mob/solgov-accessory.dmi')
+	icon = 'maps/torch/icons/obj/obj_accessories_solgov.dmi'
+	accessory_icons = list(slot_w_uniform_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi', slot_wear_suit_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi')
 	sprite_sheets = list(
-		SPECIES_UNATHI = 'icons/mob/species/unathi/solgov_accessory.dmi'
+		SPECIES_UNATHI = 'icons/mob/species/unathi/onmob_accessories_sol_unathi.dmi'
 		)
 
 /obj/item/clothing/accessory/armband/solgov/mp
@@ -282,9 +290,9 @@ armour attachments
 /obj/item/clothing/accessory/armor/tag/solgov
 	name = "\improper SCG Flag"
 	desc = "An emblem depicting the Sol Central Government's flag."
-	icon_override = 'maps/torch/icons/obj/solgov-accessory.dmi'
-	icon = 'maps/torch/icons/obj/solgov-accessory.dmi'
-	accessory_icons = list(slot_tie_str = 'maps/torch/icons/mob/solgov-accessory.dmi', slot_w_uniform_str = 'maps/torch/icons/mob/solgov-accessory.dmi', slot_wear_suit_str = 'maps/torch/icons/mob/solgov-accessory.dmi')
+	icon_override = 'maps/torch/icons/obj/obj_accessories_solgov.dmi'
+	icon = 'maps/torch/icons/obj/obj_accessories_solgov.dmi'
+	accessory_icons = list(slot_w_uniform_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi', slot_wear_suit_str = 'maps/torch/icons/mob/onmob_accessories_solgov.dmi')
 	icon_state = "solflag"
 	slot = ACCESSORY_SLOT_ARMOR_M
 
@@ -297,6 +305,16 @@ armour attachments
 	name = "\improper POLICE tag"
 	desc = "An armor tag with the word POLICE printed in silver lettering on it."
 	icon_state = "sectag"
+
+/obj/item/clothing/accessory/armor/tag/solgov/medic
+	name = "\improper MEDIC tag"
+	desc = "An armor tag with the word MEDIC printed in red lettering on it."
+	icon_state = "medictag"
+
+/obj/item/clothing/accessory/armor/tag/solgov/agent
+	name = "\improper OCIE AGENT tag"
+	desc = "An armor tag with the word OCIE AGENT printed in gold lettering on it."
+	icon_state = "agenttag"
 
 /obj/item/clothing/accessory/armor/tag/solgov/com
 	name = "\improper SCG tag"
@@ -322,7 +340,7 @@ department tags
 	slot = ACCESSORY_SLOT_DEPT
 	removable = FALSE
 	sprite_sheets = list(
-		SPECIES_UNATHI = 'icons/mob/species/unathi/solgov_accessory.dmi'
+		SPECIES_UNATHI = 'icons/mob/species/unathi/onmob_accessories_sol_unathi.dmi'
 		)
 
 /obj/item/clothing/accessory/solgov/department/command
@@ -454,7 +472,7 @@ department tags
 /obj/item/clothing/accessory/solgov/department/research
 	name = "research insignia"
 	desc = "Insignia denoting assignment to the research department. These fit Expeditionary Corps uniforms."
-	color = COLOR_BOTTLE_GREEN
+	color = COLOR_RESEARCH
 
 /obj/item/clothing/accessory/solgov/department/research/service
 	icon_state = "dept_exped_service"
@@ -472,7 +490,7 @@ ranks - ec
 	gender = PLURAL
 	high_visibility = 1
 	sprite_sheets = list(
-		SPECIES_UNATHI = 'icons/mob/species/unathi/solgov_accessory.dmi'
+		SPECIES_UNATHI = 'icons/mob/species/unathi/onmob_accessories_sol_unathi.dmi'
 		)
 
 /obj/item/clothing/accessory/solgov/rank/get_fibers()
@@ -598,7 +616,7 @@ ranks - fleet
 
 /obj/item/clothing/accessory/solgov/rank/fleet/officer/wo1_monkey
 	name = "makeshift ranks (WO-1 warrant officer 1)"
-	desc = "Insignia denoting the elusive rank of Warrant Officer. Too bad it's obviously fake."
+	desc = "Insignia denoting the mythical rank of Warrant Officer. Too bad it's obviously fake."
 
 /obj/item/clothing/accessory/solgov/rank/fleet/officer/o2
 	name = "ranks (O-2 sub-lieutenant)"

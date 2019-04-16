@@ -52,7 +52,7 @@
 	return 1
 
 /obj/item/modular_computer/proc/install_default_programs_by_job(var/mob/living/carbon/human/H)
-	var/datum/job/jb = job_master.occupations_by_title[H.job]
+	var/datum/job/jb = SSjobs.get_by_title(H.job)
 	if(!jb) return
 	for(var/prog_type in jb.software_on_spawn)
 		var/datum/computer_file/program/prog_file = prog_type
@@ -232,10 +232,6 @@
 		update_icon()
 		return
 
-	if(idle_threads.len >= processor_unit.max_idle_programs+1)
-		to_chat(user, "<span class='notice'>\The [src] displays a \"Maximal CPU load reached. Unable to run another program.\" error</span>")
-		return
-
 	if(P.requires_ntnet && !get_ntnet_status(P.requires_ntnet_feature)) // The program requires NTNet connection, but we are not connected to NTNet.
 		to_chat(user, "<span class='danger'>\The [src]'s screen shows \"NETWORK ERROR - Unable to connect to NTNet. Please retry. If problem persists contact your system administrator.\" warning.</span>")
 		return
@@ -308,7 +304,7 @@
 		hard_drive.store_file(autorun)
 
 /obj/item/modular_computer/GetIdCard()
-	if(card_slot && card_slot.can_broadcast && istype(card_slot.stored_card))
+	if(card_slot && card_slot.can_broadcast && istype(card_slot.stored_card) && card_slot.check_functionality())
 		return card_slot.stored_card
 
 /obj/item/modular_computer/proc/update_name()

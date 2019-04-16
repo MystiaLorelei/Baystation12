@@ -23,6 +23,10 @@
 	description = "Asteroid with slavers base inside."
 	suffixes = list("slavers/slavers_base.dmm")
 	cost = 1
+	area_usage_test_exempted_root_areas = list(/area/slavers_base)
+	apc_test_exempt_areas = list(
+		/area/slavers_base/hangar = NO_SCRUBBER
+	)
 
 /obj/effect/shuttle_landmark/nav_slavers_base/nav1
 	name = "Slavers Base Navpoint #1"
@@ -52,17 +56,10 @@
 	name = "Slavers Base Navpoint #7"
 	landmark_tag = "nav_slavers_base_antag"
 
-/obj/structure/slavers_base/mattress
-	name = "dirty mattress"
-	desc = "Dirty, smelling mattress, covered with body fluids. You wouldn't want to touch this."
-	icon = 'maps/away/slavers/slavers_base_sprites.dmi'
-	icon_state = "dirty_mattress"
-	anchored = 0
-
 /decl/hierarchy/outfit/corpse
 	name = "Corpse Clothing"
 
-/decl/hierarchy/outfit/corpse/New()
+/decl/hierarchy/outfit/corpse/Initialize()
 	..()
 	hierarchy_type = type
 

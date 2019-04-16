@@ -125,7 +125,7 @@
 		update_icon()
 
 /obj/item/weapon/melee/baton/attack(mob/M, mob/user)
-	if(status && (CLUMSY in user.mutations) && prob(50))
+	if(status && (MUTATION_CLUMSY in user.mutations) && prob(50))
 		to_chat(user, "<span class='danger'>You accidentally hit yourself with the [src]!</span>")
 		user.Weaken(30)
 		deductcharge(hitcost)
@@ -145,8 +145,8 @@
 	var/abuser =  user ? "" : "by [user]"
 	if(user && user.a_intent == I_HURT)
 		. = ..()
-		if (!.)	//item/attack() does it's own messaging and logs
-			return 0	// item/attack() will return 1 if they hit, 0 if they missed.
+		if(.)
+			return
 
 		//whacking someone causes a much poorer electrical contact than deliberately prodding them.
 		stun *= 0.5
@@ -178,7 +178,7 @@
 			var/mob/living/carbon/human/H = target
 			H.forcesay(GLOB.hit_appends)
 
-	return 0
+	return 1
 
 /obj/item/weapon/melee/baton/emp_act(severity)
 	if(bcell)

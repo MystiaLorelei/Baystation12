@@ -12,8 +12,6 @@
 	icon = 'icons/obj/rig_modules.dmi'
 	desc = "A back-mounted hardsuit deployment and control mechanism."
 	slot_flags = SLOT_BACK
-	req_one_access = list()
-	req_access = list()
 	w_class = ITEM_SIZE_HUGE
 	center_of_mass = null
 
@@ -25,7 +23,7 @@
 	permeability_coefficient = 0.1
 	unacidable = 1
 
-	var/equipment_overlay_icon = 'icons/mob/onmob/rig_modules.dmi'
+	var/equipment_overlay_icon = 'icons/mob/onmob/onmob_rig_modules.dmi'
 	var/hides_uniform = 1 	//used to determinate if uniform should be visible whenever the suit is sealed or not
 
 	var/interface_path = "hardsuit.tmpl"
@@ -81,12 +79,15 @@
 	var/vision_restriction = TINT_NONE
 	var/offline_vision_restriction = TINT_HEAVY               // tint value given to helmet
 	var/airtight = 1 //If set, will adjust ITEM_FLAG_AIRTIGHT and ITEM_FLAG_STOPPRESSUREDAMAGE flags on components. Otherwise it should leave them untouched.
+	var/visible_name
 
 	var/emp_protection = 0
 
 	// Wiring! How exciting.
 	var/datum/wires/rig/wires
 	var/datum/effect/effect/system/spark_spread/spark_system
+
+	var/banned_modules = list()
 
 /obj/item/weapon/rig/examine()
 	. = ..()
@@ -111,7 +112,7 @@
 	item_state = icon_state
 	wires = new(src)
 
-	if((!req_access || !req_access.len) && (!req_one_access || !req_one_access.len))
+	if(!length(req_access))
 		locked = 0
 
 	spark_system = new()
@@ -159,7 +160,9 @@
 			piece.siemens_coefficient = siemens_coefficient
 		piece.permeability_coefficient = permeability_coefficient
 		piece.unacidable = unacidable
-		if(islist(armor)) piece.armor = armor.Copy()
+		if(islist(armor))
+			remove_extension(piece, /datum/extension/armor)
+			set_extension(piece, /datum/extension/armor, /datum/extension/armor/rig, armor)
 
 	set_slowdown_and_vision(!offline)
 	update_icon(1)
@@ -286,10 +289,9 @@
 								helmet.update_light(wearer)
 
 					//sealed pieces become airtight, protecting against diseases
-					if (!seal_target)
-						piece.armor["bio"] = 100
-					else
-						piece.armor["bio"] = src.armor["bio"]
+					var/datum/extension/armor/rig/armor_datum = get_extension(piece, /datum/extension/armor)
+					if(istype(armor_datum))
+						armor_datum.sealed = !seal_target
 
 				else
 					failed_to_seal = 1
@@ -513,7 +515,7 @@
 	//TODO: Maybe consider a cache for this (use mob_icon as blank canvas, use suit icon overlay).
 	overlays.Cut()
 	if(!mob_icon || update_mob_icon)
-		var/species_icon = 'icons/mob/onmob/rig_back.dmi'
+		var/species_icon = 'icons/mob/onmob/onmob_rig_back.dmi'
 		// Since setting mob_icon will override the species checks in
 		// update_inv_wear_suit(), handle species checks here.
 		if(wearer && sprite_sheets && sprite_sheets[wearer.species.get_bodytype(wearer)])
@@ -620,7 +622,7 @@
 			if(M && M.back == src)
 				if(!M.unEquip(src))
 					return
-			src.forceMove(get_turf(src))
+			src.dropInto(loc)
 			return
 
 	if(istype(M) && M.back == src)

@@ -294,15 +294,21 @@
 
 	return 1
 
+/obj/machinery/cryopod/examine(mob/user)
+	. = ..()
+	if (. && occupant && user.Adjacent(src))
+		occupant.examine(user)
+
 //Lifted from Unity stasis.dm and refactored. ~Zuhayr
 /obj/machinery/cryopod/Process()
 	if(occupant)
 		if(applies_stasis && iscarbon(occupant))
 			var/mob/living/carbon/C = occupant
-			C.SetStasis(3)
+			C.SetStasis(2)
 
 		//Allow a ten minute gap between entering the pod and actually despawning.
-		if(world.time - time_entered < time_till_despawn)
+		// Only provide the gap if the occupant hasn't ghosted
+		if ((world.time - time_entered < time_till_despawn) && (occupant.ckey))
 			return
 
 		if(!occupant.client && occupant.stat<2) //Occupant is living and has no client.
@@ -367,7 +373,7 @@
 		else
 			if(control_computer && control_computer.allow_items)
 				control_computer.frozen_items += W
-				W.loc = null
+				W.forceMove(null)
 			else
 				W.forceMove(src.loc)
 
@@ -382,15 +388,17 @@
 
 	//Handle job slot/tater cleanup.
 	if(occupant.mind)
-		var/job = occupant.mind.assigned_role
-		job_master.ClearSlot(job)
+		if(occupant.mind.assigned_job)
+			occupant.mind.assigned_job.clear_slot()
 
 		if(occupant.mind.objectives.len)
 			occupant.mind.objectives = null
 			occupant.mind.special_role = null
 
 	// Delete them from datacore.
-	var/datum/computer_file/report/crew_record/R = get_crewmember_record(occupant.real_name)
+	var/sanitized_name = occupant.real_name
+	sanitized_name = sanitize(sanitized_name)
+	var/datum/computer_file/report/crew_record/R = get_crewmember_record(sanitized_name)
 	if(R)
 		qdel(R)
 
@@ -479,7 +487,7 @@
 	if(announce) items -= announce
 
 	for(var/obj/item/W in items)
-		W.forceMove(get_turf(src))
+		W.dropInto(loc)
 
 	src.go_out()
 	add_fingerprint(usr)
@@ -530,14 +538,14 @@
 		occupant.client.eye = src.occupant.client.mob
 		occupant.client.perspective = MOB_PERSPECTIVE
 
-	occupant.forceMove(get_turf(src))
+	occupant.dropInto(loc)
 	set_occupant(null)
 
 	icon_state = base_icon_state
 
 	return
 
-/obj/machinery/cryopod/proc/set_occupant(var/mob/living/carbon/occupant)
+/obj/machinery/cryopod/proc/set_occupant(var/mob/living/carbon/occupant, var/silent)
 	src.occupant = occupant
 	if(!occupant)
 		SetName(initial(name))
@@ -545,8 +553,9 @@
 
 	occupant.stop_pulling()
 	if(occupant.client)
-		to_chat(occupant, "<span class='notice'>[on_enter_occupant_message]</span>")
-		to_chat(occupant, "<span class='notice'><b>If you ghost, log out or close your client now, your character will shortly be permanently removed from the round.</b></span>")
+		if(!silent)
+			to_chat(occupant, "<span class='notice'>[on_enter_occupant_message]</span>")
+			to_chat(occupant, "<span class='notice'><b>If you ghost, log out or close your client now, your character will shortly be permanently removed from the round.</b></span>")
 		occupant.client.perspective = EYE_PERSPECTIVE
 		occupant.client.eye = src
 	occupant.forceMove(src)
@@ -554,3 +563,6 @@
 
 	SetName("[name] ([occupant])")
 	icon_state = occupied_icon_state
+
+/obj/machinery/cryopod/relaymove(var/mob/user)
+	go_out()

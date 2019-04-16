@@ -12,6 +12,7 @@
 	var/flags = 0
 	var/process_state = IDLE_STATE //Used with SHUTTLE_FLAGS_PROCESS, as well as to store current state.
 	var/category = /datum/shuttle
+	var/multiz = 0	//how many multiz levels, starts at 0
 
 	var/ceiling_type = /turf/unsimulated/floor/shuttle_ceiling
 
@@ -172,6 +173,9 @@
 		var/turf/dst_turf = turf_translation[src_turf]
 		if(src_turf.is_solid_structure()) //in case someone put a hole in the shuttle and you were lucky enough to be under it
 			for(var/atom/movable/AM in dst_turf)
+				if(AM.movable_flags & MOVABLE_FLAG_DEL_SHUTTLE)
+					qdel(AM)
+					continue
 				if(!AM.simulated)
 					continue
 				if(isliving(AM))
@@ -217,7 +221,7 @@
 				if(istype(TA, get_base_turf_by_area(TA)) || istype(TA, /turf/simulated/open))
 					if(get_area(TA) in shuttle_area)
 						continue
-					TA.ChangeTurf(ceiling_type, 1, 1)
+					TA.ChangeTurf(ceiling_type, TRUE, TRUE, TRUE)
 
 	// Remove all powernets that were affected, and rebuild them.
 	var/list/cables = list()
