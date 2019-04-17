@@ -7,7 +7,7 @@
 /datum/job/captain
 	supervisors = "the Merchant Code and your conscience"
 	outfit_type = /decl/hierarchy/outfit/job/bearcat/captain
-	skill_points = 30
+	skill_points = 65
 
 /datum/job/captain/equip(var/mob/living/carbon/human/H)
 	. = ..()
@@ -53,7 +53,7 @@
 	supervisors = "the Captain"
 	department_flag = ENG
 	outfit_type = /decl/hierarchy/outfit/job/bearcat/chief_engineer
-	skill_points = 30
+	skill_points = 65
 
 /datum/job/doctor
 	title = "Doc"
@@ -64,14 +64,14 @@
 	total_positions = 1
 	spawn_positions = 1
 	hud_icon = "hudmedicaldoctor"
-	skill_points = 30
+	skill_points = 65
 
 /datum/job/hop
 	title = "First Mate"
 	supervisors = "the Captain and the Merchant Code"
 	outfit_type = /decl/hierarchy/outfit/job/bearcat/mate
 	hud_icon = "hudheadofpersonnel"
-	skill_points = 30
+	skill_points = 65
 
 /datum/job/assistant
 	title = "Deck Hand"
@@ -82,7 +82,7 @@
 		"Cargo Hand",
 		"Passenger")
 	hud_icon = "hudcargotechnician"
-	skill_points = 30
+	skill_points = 65
 
 /datum/job/engineer
 	title = "Junior Engineer"
@@ -90,7 +90,7 @@
 	total_positions = 2
 	spawn_positions = 2
 	hud_icon = "hudengineer"
-	skill_points = 30
+	skill_points = 65
 
 /datum/job/cyborg
 	supervisors = "your laws and the Captain"

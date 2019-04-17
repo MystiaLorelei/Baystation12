@@ -23,6 +23,7 @@
 	default_spawn = "Cryogenic Storage"
 	use_overmap = 1
 	num_exoplanets = 3
+	away_site_budget = 3
 	welcome_sound = 'sound/effects/cowboysting.ogg'
 
 	shuttle_docked_message = "Attention all hands: Transfer burn preparation complete. The transit drive is now spooling up, secure all stations for departure. Time to burn: approximately %ETD%."
