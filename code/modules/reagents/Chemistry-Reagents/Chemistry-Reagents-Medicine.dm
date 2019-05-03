@@ -314,6 +314,7 @@
 	description = "An effective and very addictive painkiller. Don't mix with alcohol."
 	taste_description = "bitterness"
 	color = "#800080"
+	scannable = 1
 	overdose = 20
 	pain_power = 200
 	effective_dose = 2
@@ -373,6 +374,7 @@
 	description = "Venixalin is a strong, specialised antivenom for dealing with advanced toxins and venoms."
 	taste_description = "overpowering sweetness"
 	color = "#dadd98"
+	scannable = 1
 	metabolism = REM * 2
 	remove_generic = 0
 	remove_toxins = list(
@@ -450,19 +452,19 @@
 	taste_description = "acid"
 	reagent_state = SOLID
 	color = "#004000"
+	scannable = 1
 	overdose = REAGENTS_OVERDOSE
 
 /datum/reagent/ryetalyn/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
 	var/needs_update = M.mutations.len > 0
 
-	M.mutations = list()
 	M.disabilities = 0
 	M.sdisabilities = 0
 
-	// Might need to update appearance for hulk etc.
 	if(needs_update && ishuman(M))
-		var/mob/living/carbon/human/H = M
-		H.update_mutations()
+		M.dna.ResetUI()
+		M.dna.ResetSE()
+		domutcheck(M, null, MUTCHK_FORCED)
 
 /datum/reagent/hyperzine
 	name = "Hyperzine"
@@ -479,13 +481,14 @@
 	if(prob(5))
 		M.emote(pick("twitch", "blink_r", "shiver"))
 	M.add_chemical_effect(CE_SPEEDBOOST, 1)
-	M.add_chemical_effect(CE_PULSE, 2)
+	M.add_chemical_effect(CE_PULSE, 3)
 
 /datum/reagent/ethylredoxrazine
 	name = "Ethylredoxrazine"
 	description = "A powerful oxidizer that reacts with ethanol."
 	reagent_state = SOLID
 	color = "#605048"
+	scannable = 1
 	overdose = REAGENTS_OVERDOSE
 
 /datum/reagent/ethylredoxrazine/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
@@ -613,7 +616,7 @@
 	heating_products = null
 	heating_point = null
 	heating_message = null
-	scannable = 0
+	scannable = 1
 
 /datum/reagent/leporazine/hot/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
 	if(M.bodytemperature < 330)
@@ -627,7 +630,7 @@
 	heating_products = list(/datum/reagent/leporazine)
 	heating_point = 100 CELSIUS
 	heating_message = "Becomes clear and smooth."
-	scannable = 0
+	scannable = 1
 
 /datum/reagent/leporazine/cold/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
 	if(M.bodytemperature > 290)
@@ -643,6 +646,7 @@
 	taste_description = "sourness"
 	reagent_state = LIQUID
 	color = "#bf80bf"
+	scannable = 1
 	metabolism = 0.01
 	data = 0
 
@@ -663,6 +667,7 @@
 	taste_description = "bitterness"
 	reagent_state = LIQUID
 	color = "#ff80ff"
+	scannable = 1
 	metabolism = 0.01
 	data = 0
 
@@ -683,6 +688,7 @@
 	description = "Stabilizes the mind greatly, but has a chance of adverse effects."
 	reagent_state = LIQUID
 	color = "#ff80bf"
+	scannable = 1
 	metabolism = 0.01
 	data = 0
 

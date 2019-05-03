@@ -52,6 +52,7 @@
 	name = "Unknown Signature"
 	shuttle = "Vox Shuttle"
 	fore_dir = NORTH
+	vessel_size = SHIP_SIZE_SMALL
 
 /obj/effect/submap_landmark/joinable_submap/voxship
 	archetype = /decl/submap_archetype/derelict/voxship

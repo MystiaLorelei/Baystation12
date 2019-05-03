@@ -20,7 +20,13 @@
 
 /obj/item/weapon/storage/toolbox/emergency
 	name = "emergency toolbox"
-	startswith = list(/obj/item/weapon/crowbar/red, /obj/item/weapon/extinguisher/mini, /obj/item/device/radio)
+	startswith = list(
+		/obj/item/weapon/crowbar/red,
+		/obj/item/weapon/extinguisher/mini,
+		/obj/item/device/radio,
+		/obj/item/weapon/weldingtool/mini,
+		/obj/item/weapon/welder_tank/mini
+	)
 
 /obj/item/weapon/storage/toolbox/emergency/Initialize()
 	. = ..()
@@ -33,7 +39,7 @@
 	desc = "Bright blue toolboxes like these are one of the most common sights in maintenance corridors on virtually every ship in the galaxy."
 	icon_state = "blue"
 	item_state = "toolbox_blue"
-	startswith = list(/obj/item/weapon/screwdriver, /obj/item/weapon/wrench, /obj/item/weapon/weldingtool, /obj/item/weapon/crowbar, /obj/item/device/analyzer, /obj/item/weapon/wirecutters)
+	startswith = list(/obj/item/weapon/screwdriver, /obj/item/weapon/wrench, /obj/item/weapon/weldingtool, /obj/item/weapon/crowbar, /obj/item/device/scanner/gas, /obj/item/weapon/wirecutters)
 
 /obj/item/weapon/storage/toolbox/electrical
 	name = "electrical toolbox"

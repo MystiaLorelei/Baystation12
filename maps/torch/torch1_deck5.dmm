@@ -621,13 +621,13 @@
 /turf/simulated/floor/plating,
 /area/maintenance/fifthdeck/aftstarboard)
 "bN" = (
-/obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/structure/cable/cyan{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
+/obj/effect/wallframe_spawn/no_grille,
 /turf/simulated/floor/plating,
 /area/maintenance/fifthdeck/aftstarboard)
 "bP" = (
@@ -2281,10 +2281,15 @@
 	icon_state = "techfloor_edges";
 	dir = 9
 	},
+/obj/machinery/conveyor_switch/oneway{
+	id = "cargobay";
+	name = "mining conveyor"
+	},
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/exploration_shuttle/cargo)
 "eY" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
+	controlled = 0;
 	dir = 4;
 	frequency = 1331;
 	id_tag = "calypso_cargo_pump"
@@ -2362,6 +2367,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
+	controlled = 0;
 	dir = 8;
 	frequency = 1331;
 	id_tag = "calypso_cargo_pump"
@@ -2430,6 +2436,7 @@
 /area/exploration_shuttle/cargo)
 "fo" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
+	controlled = 0;
 	dir = 1;
 	frequency = 1331;
 	id_tag = "calypso_cargo_pump"
@@ -2444,6 +2451,7 @@
 "fq" = (
 /obj/effect/floor_decal/industrial/outline/yellow,
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
+	controlled = 0;
 	dir = 1;
 	frequency = 1331;
 	id_tag = "calypso_cargo_pump"
@@ -2452,6 +2460,7 @@
 /area/exploration_shuttle/cargo)
 "fr" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
+	controlled = 0;
 	dir = 2;
 	frequency = 1331;
 	id_tag = "calypso_cargo_pump_out_internal"
@@ -2554,6 +2563,10 @@
 	},
 /turf/simulated/floor/tiled/white/monotile,
 /area/shuttle/petrov/isolation)
+"fH" = (
+/obj/item/weapon/stool,
+/turf/simulated/floor/tiled,
+/area/quartermaster/exploration)
 "fI" = (
 /obj/structure/handrai{
 	icon_state = "handrail";
@@ -2580,6 +2593,7 @@
 /area/exploration_shuttle/cargo)
 "fK" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
+	controlled = 0;
 	dir = 4;
 	frequency = 1331;
 	id_tag = "calypso_cargo_pump_out_internal"
@@ -2613,6 +2627,7 @@
 /area/exploration_shuttle/cargo)
 "fP" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
+	controlled = 0;
 	dir = 8;
 	frequency = 1331;
 	id_tag = "calypso_cargo_pump_out_internal"
@@ -3028,6 +3043,7 @@
 	pixel_y = 20
 	},
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
+	controlled = 0;
 	dir = 1;
 	frequency = 1331;
 	id_tag = "calypso_cargo_pump_out_external"
@@ -3092,7 +3108,7 @@
 /turf/simulated/floor/tiled/dark/monotile,
 /area/quartermaster/expedition/storage)
 "hl" = (
-/obj/effect/wallframe_spawn/reinforced,
+/obj/effect/wallframe_spawn/no_grille,
 /turf/simulated/floor/plating,
 /area/quartermaster/exploration)
 "hm" = (
@@ -3444,7 +3460,7 @@
 /turf/simulated/floor/tiled/dark/monotile,
 /area/quartermaster/expedition/storage)
 "iy" = (
-/obj/effect/wallframe_spawn/reinforced,
+/obj/effect/wallframe_spawn/no_grille,
 /turf/simulated/floor/plating,
 /area/command/pilot)
 "iz" = (
@@ -4172,7 +4188,7 @@
 /area/command/pilot)
 "jR" = (
 /obj/machinery/door/firedoor/border_only,
-/obj/effect/wallframe_spawn/reinforced,
+/obj/effect/wallframe_spawn/reinforced/no_grille,
 /turf/simulated/floor/plating,
 /area/quartermaster/shuttlefuel)
 "jS" = (
@@ -4378,8 +4394,8 @@
 /turf/simulated/floor/tiled/monotile,
 /area/quartermaster/exploration)
 "kq" = (
-/obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/door/firedoor/border_only,
+/obj/effect/wallframe_spawn/reinforced/no_grille,
 /turf/simulated/floor/plating,
 /area/quartermaster/exploration)
 "kr" = (
@@ -4428,7 +4444,6 @@
 /obj/machinery/atmospherics/unary/vent_scrubber/on{
 	dir = 8
 	},
-/obj/item/weapon/stool,
 /turf/simulated/floor/tiled,
 /area/quartermaster/exploration)
 "kx" = (
@@ -4465,17 +4480,17 @@
 /area/quartermaster/exploration)
 "kz" = (
 /obj/structure/table/rack,
-/obj/item/device/slime_scanner,
-/obj/item/device/slime_scanner,
-/obj/item/device/slime_scanner,
-/obj/item/device/slime_scanner,
+/obj/item/device/scanner/xenobio,
+/obj/item/device/scanner/xenobio,
+/obj/item/device/scanner/xenobio,
+/obj/item/device/scanner/xenobio,
 /obj/item/weapon/storage/plants,
 /obj/item/weapon/storage/plants,
 /obj/item/weapon/storage/plants,
-/obj/item/device/analyzer/plant_analyzer,
-/obj/item/device/analyzer/plant_analyzer,
-/obj/item/device/analyzer/plant_analyzer,
-/obj/item/device/analyzer/plant_analyzer,
+/obj/item/device/scanner/plant,
+/obj/item/device/scanner/plant,
+/obj/item/device/scanner/plant,
+/obj/item/device/scanner/plant,
 /obj/effect/floor_decal/corner/mauve{
 	icon_state = "corner_white";
 	dir = 10
@@ -4608,11 +4623,6 @@
 	pixel_y = 0
 	},
 /turf/simulated/floor/tiled/monotile,
-/area/quartermaster/exploration)
-"kO" = (
-/obj/machinery/door/firedoor/border_only,
-/obj/effect/wallframe_spawn/reinforced,
-/turf/simulated/floor/plating,
 /area/quartermaster/exploration)
 "kP" = (
 /obj/machinery/suit_storage_unit/explorer,
@@ -4888,17 +4898,17 @@
 /area/hallway/primary/fifthdeck/aft)
 "lv" = (
 /obj/machinery/door/firedoor/border_only,
-/obj/effect/wallframe_spawn/reinforced,
+/obj/effect/wallframe_spawn/reinforced/no_grille,
 /turf/simulated/floor/plating,
 /area/quartermaster/hangar)
 "lw" = (
 /obj/machinery/door/firedoor/border_only,
-/obj/effect/wallframe_spawn/reinforced,
 /obj/structure/cable/cyan{
 	d1 = 4;
 	d2 = 8;
 	icon_state = "4-8"
 	},
+/obj/effect/wallframe_spawn/reinforced/no_grille,
 /turf/simulated/floor/plating,
 /area/quartermaster/hangar)
 "lx" = (
@@ -5153,7 +5163,7 @@
 /area/maintenance/fifthdeck/fore)
 "mm" = (
 /obj/structure/table/standard,
-/obj/item/device/mass_spectrometer/adv,
+/obj/item/device/scanner/spectrometer/adv,
 /obj/item/weapon/storage/box/syringes,
 /obj/item/weapon/storage/box/beakers,
 /obj/item/device/radio/intercom{
@@ -5832,8 +5842,8 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/effect/wallframe_spawn/reinforced,
 /obj/structure/disposalpipe/segment,
+/obj/effect/wallframe_spawn/no_grille,
 /turf/simulated/floor/plating,
 /area/maintenance/fifthdeck/fore)
 "ny" = (
@@ -6912,7 +6922,7 @@
 /turf/simulated/floor/plating,
 /area/maintenance/fifthdeck/aftport)
 "pF" = (
-/obj/effect/wallframe_spawn/reinforced,
+/obj/effect/wallframe_spawn/reinforced/no_grille,
 /turf/simulated/floor/plating,
 /area/quartermaster/hangar)
 "pG" = (
@@ -6996,18 +7006,18 @@
 /area/vacant/infirmary)
 "pP" = (
 /obj/structure/table/steel,
-/obj/item/device/slime_scanner,
-/obj/item/device/slime_scanner,
-/obj/item/device/slime_scanner,
-/obj/item/device/slime_scanner,
-/obj/item/device/slime_scanner,
-/obj/item/device/slime_scanner,
-/obj/item/device/analyzer,
-/obj/item/device/analyzer,
-/obj/item/device/analyzer,
-/obj/item/device/analyzer,
-/obj/item/device/analyzer,
-/obj/item/device/analyzer,
+/obj/item/device/scanner/xenobio,
+/obj/item/device/scanner/xenobio,
+/obj/item/device/scanner/xenobio,
+/obj/item/device/scanner/xenobio,
+/obj/item/device/scanner/xenobio,
+/obj/item/device/scanner/xenobio,
+/obj/item/device/scanner/gas,
+/obj/item/device/scanner/gas,
+/obj/item/device/scanner/gas,
+/obj/item/device/scanner/gas,
+/obj/item/device/scanner/gas,
+/obj/item/device/scanner/gas,
 /obj/item/weapon/storage/excavation,
 /obj/item/device/measuring_tape,
 /obj/machinery/light{
@@ -7212,7 +7222,7 @@
 /turf/simulated/floor/tiled/monotile,
 /area/quartermaster/expedition/eva)
 "ql" = (
-/obj/effect/wallframe_spawn/reinforced,
+/obj/effect/wallframe_spawn/no_grille,
 /turf/simulated/floor/plating,
 /area/quartermaster/expedition)
 "qm" = (
@@ -8017,7 +8027,7 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/effect/wallframe_spawn/reinforced,
+/obj/effect/wallframe_spawn/no_grille,
 /turf/simulated/floor/plating,
 /area/maintenance/fifthdeck/fore)
 "rF" = (
@@ -9558,12 +9568,12 @@
 /turf/simulated/floor/plating,
 /area/maintenance/fifthdeck/fore)
 "uU" = (
-/obj/effect/wallframe_spawn/reinforced,
 /obj/structure/cable/green{
 	d1 = 1;
 	d2 = 2;
 	icon_state = "1-2"
 	},
+/obj/effect/wallframe_spawn/no_grille,
 /turf/simulated/floor/plating,
 /area/maintenance/fifthdeck/fore)
 "uV" = (
@@ -9652,9 +9662,9 @@
 /turf/simulated/floor/plating,
 /area/maintenance/fifthdeck/aftstarboard)
 "vj" = (
-/obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/disposalpipe/segment,
+/obj/effect/wallframe_spawn/no_grille,
 /turf/simulated/floor/plating,
 /area/maintenance/fifthdeck/aftstarboard)
 "vm" = (
@@ -9906,7 +9916,7 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/maintenance/fifthdeck/aftport)
 "wk" = (
-/obj/effect/wallframe_spawn/reinforced,
+/obj/effect/wallframe_spawn/no_grille,
 /turf/simulated/floor/plating,
 /area/maintenance/fifthdeck/aftstarboard)
 "wl" = (
@@ -10152,7 +10162,7 @@
 	pixel_y = 3
 	},
 /obj/item/weapon/anodevice,
-/obj/item/device/healthanalyzer,
+/obj/item/device/scanner/health,
 /obj/machinery/light{
 	dir = 8
 	},
@@ -10781,6 +10791,9 @@
 	},
 /turf/simulated/floor/tiled/white,
 /area/shuttle/petrov/phoron)
+"zv" = (
+/turf/simulated/floor/plating,
+/area/quartermaster/expedition)
 "zw" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/random/junk,
@@ -11677,7 +11690,7 @@
 /area/shuttle/petrov/rd)
 "CV" = (
 /obj/structure/table/standard,
-/obj/item/device/healthanalyzer,
+/obj/item/device/scanner/health,
 /obj/structure/cable/cyan{
 	d1 = 4;
 	d2 = 8;
@@ -12122,8 +12135,8 @@
 /obj/structure/table/standard,
 /obj/item/weapon/reagent_containers/glass/beaker/large,
 /obj/item/weapon/reagent_containers/dropper,
-/obj/item/device/reagent_scanner,
-/obj/item/device/mass_spectrometer/adv,
+/obj/item/device/scanner/reagent,
+/obj/item/device/scanner/spectrometer/adv,
 /turf/simulated/floor/tiled/white,
 /area/shuttle/petrov/phoron)
 "Em" = (
@@ -12144,7 +12157,7 @@
 "Ep" = (
 /obj/machinery/conveyor{
 	dir = 8;
-	id = "garbage"
+	id = "cargobay"
 	},
 /obj/effect/floor_decal/industrial/warning,
 /obj/machinery/light{
@@ -13079,7 +13092,7 @@
 "Id" = (
 /obj/machinery/conveyor{
 	dir = 8;
-	id = "garbage"
+	id = "cargobay"
 	},
 /obj/effect/floor_decal/industrial/warning,
 /obj/structure/sign/warning/moving_parts{
@@ -13251,6 +13264,10 @@
 	},
 /turf/simulated/floor/plating,
 /area/quartermaster/hangar)
+"IQ" = (
+/obj/effect/wallframe_spawn/no_grille,
+/turf/simulated/wall/prepainted,
+/area/quartermaster/expedition)
 "IR" = (
 /obj/machinery/portable_atmospherics/canister,
 /obj/machinery/light_switch{
@@ -14198,7 +14215,7 @@
 "Mk" = (
 /obj/machinery/conveyor{
 	dir = 8;
-	id = "garbage"
+	id = "cargobay"
 	},
 /obj/effect/floor_decal/industrial/warning,
 /turf/simulated/floor/tiled/techfloor/grid,
@@ -14821,6 +14838,7 @@
 	pixel_y = 25
 	},
 /obj/machinery/atmospherics/unary/vent_pump/high_volume{
+	controlled = 0;
 	dir = 1;
 	frequency = 1331;
 	id_tag = "calypso_cargo_pump_out_external"
@@ -15067,7 +15085,6 @@
 /area/shuttle/petrov/hallwaya)
 "Pv" = (
 /obj/machinery/door/firedoor/border_only,
-/obj/effect/wallframe_spawn/reinforced,
 /obj/structure/sign/directions/bridge{
 	dir = 1;
 	pixel_y = 3;
@@ -15078,6 +15095,7 @@
 	pixel_y = -4;
 	pixel_z = 0
 	},
+/obj/effect/wallframe_spawn/no_grille,
 /turf/simulated/floor/plating,
 /area/hallway/primary/fifthdeck/aft)
 "Px" = (
@@ -15410,8 +15428,8 @@
 /area/exploration_shuttle/cargo)
 "QK" = (
 /obj/structure/table/standard,
-/obj/item/device/reagent_scanner,
-/obj/item/device/mass_spectrometer/adv,
+/obj/item/device/scanner/reagent,
+/obj/item/device/scanner/spectrometer/adv,
 /turf/simulated/floor/tiled/white/monotile,
 /area/shuttle/petrov/equipment)
 "QL" = (
@@ -16755,9 +16773,9 @@
 /area/shuttle/petrov/rd)
 "VU" = (
 /obj/structure/table/rack,
-/obj/item/device/slime_scanner,
-/obj/item/device/slime_scanner,
-/obj/item/device/slime_scanner,
+/obj/item/device/scanner/xenobio,
+/obj/item/device/scanner/xenobio,
+/obj/item/device/scanner/xenobio,
 /obj/item/weapon/storage/excavation,
 /obj/item/device/measuring_tape,
 /turf/simulated/floor/tiled/white,
@@ -17380,6 +17398,14 @@
 	},
 /turf/simulated/floor/tiled/white/monotile,
 /area/shuttle/petrov/toxins)
+"Yu" = (
+/obj/effect/catwalk_plated,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/machinery/atmospherics/pipe/manifold/hidden/supply{
+	dir = 8
+	},
+/turf/simulated/floor/plating,
+/area/quartermaster/hangar)
 "Yw" = (
 /obj/machinery/atmospherics/pipe/simple/visible,
 /obj/structure/dispenser,
@@ -17612,12 +17638,12 @@
 /turf/simulated/wall/prepainted,
 /area/maintenance/fifthdeck/fore)
 "Zm" = (
-/obj/effect/wallframe_spawn/reinforced,
 /obj/structure/cable{
 	d1 = 2;
 	d2 = 8;
 	icon_state = "2-8"
 	},
+/obj/effect/wallframe_spawn/no_grille,
 /turf/simulated/floor/plating,
 /area/maintenance/fifthdeck/aftstarboard)
 "Zn" = (
@@ -32686,7 +32712,7 @@ rT
 oW
 hl
 kn
-hz
+fH
 hz
 kw
 ky
@@ -33095,9 +33121,9 @@ kq
 kq
 OX
 OX
-kO
+kq
 kt
-kO
+kq
 eu
 OX
 OX
@@ -36724,7 +36750,7 @@ mC
 mC
 im
 mE
-mF
+Yu
 mF
 mF
 mF
@@ -39548,7 +39574,7 @@ Lp
 UG
 UG
 sp
-WU
+IQ
 qz
 um
 Xz
@@ -39750,7 +39776,7 @@ qe
 qf
 qh
 Eg
-ql
+zv
 qA
 un
 qG

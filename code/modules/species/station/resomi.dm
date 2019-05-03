@@ -84,7 +84,7 @@
 		BP_LIVER =    /obj/item/organ/internal/liver/resomi,
 		BP_KIDNEYS =  /obj/item/organ/internal/kidneys/resomi,
 		BP_BRAIN =    /obj/item/organ/internal/brain,
-		BP_EYES =     /obj/item/organ/internal/eyes
+		BP_EYES =     /obj/item/organ/internal/eyes/resomi
 		)
 
 	unarmed_types = list(
