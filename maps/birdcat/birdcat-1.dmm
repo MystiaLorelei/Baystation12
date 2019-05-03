@@ -243,7 +243,7 @@
 "sb" = (/obj/machinery/door/airlock/hatch/autoname/general,/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"; pixel_y = 0},/obj/machinery/door/firedoor,/turf/simulated/floor/plating,/area/ship/scrap/escape_port)
 "se" = (/obj/effect/paint/brown,/turf/simulated/wall/r_wall,/area/ship/scrap/maintenance/techstorage)
 "sY" = (/obj/effect/paint/brown,/turf/simulated/wall/r_wall/hull,/area/ship/scrap/escape_port)
-"tb" = (/obj/item/weapon/storage/toolbox/mechanical{pixel_x = 5; pixel_y = -7},/obj/item/weapon/storage/toolbox/mechanical,/obj/item/clothing/head/welding,/obj/item/device/analyzer,/obj/effect/floor_decal/corner/yellow{icon_state = "corner_white"; dir = 9},/obj/structure/table/rack,/obj/structure/cable{d1 = 2; d2 = 4; icon_state = "2-4"},/turf/simulated/floor/tiled/techfloor,/area/ship/scrap/maintenance/storage)
+"tb" = (/obj/item/weapon/storage/toolbox/mechanical{pixel_x = 5; pixel_y = -7},/obj/item/weapon/storage/toolbox/mechanical,/obj/item/clothing/head/welding,/obj/item/device/scanner/gas,/obj/effect/floor_decal/corner/yellow{icon_state = "corner_white"; dir = 9},/obj/structure/table/rack,/obj/structure/cable{d1 = 2; d2 = 4; icon_state = "2-4"},/turf/simulated/floor/tiled/techfloor,/area/ship/scrap/maintenance/storage)
 "ub" = (/obj/machinery/atmospherics/pipe/simple/hidden/supply{dir = 6},/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{dir = 5},/obj/random/powercell,/turf/simulated/floor/plating,/area/ship/scrap/broken2)
 "uh" = (/obj/effect/paint/brown,/turf/simulated/wall,/area/ship/scrap/maintenance/eva)
 "vb" = (/obj/machinery/alarm{dir = 8; icon_state = "alarm0"; pixel_x = 24},/obj/machinery/smartfridge/drying_rack,/turf/simulated/floor/airless,/area/ship/scrap/broken2)
