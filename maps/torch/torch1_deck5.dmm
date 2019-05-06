@@ -4468,10 +4468,10 @@
 /obj/item/stack/flag/red,
 /obj/item/stack/flag/red,
 /obj/item/stack/flag/red,
-/obj/item/weapon/mining_scanner,
-/obj/item/weapon/mining_scanner,
-/obj/item/weapon/mining_scanner,
-/obj/item/weapon/mining_scanner,
+/obj/item/device/scanner/mining,
+/obj/item/device/scanner/mining,
+/obj/item/device/scanner/mining,
+/obj/item/device/scanner/mining,
 /obj/effect/floor_decal/corner/mauve{
 	icon_state = "corner_white";
 	dir = 10
@@ -7203,9 +7203,9 @@
 /area/quartermaster/expedition)
 "qi" = (
 /obj/structure/table/rack,
-/obj/item/weapon/mining_scanner,
-/obj/item/weapon/mining_scanner,
-/obj/item/weapon/mining_scanner,
+/obj/item/device/scanner/mining,
+/obj/item/device/scanner/mining,
+/obj/item/device/scanner/mining,
 /obj/effect/floor_decal/industrial/outline/yellow,
 /obj/item/clothing/glasses/meson,
 /obj/item/clothing/glasses/meson,
@@ -10791,9 +10791,6 @@
 	},
 /turf/simulated/floor/tiled/white,
 /area/shuttle/petrov/phoron)
-"zv" = (
-/turf/simulated/floor/plating,
-/area/quartermaster/expedition)
 "zw" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/random/junk,
@@ -39776,7 +39773,7 @@ qe
 qf
 qh
 Eg
-zv
+WU
 qA
 un
 qG
